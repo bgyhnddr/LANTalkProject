@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("LANTalk")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("bgy")]
+[assembly: AssemblyCompany("BGY")]
 [assembly: AssemblyProduct("LANTalk")]
 [assembly: AssemblyCopyright("Copyright © vicson 2013")]
 [assembly: AssemblyTrademark("")]
