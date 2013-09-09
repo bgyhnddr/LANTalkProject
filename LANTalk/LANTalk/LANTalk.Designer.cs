@@ -57,15 +57,19 @@ namespace LANTalk
             // 
             // IconMenu
             // 
+            this.IconMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(124)))), ((int)(((byte)(176)))));
+            this.IconMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.IconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitTool});
             this.IconMenu.Name = "IconMenu";
-            this.IconMenu.Size = new System.Drawing.Size(93, 26);
+            this.IconMenu.ShowImageMargin = false;
+            this.IconMenu.Size = new System.Drawing.Size(72, 26);
             // 
             // exitTool
             // 
+            this.exitTool.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.exitTool.Name = "exitTool";
-            this.exitTool.Size = new System.Drawing.Size(92, 22);
+            this.exitTool.Size = new System.Drawing.Size(71, 22);
             this.exitTool.Text = "Exit";
             this.exitTool.Click += new System.EventHandler(this.exitTool_Click);
             // 
@@ -169,6 +173,7 @@ namespace LANTalk
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(242)))), ((int)(((byte)(232)))));
             this.ClientSize = new System.Drawing.Size(221, 192);
             this.Controls.Add(this.tbIPAddress);
             this.Controls.Add(this.lbClientIP);
@@ -192,7 +197,6 @@ namespace LANTalk
 
         #endregion
 
-        private System.Windows.Forms.NotifyIcon LANTalkIcon;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip IconMenu;
         private System.Windows.Forms.ToolStripMenuItem exitTool;
@@ -206,6 +210,7 @@ namespace LANTalk
         private System.Windows.Forms.Label lbClientIP;
         private System.Windows.Forms.TextBox tbIPAddress;
         private System.Windows.Forms.ToolTip ttLANTalk;
+        public System.Windows.Forms.NotifyIcon LANTalkIcon;
     }
 }
 

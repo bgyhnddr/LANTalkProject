@@ -19,21 +19,26 @@ namespace LANTalk.Core
         public delegate string SendBefore(IPAddress ip);
         public delegate void SocketLostCallback(IPAddress ip);
         public delegate void ListenCallback();
+        public delegate void ListenErrorCallback(Exception ex);
 
         private ReceiveCallback _receivecallback;
         private SocketAcceptCallback _socketaccpetcallback;
         private SendBefore _sendBefore;
         private ListenCallback _listenCallback;
+        private ListenErrorCallback _listenErrorCallback;
         private SocketLostCallback _socketLostCallback;
 
-        public void StartServer(IPAddress ip, int port, SocketAcceptCallback socketaccept = null, SocketLostCallback _socketLostCallback = null, ReceiveCallback receive = null, SendBefore send = null, ListenCallback listen = null)
+
+        public void StartServer(IPAddress ip, int port, SocketAcceptCallback socketaccept = null, SocketLostCallback socketLost = null,ListenErrorCallback listenError=null, ReceiveCallback receive = null, SendBefore send = null, ListenCallback listen = null)
         {
             _ip = ip;
             _port = port;
             _socketaccpetcallback = socketaccept;
+            _socketLostCallback = socketLost;
             _receivecallback = receive;
             _sendBefore = send;
             _listenCallback = listen;
+            _listenErrorCallback = listenError;
 
             var listenThread = new Thread(Listen);
             listenThread.IsBackground = true;
@@ -42,41 +47,51 @@ namespace LANTalk.Core
 
         private void Listen()
         {
-            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            //设定接收超时
-            _socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 0);
-            //设定发送超时
-            _socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 3000);
-            var ip = new IPEndPoint(_ip, _port);
-            _socket.Bind(ip);
-            _socket.Listen(0);
-            if (_listenCallback != null)
+            try
             {
-                _listenCallback();
-            }
-
-            //开启线程 监控连接
-            while (true)
-            {
-                var temp = _socket.Accept();
-                //为新建连接创建新的Socket。
-                if (_socketaccpetcallback != null)
+                _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //设定接收超时
+                _socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 0);
+                //设定发送超时
+                _socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 3000);
+                var ip = new IPEndPoint(_ip, _port);
+                _socket.Bind(ip);
+                _socket.Listen(0);
+                if (_listenCallback != null)
                 {
-                    IPEndPoint clientipe = (IPEndPoint)temp.RemoteEndPoint;
-                    _socketaccpetcallback(clientipe.Address);
+                    _listenCallback();
                 }
-                
-                var parStart = new ParameterizedThreadStart(Recieve);
-                var recieveThread = new Thread(parStart);
-                recieveThread.IsBackground = true;
-                object o = temp;
-                recieveThread.Start(o);
-                if (_sendBefore != null)
+
+                //开启线程 监控连接
+                while (true)
                 {
-                    parStart = new ParameterizedThreadStart(Send);
-                    var sendThread = new Thread(parStart);
-                    sendThread.IsBackground = true;
-                    sendThread.Start(o);
+                    var temp = _socket.Accept();
+                    //为新建连接创建新的Socket。
+                    if (_socketaccpetcallback != null)
+                    {
+                        IPEndPoint clientipe = (IPEndPoint)temp.RemoteEndPoint;
+                        _socketaccpetcallback(clientipe.Address);
+                    }
+
+                    var parStart = new ParameterizedThreadStart(Recieve);
+                    var recieveThread = new Thread(parStart);
+                    recieveThread.IsBackground = true;
+                    object o = temp;
+                    recieveThread.Start(o);
+                    if (_sendBefore != null)
+                    {
+                        parStart = new ParameterizedThreadStart(Send);
+                        var sendThread = new Thread(parStart);
+                        sendThread.IsBackground = true;
+                        sendThread.Start(o);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_listenErrorCallback != null)
+                {
+                    _listenErrorCallback(ex);
                 }
             }
         }

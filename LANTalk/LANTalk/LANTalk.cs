@@ -14,7 +14,7 @@ namespace LANTalk
 {
     public partial class LANTalk : Form
     {
-        static int Mode = 0;
+        public static int Mode = 0;
         static Server ServerForm;
         static Client ClientForm;
 
@@ -181,7 +181,7 @@ namespace LANTalk
             if (rbServer.Checked)
             {
                 Mode = 1;
-                ServerForm = new Server(IPAddress.Parse(lsbIPAddress.SelectedValue.ToString()), int.Parse(tbPort.Text));
+                ServerForm = new Server(IPAddress.Parse(lsbIPAddress.SelectedValue.ToString()), int.Parse(tbPort.Text), this);
                 this.Hide();
                 ServerForm.Show();
             }

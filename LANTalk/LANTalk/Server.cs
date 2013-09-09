@@ -24,13 +24,15 @@ namespace LANTalk
         private int _port;
         private StringBuilder _message;
 
-        public Server(IPAddress ip,int port)
+        private LANTalk LANTalkForm;
+
+        public Server(IPAddress ip,int port,LANTalk form)
         {
             _ip = ip;
             _port = port;
             Global.OnLineUserList = new List<OnlineUser>();
             _message = new StringBuilder();
-
+            LANTalkForm = form;
             InitializeComponent();
         }
 
@@ -46,6 +48,7 @@ namespace LANTalk
                 _port,
                 SocketAcceptCallback,
                 SocketLostCallback,
+                ListenErrorCallback,
                 ReceiveCallback,
                 SendBefore,
                 ListenCallback
@@ -152,6 +155,16 @@ namespace LANTalk
             tbInfo.Text = _message.ToString();
         }
 
+        private void ListenErrorCallback(Exception ex)
+        {
+            this.Close();
+            LANTalkForm.LANTalkIcon.BalloonTipText = "Server not start,detail:" + ex.Message;
+            LANTalkForm.LANTalkIcon.ShowBalloonTip(60000);
+            LANTalk.Mode = 0;
+            LANTalkForm.Show();
+            LANTalkForm.Activate();
+        }
+
         private void ReceiveCallback(IPAddress ip, string content)
         {
             try
@@ -256,8 +269,6 @@ namespace LANTalk
                                     cli.SendList.Add(sendContent);
                                 }
                             }
-
-
                             break;
                     }
                 }

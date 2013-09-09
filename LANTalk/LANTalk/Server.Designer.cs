@@ -36,6 +36,7 @@
             // 
             // clbOnlineList
             // 
+            this.clbOnlineList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(236)))), ((int)(((byte)(241)))));
             this.clbOnlineList.Dock = System.Windows.Forms.DockStyle.Left;
             this.clbOnlineList.FormattingEnabled = true;
             this.clbOnlineList.Location = new System.Drawing.Point(0, 0);
@@ -54,17 +55,19 @@
             // 
             // btnSend
             // 
+            this.btnSend.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(163)))), ((int)(((byte)(226)))), ((int)(((byte)(197)))));
             this.btnSend.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSend.Location = new System.Drawing.Point(116, 271);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(436, 23);
             this.btnSend.TabIndex = 2;
             this.btnSend.Text = "Send";
-            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.UseVisualStyleBackColor = false;
             // 
             // tbInfo
             // 
-            this.tbInfo.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.tbInfo.BackColor = System.Drawing.SystemColors.Window;
             this.tbInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbInfo.Location = new System.Drawing.Point(116, 0);
             this.tbInfo.Multiline = true;
