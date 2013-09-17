@@ -50,7 +50,6 @@ namespace LANTalk
                     {
                         SendList.Remove(temp);
                     }
-                    
                 }
             }
             return returnString;

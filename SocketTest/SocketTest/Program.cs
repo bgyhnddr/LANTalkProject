@@ -11,8 +11,8 @@ namespace SocketTest
     {
         static void Main(string[] args)
         {
-            var TCPSK = new Socket(IPAddress.Parse("192.168.1.103").AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            TCPSK.Connect(new IPEndPoint(IPAddress.Parse("192.168.1.103"), 8080));
+            var TCPSK = new Socket(IPAddress.Parse("192.168.0.93").AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            TCPSK.Connect(new IPEndPoint(IPAddress.Parse("192.168.0.93"), 8021));
             TCPSK.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 0);
             TCPSK.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 0);
             TCPSK.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, 1);

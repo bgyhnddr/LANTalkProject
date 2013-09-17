@@ -152,11 +152,11 @@ namespace LANTalk
             // lbClientIP
             // 
             this.lbClientIP.AutoSize = true;
-            this.lbClientIP.Location = new System.Drawing.Point(27, 117);
+            this.lbClientIP.Location = new System.Drawing.Point(10, 120);
             this.lbClientIP.Name = "lbClientIP";
-            this.lbClientIP.Size = new System.Drawing.Size(17, 12);
+            this.lbClientIP.Size = new System.Drawing.Size(41, 12);
             this.lbClientIP.TabIndex = 11;
-            this.lbClientIP.Text = "IP";
+            this.lbClientIP.Text = "Server";
             // 
             // tbIPAddress
             // 

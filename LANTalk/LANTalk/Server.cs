@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using LANTalk.Core;
 using System.Net.Sockets;
 using System.Net;
+using System.Threading;
 
 namespace LANTalk
 {
@@ -83,15 +84,15 @@ namespace LANTalk
 
         private void OnlineChange()
         {
-            clbOnlineList.Items.Clear();
-            clbOnlineList.Items.Add("All/None");
-            foreach(var user in Global.OnLineUserList)
+            lock (Global.OnLineUserList)
             {
-                clbOnlineList.Items.Add(user.IP.ToString() + (user.Name == string.Empty ? "" : "(" + user.Name + ")"));
+                clbOnlineList.Items.Clear();
+                clbOnlineList.Items.Add("All/None");
+                foreach (var user in Global.OnLineUserList)
+                {
+                    clbOnlineList.Items.Add(user.IP.ToString() + (user.Name == string.Empty ? "" : "(" + user.Name + ")"));
+                }
             }
-
-
-
         }
 
         private void WriteToAccess(string from, string to, string content)
@@ -139,9 +140,9 @@ namespace LANTalk
                 var temp = from row in Global.OnLineUserList
                            where row.IP.Equals(ip)
                            select row;
-                foreach (var row in temp)
+                if (temp.Count() > 0)
                 {
-                    Global.OnLineUserList.Remove(row);
+                    Global.OnLineUserList.Remove(temp.First());
                     OnlineChange();
                     _message.AppendLine(ip.ToString() + " offline");
                     tbInfo.Text = _message.ToString();
@@ -172,8 +173,8 @@ namespace LANTalk
                 var contents = content.Split(' ');
                 var id = contents[0];
                 var mode = contents[1];
-                var from = contents[2];
-                var to = contents[3];
+                var fromip = contents[2];
+                var toip = contents[3];
                 var message = string.Empty;
                 var messageindex = content.IndexOf(contents[3]) + contents[3].Length;
                 if (messageindex < content.Length)
@@ -188,88 +189,87 @@ namespace LANTalk
                                  select user;
 
                     SendContent sendContent;
-                    switch ((SendMode)Enum.Parse(typeof(SendMode), mode))
+
+                    var tos = toip.Split(',');
+                    foreach (var rto in tos)
                     {
-                        case SendMode.send:
-                            sendContent = new SendContent();
-                            if (to == "server")
-                            {
-                                WriteToAccess(from, to, message);
-                                var appendmessage = ip.ToString() + ":";
-                                appendmessage += message;
-                                WriteMessage(appendmessage);
-                                sendContent.Id = Guid.Parse(id);
-                                sendContent.Mode = SendMode.request.ToString();
-                                sendContent.From = from;
-                                sendContent.To = to;
-                                sendContent.Sent = false;
-
-                                foreach (var cli in client)
+                        switch ((SendMode)Enum.Parse(typeof(SendMode), mode))
+                        {
+                            case SendMode.send:
+                                sendContent = new SendContent();
+                                if (rto == "server")
                                 {
-                                    cli.SendList.Add(sendContent);
-                                }
-                            
-                            }
-                            else
-                            {
-                                var clientto = from user in Global.OnLineUserList
-                                               where user.IP.Equals(IPAddress.Parse(to))
-                                               select user;
+                                    WriteToAccess(fromip, toip, message);
+                                    var appendmessage = ip.ToString() + ":";
+                                    appendmessage += message;
+                                    WriteMessage(appendmessage);
+                                    sendContent.Id = Guid.Parse(id);
+                                    sendContent.Mode = SendMode.request.ToString();
+                                    sendContent.From = fromip;
+                                    sendContent.To = rto;
+                                    sendContent.Sent = false;
 
-                                sendContent.Id = Guid.Parse(id);
-                                sendContent.Mode = SendMode.send.ToString();
-                                sendContent.From = from;
-                                sendContent.To = to;
-                                sendContent.Sent = false;
-
-                                foreach (var cli in clientto)
-                                {
-                                    cli.SendList.Add(sendContent);
-                                }
-                            }
-
-
-                            break;
-                        case SendMode.request:
-                            sendContent = new SendContent();
-                            foreach (var cli in client)
-                            {
-                                lock (cli.SendList)
-                                {
-                                    var list = from row in cli.SendList
-                                               where row.Id.Equals(Guid.Parse(id))
-                                               select row;
-
-                                    foreach (var li in list)
+                                    foreach (var cli in client)
                                     {
-                                        message = li.Message;
-                                        cli.SendList.Remove(li);
+                                        cli.SendList.Add(sendContent);
+                                    }
+
+                                }
+                                else
+                                {
+                                    var clientto = from user in Global.OnLineUserList
+                                                   where user.IP.Equals(IPAddress.Parse(rto))
+                                                   select user;
+
+                                    sendContent.Id = Guid.Parse(id);
+                                    sendContent.Mode = SendMode.send.ToString();
+                                    sendContent.From = fromip;
+                                    sendContent.To = rto;
+                                    sendContent.Message = message;
+                                    sendContent.Sent = false;
+
+                                    foreach (var cli in clientto)
+                                    {
+                                        cli.SendList.Add(sendContent);
                                     }
                                 }
-                            }
-                            if (from == "server")
-                            {
-                                var appendmessage = "server:";
-                                appendmessage += message;
-                                WriteMessage(appendmessage);
-                            }
-                            else
-                            {
-                                var clientto = from user in Global.OnLineUserList
-                                               where user.IP.Equals(IPAddress.Parse(to))
-                                               select user;
-
-                                sendContent.Id = Guid.Parse(id);
-                                sendContent.Mode = SendMode.request.ToString();
-                                sendContent.From = from;
-                                sendContent.To = to;
-                                sendContent.Message = message;
-                                foreach (var cli in clientto)
+                                break;
+                            case SendMode.request:
+                                sendContent = new SendContent();
+                                foreach (var cli in client)
                                 {
-                                    cli.SendList.Add(sendContent);
+                                    lock (cli.SendList)
+                                    {
+                                        var list = from row in cli.SendList
+                                                   where row.Id.Equals(Guid.Parse(id)) && IPAddress.Parse(row.To).Equals(ip) 
+                                                   select row;
+
+                                        foreach (var li in list)
+                                        {
+                                            message = li.Message;
+                                            cli.SendList.Remove(li);
+                                        }
+                                    }
                                 }
-                            }
-                            break;
+                                if (fromip != "server")
+                                {
+                                    WriteToAccess(fromip, rto, message);
+
+                                    var clientto = from user in Global.OnLineUserList
+                                                   where user.IP.Equals(IPAddress.Parse(fromip))
+                                                   select user;
+
+                                    sendContent.Id = Guid.Parse(id);
+                                    sendContent.Mode = SendMode.request.ToString();
+                                    sendContent.From = fromip;
+                                    sendContent.To = toip;
+                                    foreach (var cli in clientto)
+                                    {
+                                        cli.SendList.Add(sendContent);
+                                    }
+                                }
+                                break;
+                        }
                     }
                 }
             }
@@ -277,6 +277,32 @@ namespace LANTalk
             {
 
             }
+        }
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            var cguid = Guid.NewGuid();
+            var message = tbSend.Text;
+            for (var i = 1; i < clbOnlineList.SelectedItems.Count; i++)
+            {
+                SendContent sendContent = new SendContent();
+                sendContent.Id = cguid;
+                sendContent.Mode = SendMode.send.ToString();
+                sendContent.From = "server";
+                sendContent.To = clbOnlineList.SelectedItems[i].ToString();
+                sendContent.Message = message;
+                sendContent.Sent = false;
+            }
+
+            //var parStart = new ParameterizedThreadStart(Handle);
+            //var recieveThread = new Thread(parStart);
+            //recieveThread.IsBackground = true;
+            //object o = temp;
+            //recieveThread.Start(o);
+        }
+
+        private void Handle(string ips, Guid guid, string message)
+        {
         }
     }
 }
