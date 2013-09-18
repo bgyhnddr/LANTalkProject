@@ -189,6 +189,7 @@ namespace LANTalk
             this.Name = "LANTalk";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LANTalk";
+            this.Load += new System.EventHandler(this.LANTalk_Load);
             this.IconMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

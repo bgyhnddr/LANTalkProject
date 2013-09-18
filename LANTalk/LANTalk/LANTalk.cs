@@ -24,6 +24,12 @@ namespace LANTalk
             InitializeData();
         }
 
+
+        private void LANTalk_Load(object sender, EventArgs e)
+        {
+            Control.CheckForIllegalCrossThreadCalls = false;
+        }
+
         private string[] GetLoaclIPList()
         {
             var IPList = new List<string>();
@@ -84,10 +90,7 @@ namespace LANTalk
                 }
                 catch
                 {
-                    LANTalkIcon.BalloonTipTitle = "注意";
-                    LANTalkIcon.BalloonTipText = "配置文件" + path + "中IP地址格式不正确";
-                    LANTalkIcon.ShowBalloonTip(600000);//消失时间
-                    //throw new Exception("配置文件" + path + "中IP地址格式不正确");
+                    ShowBalloonTip("注意", "配置文件" + path + "中IP地址格式不正确");
                 }
 
                 try
@@ -97,9 +100,7 @@ namespace LANTalk
                 }
                 catch
                 {
-                    LANTalkIcon.BalloonTipTitle = "注意";
-                    LANTalkIcon.BalloonTipText = "配置文件" + path + "中端口格式不正确";
-                    LANTalkIcon.ShowBalloonTip(600000);//消失时间
+                    ShowBalloonTip("注意", "配置文件" + path + "中端口格式不正确");
                 }
             }
         }
@@ -188,7 +189,7 @@ namespace LANTalk
             else if (rbClient.Checked)
             {
                 Mode = 2;
-                ClientForm = new Client();
+                ClientForm = new Client(IPAddress.Parse(tbIPAddress.Text), int.Parse(tbPort.Text), this);
                 this.Hide();
                 ClientForm.Show();
             }
@@ -207,5 +208,11 @@ namespace LANTalk
             tbIPAddress.Enabled = rbClient.Checked;
         }
 
+        public void ShowBalloonTip(string title, string message)
+        {
+            LANTalkIcon.BalloonTipTitle = title;
+            LANTalkIcon.BalloonTipText = message;
+            LANTalkIcon.ShowBalloonTip(600000);//消失时间
+        }
     }
 }

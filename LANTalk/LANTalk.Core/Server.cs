@@ -156,7 +156,7 @@ namespace LANTalk.Core
                         sendByte.AddRange(sendContent);
                         newSocket.Send(sendByte.ToArray());
                     }
-                    Thread.Sleep(300);
+                    Thread.Sleep(150);
                 }
             }
             catch

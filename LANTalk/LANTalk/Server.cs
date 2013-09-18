@@ -18,7 +18,8 @@ namespace LANTalk
         enum SendMode
         {
             send,
-            request
+            request,
+            getuser
         }
 
         private IPAddress _ip;
@@ -140,9 +141,12 @@ namespace LANTalk
                 var temp = from row in Global.OnLineUserList
                            where row.IP.Equals(ip)
                            select row;
-                if (temp.Count() > 0)
+
+                if (Global.OnLineUserList.RemoveAll(delegate(OnlineUser user)
+                 {
+                     return user.IP.Equals(ip);
+                 }) > 0)
                 {
-                    Global.OnLineUserList.Remove(temp.First());
                     OnlineChange();
                     _message.AppendLine(ip.ToString() + " offline");
                     tbInfo.Text = _message.ToString();
@@ -159,8 +163,7 @@ namespace LANTalk
         private void ListenErrorCallback(Exception ex)
         {
             this.Close();
-            LANTalkForm.LANTalkIcon.BalloonTipText = "Server not start,detail:" + ex.Message;
-            LANTalkForm.LANTalkIcon.ShowBalloonTip(60000);
+            LANTalkForm.ShowBalloonTip("notice", "Server not start,detail:" + ex.Message);
             LANTalk.Mode = 0;
             LANTalkForm.Show();
             LANTalkForm.Activate();
@@ -247,14 +250,18 @@ namespace LANTalk
                                         foreach (var li in list)
                                         {
                                             message = li.Message;
-                                            cli.SendList.Remove(li);
                                         }
+
+                                        cli.SendList.RemoveAll(delegate(SendContent cont)
+                                        {
+                                            return cont.Id.Equals(Guid.Parse(id)) && IPAddress.Parse(cont.To).Equals(ip);
+                                        });
                                     }
                                 }
+                                WriteToAccess(fromip, rto, message);
+
                                 if (fromip != "server")
                                 {
-                                    WriteToAccess(fromip, rto, message);
-
                                     var clientto = from user in Global.OnLineUserList
                                                    where user.IP.Equals(IPAddress.Parse(fromip))
                                                    select user;
@@ -269,6 +276,9 @@ namespace LANTalk
                                     }
                                 }
                                 break;
+                            case SendMode.getuser:
+                                //本次任务
+                                break;
                         }
                     }
                 }
@@ -281,28 +291,110 @@ namespace LANTalk
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            var cguid = Guid.NewGuid();
-            var message = tbSend.Text;
-            for (var i = 1; i < clbOnlineList.SelectedItems.Count; i++)
+            if (tbSend.Text.Trim().Length == 0)
             {
-                SendContent sendContent = new SendContent();
-                sendContent.Id = cguid;
-                sendContent.Mode = SendMode.send.ToString();
-                sendContent.From = "server";
-                sendContent.To = clbOnlineList.SelectedItems[i].ToString();
-                sendContent.Message = message;
-                sendContent.Sent = false;
+                return;
             }
+            lock (Global.OnLineUserList)
+            {
+                if (clbOnlineList.CheckedItems.Count > 0)
+                {
+                    var selected = new string[clbOnlineList.CheckedItems.Count];
+                    clbOnlineList.CheckedItems.CopyTo(selected, 0);
 
-            //var parStart = new ParameterizedThreadStart(Handle);
-            //var recieveThread = new Thread(parStart);
-            //recieveThread.IsBackground = true;
-            //object o = temp;
-            //recieveThread.Start(o);
+                    var selectitem = from item in selected
+                                     where item != "All/None"
+                                     select item;
+
+                    if (selectitem.Count() > 0)
+                    {
+                        var cguid = Guid.NewGuid();
+                        var message = tbSend.Text;
+                        var o = new List<string>();
+                        o.Add(cguid.ToString());
+                        o.Add(message);
+                        for (var i = 0; i < selectitem.Count(); i++)
+                        {
+                            SendContent sendContent = new SendContent();
+                            sendContent.Id = cguid;
+                            sendContent.Mode = SendMode.send.ToString();
+                            sendContent.From = "server";
+                            sendContent.To = selectitem.ToArray()[i].ToString();
+                            sendContent.Message = message;
+                            sendContent.Sent = false;
+
+                            o.Add(sendContent.To);
+
+                            var clientto = from user in Global.OnLineUserList
+                                           where user.IP.Equals(IPAddress.Parse(sendContent.To))
+                                           select user;
+                            foreach (var cli in clientto)
+                            {
+                                cli.SendList.Add(sendContent);
+                            }
+                        }
+
+
+
+
+                        var parStart = new ParameterizedThreadStart(Handle);
+                        var recieveThread = new Thread(parStart);
+                        recieveThread.IsBackground = true;
+                        recieveThread.Start(o);
+                    }
+                }
+            }
         }
 
-        private void Handle(string ips, Guid guid, string message)
+        private void Handle(object par)
         {
+            lock (Global.OnLineUserList)
+            {
+                Thread.Sleep(300);
+                var list = (List<string>)par;
+                var guid = Guid.Parse(list[0]);
+                var message = list[1];
+
+                var success = "";
+                var fail = "";
+
+                for (var i = 2; i < list.Count; i++)
+                {
+                    var client = from user in Global.OnLineUserList
+                                 where user.IP.Equals(IPAddress.Parse(list[i]))
+                                 select user;
+                    foreach (var user in client)
+                    {
+                        var count = user.SendList.Where(o => o.Id == guid).Count();
+                        if (count > 0)
+                        {
+                            fail += list[i] + ",";
+                            user.SendList.RemoveAll(delegate(SendContent content)
+                            {
+                                return content.Id == guid;
+                            });
+                            break;
+                        }
+                        else if (count == 0)
+                        {
+                            success += list[i] + ",";
+                            break;
+                        }
+                    }
+                }
+
+
+                if (success.Length > 0)
+                {
+                    success = success.TrimEnd(',');
+                    WriteMessage("To " + success + ":" + message);
+                }
+                if (fail.Length > 0)
+                {
+                    fail = fail.TrimEnd(',');
+                    WriteMessage(fail + " request timeout");
+                }
+            }
         }
     }
 }
