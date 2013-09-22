@@ -277,7 +277,26 @@ namespace LANTalk
                                 }
                                 break;
                             case SendMode.getuser:
-                                //本次任务
+                                sendContent = new SendContent();
+                                var users = string.Empty;
+                                foreach(var user in Global.OnLineUserList)
+                                {
+                                    users += user.IP + ",";
+                                }
+                                if (users.Length > 0)
+                                {
+                                    users = users.TrimEnd(',');
+                                    
+                                }
+                                foreach (var cli in client)
+                                {
+                                    sendContent.Id = Guid.Parse(id);
+                                    sendContent.Mode = SendMode.getuser.ToString();
+                                    sendContent.From = fromip;
+                                    sendContent.To = toip;
+                                    sendContent.Message = users;
+                                    cli.SendList.Add(sendContent);
+                                }
                                 break;
                         }
                     }

@@ -46,7 +46,7 @@ namespace LANTalk
                     {
                         temp.Sent = true;
                     }
-                    else if (temp.Mode == "request")
+                    else
                     {
                         SendList.Remove(temp);
                     }
