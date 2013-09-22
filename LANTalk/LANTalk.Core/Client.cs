@@ -29,9 +29,12 @@ namespace LANTalk.Core
 
         public void ConnectServer(IPAddress ip, int port,ConnectCallback connect = null, ReceiveCallback receive = null, SendBefore send = null, ErrorCallback error = null)
         {
-            if (_socket != null || _socket.Connected == true)
+            if (_socket != null)
             {
-                return;
+                if (_socket.Connected == true)
+                {
+                    return;
+                }
             }
             _ip = ip;
             _port = port;

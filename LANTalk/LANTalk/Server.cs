@@ -356,7 +356,7 @@ namespace LANTalk
 
 
 
-                        var parStart = new ParameterizedThreadStart(Handle);
+                        var parStart = new ParameterizedThreadStart(CHandle);
                         var recieveThread = new Thread(parStart);
                         recieveThread.IsBackground = true;
                         recieveThread.Start(o);
@@ -365,7 +365,7 @@ namespace LANTalk
             }
         }
 
-        private void Handle(object par)
+        private void CHandle(object par)
         {
             lock (Global.OnLineUserList)
             {

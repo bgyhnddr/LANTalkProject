@@ -48,7 +48,7 @@ namespace LANTalk
             Control.CheckForIllegalCrossThreadCalls = false;
             clbOnlineList.Items.Add("All/None");
             _client = new Core.Client();
-            _client.ConnectServer(_ip, _port);
+            _client.ConnectServer(_ip, _port, ConnectCallback, ReceiveCallback, SendBefore, ErrorCallback);
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -56,7 +56,7 @@ namespace LANTalk
             if (btnSend.Text == "Connect")
             {
                 _client = new Core.Client();
-                _client.ConnectServer(_ip, _port);
+                _client.ConnectServer(_ip, _port, ConnectCallback, ReceiveCallback, SendBefore, ErrorCallback);
             }
             else if (btnSend.Text == "Send")
             {
@@ -110,7 +110,7 @@ namespace LANTalk
                         
                         _client.SendContent(BuildContent(guid, SendMode.send, _client.ClientIP.ToString(), string.Join(",", selectitem), tbSend.Text));
                         
-                        var parStart = new ParameterizedThreadStart(Handle);
+                        var parStart = new ParameterizedThreadStart(CHandle);
                         var recieveThread = new Thread(parStart);
                         recieveThread.IsBackground = true;
                         recieveThread.Start(o);
@@ -121,13 +121,19 @@ namespace LANTalk
 
         private string BuildContent(Guid guid, SendMode mode, string fromip, string toip, string message = "")
         {
-            return guid.ToString() + " " + mode.ToString() + " " + fromip + toip + (message.Length > 0 ? " " + message : string.Empty);
+            return guid.ToString() + " " + mode.ToString() + " " + fromip + " " + toip + (message.Length > 0 ? " " + message : string.Empty);
         }
 
-        private void SendBefore()
+        private string SendBefore()
         {
             var guid = Guid.NewGuid();
-            _client.SendContent(BuildContent(guid, SendMode.getuser, _client.ClientIP.ToString(), "server"));
+            return BuildContent(guid, SendMode.getuser, _client.ClientIP.ToString(), "server");
+        }
+
+        private void ConnectCallback()
+        {
+            WriteMessage("connected");
+            btnSend.Text = "Send";
         }
 
         private void ErrorCallback(Exception ex)
@@ -136,7 +142,7 @@ namespace LANTalk
             btnSend.Text = "Connect";
         }
 
-        private void Handle(object par)
+        private void CHandle(object par)
         {
             lock (Global.OnLineUserList)
             {
@@ -269,6 +275,32 @@ namespace LANTalk
             catch
             {
 
+            }
+        }
+
+        private void Client_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)    //最小化到系统托盘
+            {
+                try
+                {
+                    this.Hide();    //隐藏窗口
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.StackTrace);
+                }
+            }
+        }
+
+        private void Client_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //注意判断关闭事件Reason来源于窗体按钮，否则用菜单退出时无法退出!
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;    //取消"关闭窗口"事件
+                WindowState = FormWindowState.Minimized;    //使关闭时窗口向右下角缩小的效果
+                return;
             }
         }
     }

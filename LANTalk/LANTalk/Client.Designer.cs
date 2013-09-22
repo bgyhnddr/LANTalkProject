@@ -89,7 +89,9 @@
             this.Name = "Client";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Client";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
             this.Load += new System.EventHandler(this.Client_Load);
+            this.Resize += new System.EventHandler(this.Client_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 
