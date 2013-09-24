@@ -91,7 +91,7 @@ namespace LANTalk
                 clbOnlineList.Items.Add("All/None");
                 foreach (var user in Global.OnLineUserList)
                 {
-                    clbOnlineList.Items.Add(user.IP.ToString() + (user.Name == string.Empty ? "" : "(" + user.Name + ")"));
+                    clbOnlineList.Items.Add(user.IP + (user.Name == string.Empty ? "" : "(" + user.Name + ")"));
                 }
             }
         }
@@ -102,8 +102,12 @@ namespace LANTalk
 
         private void WriteMessage(string content)
         {
-            _message.AppendLine(content);
-            tbInfo.Text = _message.ToString();
+            //_message.AppendLine(content);
+            //tbInfo.Text = _message.ToString();
+            tbInfo.AppendText(content + "\r\n");
+
+            this.tbInfo.SelectionLength = 0;
+            this.tbInfo.ScrollToCaret();
         }
 
         
@@ -115,7 +119,7 @@ namespace LANTalk
             {
                 if (Global.OnLineUserList.Count > 0)
                 {
-                    var user = Global.OnLineUserList.Where(o => o.IP.Equals(ip)).First();
+                    var user = Global.OnLineUserList.Where(o => o.IP == ip.ToString()).First();
                     returnString = user.GetFirstSendContent();
                 }
             }
@@ -124,7 +128,7 @@ namespace LANTalk
 
         private void SocketAcceptCallback(IPAddress ip)
         {
-            var User = new OnlineUser(ip);
+            var User = new OnlineUser(ip.ToString());
             lock (Global.OnLineUserList)
             {
                 Global.OnLineUserList.Add(User);
@@ -139,12 +143,12 @@ namespace LANTalk
             lock (Global.OnLineUserList)
             {
                 var temp = from row in Global.OnLineUserList
-                           where row.IP.Equals(ip)
+                           where row.IP == ip.ToString()
                            select row;
 
                 if (Global.OnLineUserList.RemoveAll(delegate(OnlineUser user)
                  {
-                     return user.IP.Equals(ip);
+                     return user.IP == ip.ToString();
                  }) > 0)
                 {
                     OnlineChange();
@@ -188,7 +192,7 @@ namespace LANTalk
                 lock (Global.OnLineUserList)
                 {
                     var client = from user in Global.OnLineUserList
-                                 where user.IP.Equals(ip)
+                                 where user.IP == ip.ToString()
                                  select user;
 
                     SendContent sendContent;
@@ -221,7 +225,7 @@ namespace LANTalk
                                 else
                                 {
                                     var clientto = from user in Global.OnLineUserList
-                                                   where user.IP.Equals(IPAddress.Parse(rto))
+                                                   where user.IP == rto
                                                    select user;
 
                                     sendContent.Id = Guid.Parse(id);
@@ -244,7 +248,7 @@ namespace LANTalk
                                     lock (cli.SendList)
                                     {
                                         var list = from row in cli.SendList
-                                                   where row.Id.Equals(Guid.Parse(id)) && IPAddress.Parse(row.To).Equals(ip) 
+                                                   where row.Id.Equals(Guid.Parse(id)) && row.To == ip.ToString()
                                                    select row;
 
                                         foreach (var li in list)
@@ -254,7 +258,7 @@ namespace LANTalk
 
                                         cli.SendList.RemoveAll(delegate(SendContent cont)
                                         {
-                                            return cont.Id.Equals(Guid.Parse(id)) && IPAddress.Parse(cont.To).Equals(ip);
+                                            return cont.Id.Equals(Guid.Parse(id)) && cont.To == ip.ToString();
                                         });
                                     }
                                 }
@@ -263,7 +267,7 @@ namespace LANTalk
                                 if (fromip != "server")
                                 {
                                     var clientto = from user in Global.OnLineUserList
-                                                   where user.IP.Equals(IPAddress.Parse(fromip))
+                                                   where user.IP == fromip
                                                    select user;
 
                                     sendContent.Id = Guid.Parse(id);
@@ -278,16 +282,12 @@ namespace LANTalk
                                 break;
                             case SendMode.getuser:
                                 sendContent = new SendContent();
-                                var users = string.Empty;
-                                foreach(var user in Global.OnLineUserList)
+                                var users = "server,";
+                                foreach (var user in Global.OnLineUserList)
                                 {
                                     users += user.IP + ",";
                                 }
-                                if (users.Length > 0)
-                                {
-                                    users = users.TrimEnd(',');
-                                    
-                                }
+                                users = users.TrimEnd(',');
                                 foreach (var cli in client)
                                 {
                                     sendContent.Id = Guid.Parse(id);
@@ -302,9 +302,9 @@ namespace LANTalk
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                WriteMessage(ex.Message);
             }
         }
 
@@ -345,7 +345,7 @@ namespace LANTalk
                             o.Add(sendContent.To);
 
                             var clientto = from user in Global.OnLineUserList
-                                           where user.IP.Equals(IPAddress.Parse(sendContent.To))
+                                           where user.IP.ToString() == sendContent.To
                                            select user;
                             foreach (var cli in clientto)
                             {
@@ -367,9 +367,9 @@ namespace LANTalk
 
         private void CHandle(object par)
         {
+            Thread.Sleep(600);
             lock (Global.OnLineUserList)
             {
-                Thread.Sleep(300);
                 var list = (List<string>)par;
                 var guid = Guid.Parse(list[0]);
                 var message = list[1];
@@ -380,7 +380,7 @@ namespace LANTalk
                 for (var i = 2; i < list.Count; i++)
                 {
                     var client = from user in Global.OnLineUserList
-                                 where user.IP.Equals(IPAddress.Parse(list[i]))
+                                 where user.IP == list[i]
                                  select user;
                     foreach (var user in client)
                     {

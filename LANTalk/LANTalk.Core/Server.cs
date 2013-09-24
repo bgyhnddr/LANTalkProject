@@ -121,7 +121,7 @@ namespace LANTalk.Core
                         _receivecallback(clientipe.Address, recString);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
                     if (_socketLostCallback != null)
                     {
@@ -159,7 +159,7 @@ namespace LANTalk.Core
                     Thread.Sleep(150);
                 }
             }
-            catch
+            catch (Exception ex)
             {
             }
         }

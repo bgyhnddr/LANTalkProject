@@ -18,11 +18,11 @@ namespace LANTalk
 
     public class OnlineUser
     {
-        public IPAddress IP;
+        public string IP;
         public string Name;
         public List<SendContent> SendList;
 
-        public OnlineUser(IPAddress ip)
+        public OnlineUser(string ip)
         {
             IP = ip;
             SendList = new List<SendContent>();

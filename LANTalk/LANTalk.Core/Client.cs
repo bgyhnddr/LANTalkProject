@@ -120,10 +120,10 @@ namespace LANTalk.Core
                         sendByte.AddRange(sendContent);
                         _socket.Send(sendByte.ToArray());
                     }
-                    Thread.Sleep(150);
+                    Thread.Sleep(1000);
                 }
             }
-            catch
+            catch (Exception ex)
             {
             }
         }
@@ -146,7 +146,7 @@ namespace LANTalk.Core
                 sendlist.AddRange(tempg);
                 _socket.Send(sendlist.ToArray());
             }
-            catch
+            catch (Exception ex)
             {
             }
         }

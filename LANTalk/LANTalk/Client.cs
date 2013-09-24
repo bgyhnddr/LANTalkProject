@@ -39,8 +39,13 @@ namespace LANTalk
 
         private void WriteMessage(string content)
         {
-            _message.AppendLine(content);
-            tbInfo.Text = _message.ToString();
+            //_message.AppendLine(content);
+            //tbInfo.Text = _message.ToString();
+
+            tbInfo.AppendText(content + "\r\n");
+
+            this.tbInfo.SelectionLength = 0;
+            this.tbInfo.ScrollToCaret();
         }
 
         private void Client_Load(object sender, EventArgs e)
@@ -83,15 +88,14 @@ namespace LANTalk
 
                     if (selectitem.Count() > 0)
                     {
-                        var cguid = Guid.NewGuid();
                         var message = tbSend.Text;
                         var o = new List<string>();
-                        o.Add(cguid.ToString());
+                        o.Add(guid.ToString());
                         o.Add(message);
                         for (var i = 0; i < selectitem.Count(); i++)
                         {
                             SendContent sendContent = new SendContent();
-                            sendContent.Id = cguid;
+                            sendContent.Id = guid;
                             sendContent.Mode = SendMode.send.ToString();
                             sendContent.From = _client.ClientIP.ToString();
                             sendContent.To = selectitem.ToArray()[i].ToString();
@@ -100,7 +104,7 @@ namespace LANTalk
                             o.Add(sendContent.To);
 
                             var clientto = from user in Global.OnLineUserList
-                                           where user.IP.Equals(IPAddress.Parse(sendContent.To))
+                                           where user.IP == sendContent.To
                                            select user;
                             foreach (var cli in clientto)
                             {
@@ -144,9 +148,9 @@ namespace LANTalk
 
         private void CHandle(object par)
         {
+            Thread.Sleep(600);
             lock (Global.OnLineUserList)
             {
-                Thread.Sleep(300);
                 var list = (List<string>)par;
                 var guid = Guid.Parse(list[0]);
                 var message = list[1];
@@ -157,7 +161,7 @@ namespace LANTalk
                 for (var i = 2; i < list.Count; i++)
                 {
                     var client = from user in Global.OnLineUserList
-                                 where user.IP.Equals(IPAddress.Parse(list[i]))
+                                 where user.IP == list[i]
                                  select user;
                     foreach (var user in client)
                     {
@@ -193,22 +197,39 @@ namespace LANTalk
         {
             lock (Global.OnLineUserList)
             {
-                Global.OnLineUserList.Clear();
-                if (list.Length > 0)
+                var lists = list.Split(',');
+                foreach (var li in lists)
                 {
-                    foreach (var li in list.Split(','))
+                    if (Global.OnLineUserList.Where(o => o.IP == li).Count() == 0)
                     {
-                        Global.OnLineUserList.Add(new OnlineUser(IPAddress.Parse(li)));
+                        Global.OnLineUserList.Clear();
+                        if (list.Length > 0)
+                        {
+                            foreach (var sli in list.Split(','))
+                            {
+                                Global.OnLineUserList.Add(new OnlineUser(sli));
+                            }
+                        }
+
+
+                        clbOnlineList.Items.Clear();
+                        clbOnlineList.Items.Add("All/None");
+                        foreach (var user in Global.OnLineUserList)
+                        {
+                            if (_client.ClientIP.ToString() == user.IP)
+                            {
+                                continue;
+                            }
+                            clbOnlineList.Items.Add(user.IP + (user.Name == string.Empty ? "" : "(" + user.Name + ")"));
+                        }
+                        return;
                     }
                 }
 
 
-                clbOnlineList.Items.Clear();
-                clbOnlineList.Items.Add("All/None");
-                foreach (var user in Global.OnLineUserList)
-                {
-                    clbOnlineList.Items.Add(user.IP.ToString() + (user.Name == string.Empty ? "" : "(" + user.Name + ")"));
-                }
+
+
+
             }
         }
 
@@ -234,14 +255,14 @@ namespace LANTalk
                     switch ((SendMode)Enum.Parse(typeof(SendMode), mode))
                     {
                         case SendMode.send:
-                            var appendmessage = ip.ToString() + ":";
+                            var appendmessage = fromip + ":";
                             appendmessage += message;
                             WriteMessage(appendmessage);
                             _client.SendContent(BuildContent(Guid.Parse(id), SendMode.request, fromip, toip));
                             break;
                         case SendMode.request:
                             var target = from user in Global.OnLineUserList
-                                         where user.IP.Equals(IPAddress.Parse(toip))
+                                         where user.IP == toip
                                          select user;
 
                             foreach (var tar in target)
@@ -249,7 +270,7 @@ namespace LANTalk
                                 lock (tar.SendList)
                                 {
                                     var list = from row in tar.SendList
-                                               where row.Id.Equals(Guid.Parse(id)) && IPAddress.Parse(row.To).Equals(ip)
+                                               where row.Id.Equals(Guid.Parse(id))
                                                select row;
 
                                     foreach (var li in list)
@@ -259,11 +280,10 @@ namespace LANTalk
 
                                     tar.SendList.RemoveAll(delegate(SendContent cont)
                                     {
-                                        return cont.Id.Equals(Guid.Parse(id)) && IPAddress.Parse(cont.To).Equals(ip);
+                                        return cont.Id.Equals(Guid.Parse(id));
                                     });
                                 }
                             }
-                            WriteMessage(fromip + ":" + message);
                             break;
                         case SendMode.getuser:
                             OnlineChange(message);
@@ -272,9 +292,9 @@ namespace LANTalk
 
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                WriteMessage(ex.Message);
             }
         }
 
