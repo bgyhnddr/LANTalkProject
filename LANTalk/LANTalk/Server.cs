@@ -314,10 +314,12 @@ namespace LANTalk
             {
                 return;
             }
+
             lock (Global.OnLineUserList)
             {
                 if (clbOnlineList.CheckedItems.Count > 0)
                 {
+                    var toips = string.Empty;
                     var selected = new string[clbOnlineList.CheckedItems.Count];
                     clbOnlineList.CheckedItems.CopyTo(selected, 0);
 
@@ -342,6 +344,8 @@ namespace LANTalk
                             sendContent.Message = message;
                             sendContent.Sent = false;
 
+                            toips += selectitem.ToArray()[i].ToString() + ",";
+
                             o.Add(sendContent.To);
 
                             var clientto = from user in Global.OnLineUserList
@@ -353,7 +357,10 @@ namespace LANTalk
                             }
                         }
 
+                        toips = toips.TrimEnd(',');
+                        WriteMessage(DateTime.Now.ToString() + " To[" + toips + "]:" + message);
 
+                        tbSend.Text = string.Empty;
 
 
                         var parStart = new ParameterizedThreadStart(CHandle);
@@ -403,15 +410,15 @@ namespace LANTalk
                 }
 
 
-                if (success.Length > 0)
-                {
-                    success = success.TrimEnd(',');
-                    WriteMessage("To " + success + ":" + message);
-                }
+                //if (success.Length > 0)
+                //{
+                //    success = success.TrimEnd(',');
+                //    WriteMessage("To " + success + ":" + message);
+                //}
                 if (fail.Length > 0)
                 {
                     fail = fail.TrimEnd(',');
-                    WriteMessage(fail + " request timeout");
+                    WriteMessage(fail + " 发送失败！");
                 }
             }
         }

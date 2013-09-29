@@ -79,6 +79,7 @@ namespace LANTalk
             {
                 if (clbOnlineList.CheckedItems.Count > 0)
                 {
+                    var toips = string.Empty;
                     var selected = new string[clbOnlineList.CheckedItems.Count];
                     clbOnlineList.CheckedItems.CopyTo(selected, 0);
 
@@ -101,6 +102,8 @@ namespace LANTalk
                             sendContent.To = selectitem.ToArray()[i].ToString();
                             sendContent.Message = message;
 
+                            toips += selectitem.ToArray()[i].ToString() + ",";
+
                             o.Add(sendContent.To);
 
                             var clientto = from user in Global.OnLineUserList
@@ -111,9 +114,12 @@ namespace LANTalk
                                 cli.SendList.Add(sendContent);
                             }
                         }
-                        
+
+                        toips = toips.TrimEnd(',');
+                        WriteMessage(DateTime.Now.ToString() + " To[" + toips + "]:" + message);
+
                         _client.SendContent(BuildContent(guid, SendMode.send, _client.ClientIP.ToString(), string.Join(",", selectitem), tbSend.Text));
-                        
+                        tbSend.Text = string.Empty;
                         var parStart = new ParameterizedThreadStart(CHandle);
                         var recieveThread = new Thread(parStart);
                         recieveThread.IsBackground = true;
@@ -180,11 +186,11 @@ namespace LANTalk
                 }
 
 
-                if (success.Length > 0)
-                {
-                    success = success.TrimEnd(',');
-                    WriteMessage("To " + success + ":" + message);
-                }
+                //if (success.Length > 0)
+                //{
+                //    success = success.TrimEnd(',');
+                //    WriteMessage("To " + success + ":" + message);
+                //}
                 if (fail.Length > 0)
                 {
                     fail = fail.TrimEnd(',');
