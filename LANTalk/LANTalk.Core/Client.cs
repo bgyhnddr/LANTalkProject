@@ -125,6 +125,10 @@ namespace LANTalk.Core
             }
             catch (Exception ex)
             {
+                if (_errorCallback != null)
+                {
+                    _errorCallback(ex);
+                }
             }
         }
 

@@ -154,7 +154,7 @@ namespace LANTalk
 
         private void CHandle(object par)
         {
-            Thread.Sleep(600);
+            Thread.Sleep(3000);
             lock (Global.OnLineUserList)
             {
                 var list = (List<string>)par;
