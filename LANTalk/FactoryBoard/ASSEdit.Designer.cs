@@ -30,17 +30,17 @@
         {
             this.btnConfirm = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.tbLine = new System.Windows.Forms.TextBox();
+            this.tbIPN = new System.Windows.Forms.TextBox();
+            this.tbOrder_Qty = new System.Windows.Forms.TextBox();
+            this.tbDaily_Plan = new System.Windows.Forms.TextBox();
+            this.tbStart_Time = new System.Windows.Forms.TextBox();
+            this.tbActual_Output = new System.Windows.Forms.TextBox();
+            this.tbModel = new System.Windows.Forms.TextBox();
+            this.tbMOA = new System.Windows.Forms.TextBox();
             this.btnMan = new System.Windows.Forms.Button();
             this.btnMachine = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btnMaterial = new System.Windows.Forms.Button();
             this.btnMethod = new System.Windows.Forms.Button();
             this.lbLine = new System.Windows.Forms.Label();
             this.lbIPN = new System.Windows.Forms.Label();
@@ -60,6 +60,7 @@
             this.btnConfirm.TabIndex = 0;
             this.btnConfirm.Text = "确定";
             this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
             // btnCancel
             // 
@@ -69,63 +70,63 @@
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // textBox1
+            // tbLine
             // 
-            this.textBox1.Location = new System.Drawing.Point(83, 12);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(107, 21);
-            this.textBox1.TabIndex = 2;
+            this.tbLine.Location = new System.Drawing.Point(83, 12);
+            this.tbLine.Name = "tbLine";
+            this.tbLine.Size = new System.Drawing.Size(107, 21);
+            this.tbLine.TabIndex = 2;
             // 
-            // textBox2
+            // tbIPN
             // 
-            this.textBox2.Location = new System.Drawing.Point(83, 39);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(107, 21);
-            this.textBox2.TabIndex = 3;
+            this.tbIPN.Location = new System.Drawing.Point(83, 39);
+            this.tbIPN.Name = "tbIPN";
+            this.tbIPN.Size = new System.Drawing.Size(107, 21);
+            this.tbIPN.TabIndex = 3;
             // 
-            // textBox3
+            // tbOrder_Qty
             // 
-            this.textBox3.Location = new System.Drawing.Point(83, 66);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(107, 21);
-            this.textBox3.TabIndex = 4;
+            this.tbOrder_Qty.Location = new System.Drawing.Point(83, 66);
+            this.tbOrder_Qty.Name = "tbOrder_Qty";
+            this.tbOrder_Qty.Size = new System.Drawing.Size(107, 21);
+            this.tbOrder_Qty.TabIndex = 4;
             // 
-            // textBox4
+            // tbDaily_Plan
             // 
-            this.textBox4.Location = new System.Drawing.Point(83, 93);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(107, 21);
-            this.textBox4.TabIndex = 5;
+            this.tbDaily_Plan.Location = new System.Drawing.Point(83, 93);
+            this.tbDaily_Plan.Name = "tbDaily_Plan";
+            this.tbDaily_Plan.Size = new System.Drawing.Size(107, 21);
+            this.tbDaily_Plan.TabIndex = 5;
             // 
-            // textBox7
+            // tbStart_Time
             // 
-            this.textBox7.Location = new System.Drawing.Point(286, 66);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(107, 21);
-            this.textBox7.TabIndex = 8;
-            this.textBox7.Text = "1987 10 13 22 22 22";
+            this.tbStart_Time.Location = new System.Drawing.Point(286, 66);
+            this.tbStart_Time.Name = "tbStart_Time";
+            this.tbStart_Time.Size = new System.Drawing.Size(107, 21);
+            this.tbStart_Time.TabIndex = 8;
             // 
-            // textBox8
+            // tbActual_Output
             // 
-            this.textBox8.Location = new System.Drawing.Point(286, 93);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(107, 21);
-            this.textBox8.TabIndex = 9;
+            this.tbActual_Output.Location = new System.Drawing.Point(286, 93);
+            this.tbActual_Output.Name = "tbActual_Output";
+            this.tbActual_Output.Size = new System.Drawing.Size(107, 21);
+            this.tbActual_Output.TabIndex = 9;
             // 
-            // textBox10
+            // tbModel
             // 
-            this.textBox10.Location = new System.Drawing.Point(286, 12);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(107, 21);
-            this.textBox10.TabIndex = 11;
+            this.tbModel.Location = new System.Drawing.Point(286, 12);
+            this.tbModel.Name = "tbModel";
+            this.tbModel.Size = new System.Drawing.Size(107, 21);
+            this.tbModel.TabIndex = 11;
             // 
-            // textBox11
+            // tbMOA
             // 
-            this.textBox11.Location = new System.Drawing.Point(286, 39);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(107, 21);
-            this.textBox11.TabIndex = 12;
+            this.tbMOA.Location = new System.Drawing.Point(286, 39);
+            this.tbMOA.Name = "tbMOA";
+            this.tbMOA.Size = new System.Drawing.Size(107, 21);
+            this.tbMOA.TabIndex = 12;
             // 
             // btnMan
             // 
@@ -137,6 +138,7 @@
             this.btnMan.TabIndex = 13;
             this.btnMan.Text = "Man";
             this.btnMan.UseVisualStyleBackColor = true;
+            this.btnMan.Click += new System.EventHandler(this.btnMan_Click);
             // 
             // btnMachine
             // 
@@ -148,17 +150,19 @@
             this.btnMachine.TabIndex = 14;
             this.btnMachine.Text = "Machine";
             this.btnMachine.UseVisualStyleBackColor = true;
+            this.btnMachine.Click += new System.EventHandler(this.btnMachine_Click);
             // 
-            // button5
+            // btnMaterial
             // 
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button5.Location = new System.Drawing.Point(129, 130);
-            this.button5.Margin = new System.Windows.Forms.Padding(0);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(60, 23);
-            this.button5.TabIndex = 15;
-            this.button5.Text = "Material";
-            this.button5.UseVisualStyleBackColor = true;
+            this.btnMaterial.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMaterial.Location = new System.Drawing.Point(129, 130);
+            this.btnMaterial.Margin = new System.Windows.Forms.Padding(0);
+            this.btnMaterial.Name = "btnMaterial";
+            this.btnMaterial.Size = new System.Drawing.Size(60, 23);
+            this.btnMaterial.TabIndex = 15;
+            this.btnMaterial.Text = "Material";
+            this.btnMaterial.UseVisualStyleBackColor = true;
+            this.btnMaterial.Click += new System.EventHandler(this.btnMaterial_Click);
             // 
             // btnMethod
             // 
@@ -170,6 +174,7 @@
             this.btnMethod.TabIndex = 16;
             this.btnMethod.Text = "Method";
             this.btnMethod.UseVisualStyleBackColor = true;
+            this.btnMethod.Click += new System.EventHandler(this.btnMethod_Click);
             // 
             // lbLine
             // 
@@ -257,17 +262,17 @@
             this.Controls.Add(this.lbIPN);
             this.Controls.Add(this.lbLine);
             this.Controls.Add(this.btnMethod);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.btnMaterial);
             this.Controls.Add(this.btnMachine);
             this.Controls.Add(this.btnMan);
-            this.Controls.Add(this.textBox11);
-            this.Controls.Add(this.textBox10);
-            this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.textBox7);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbMOA);
+            this.Controls.Add(this.tbModel);
+            this.Controls.Add(this.tbActual_Output);
+            this.Controls.Add(this.tbStart_Time);
+            this.Controls.Add(this.tbDaily_Plan);
+            this.Controls.Add(this.tbOrder_Qty);
+            this.Controls.Add(this.tbIPN);
+            this.Controls.Add(this.tbLine);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -283,17 +288,17 @@
 
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox tbLine;
+        private System.Windows.Forms.TextBox tbIPN;
+        private System.Windows.Forms.TextBox tbOrder_Qty;
+        private System.Windows.Forms.TextBox tbDaily_Plan;
+        private System.Windows.Forms.TextBox tbStart_Time;
+        private System.Windows.Forms.TextBox tbActual_Output;
+        private System.Windows.Forms.TextBox tbModel;
+        private System.Windows.Forms.TextBox tbMOA;
         private System.Windows.Forms.Button btnMan;
         private System.Windows.Forms.Button btnMachine;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnMaterial;
         private System.Windows.Forms.Button btnMethod;
         private System.Windows.Forms.Label lbLine;
         private System.Windows.Forms.Label lbIPN;

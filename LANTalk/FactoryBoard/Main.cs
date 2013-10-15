@@ -11,12 +11,6 @@ namespace FactoryBoard
 {
     public partial class Main : Form
     {
-        public const string ASS = "ASS";
-        public const string IJ = "IJ";
-        public const string WH = "W/H";
-        public const string eWH = "e-W/H";
-        public const string SMT = "SMT";
-        public const string SSP = "SSP";
 
         public const string DEPARTMENT_STRING = "department";
 
@@ -44,15 +38,12 @@ namespace FactoryBoard
             {
                 switch (config.Rows[0][DEPARTMENT_STRING].ToString())
                 {
-                    case ASS:
+                    case Global.ASS:
                         this.Hide();
 
                         break;
                 }
             }
-
-
-
         }
 
         private void btnASS_Click(object sender, EventArgs e)

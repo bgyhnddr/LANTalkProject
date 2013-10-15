@@ -25,6 +25,16 @@ namespace FactoryBoard
 
     public class Global
     {
+
+        public const string ASS = "ASS";
+        public const string IJ = "IJ";
+        public const string WH = "W/H";
+        public const string eWH = "e-W/H";
+        public const string SMT = "SMT";
+        public const string SSP = "SSP";
+        public const string Normal = "正常";
+        public const string UnNormal = "异常";
+
         Global()
         {
         }
@@ -78,6 +88,28 @@ namespace FactoryBoard
             {
                 return null;
             }
+        }
+
+        public static bool FileExists(string fileName)
+        {
+            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            path += "\\LANTalk\\SaveFile";
+            path += "\\" + fileName;
+            return File.Exists(path);
+        }
+
+        public static void SaveFile(DataTable table)
+        {
+            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            path += "\\LANTalk\\SaveFile";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            var current = path + "\\current.csv";
+            path += "\\" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".csv";
+            File.WriteAllText(path, CSVHelper.MakeCSV(table), Encoding.GetEncoding("GB2312"));
+            File.WriteAllText(current, CSVHelper.MakeCSV(table), Encoding.GetEncoding("GB2312"));
         }
     }
 

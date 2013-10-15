@@ -121,6 +121,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.Location = new System.Drawing.Point(10, 47);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
@@ -190,7 +191,7 @@
             this.checkBox_Aspect.AutoSize = true;
             this.checkBox_Aspect.Location = new System.Drawing.Point(9, 386);
             this.checkBox_Aspect.Name = "checkBox_Aspect";
-            this.checkBox_Aspect.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_Aspect.Size = new System.Drawing.Size(73, 16);
             this.checkBox_Aspect.TabIndex = 14;
             this.checkBox_Aspect.Text = "横向打印";
             this.checkBox_Aspect.UseVisualStyleBackColor = true;
@@ -201,7 +202,7 @@
             this.checkBox_line.AutoSize = true;
             this.checkBox_line.Location = new System.Drawing.Point(183, 117);
             this.checkBox_line.Name = "checkBox_line";
-            this.checkBox_line.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_line.Size = new System.Drawing.Size(73, 16);
             this.checkBox_line.TabIndex = 13;
             this.checkBox_line.Text = "边线设置";
             this.checkBox_line.UseVisualStyleBackColor = true;
@@ -227,7 +228,7 @@
             this.checkBox_Boundary.AutoSize = true;
             this.checkBox_Boundary.Location = new System.Drawing.Point(12, 217);
             this.checkBox_Boundary.Name = "checkBox_Boundary";
-            this.checkBox_Boundary.Size = new System.Drawing.Size(96, 16);
+            this.checkBox_Boundary.Size = new System.Drawing.Size(97, 16);
             this.checkBox_Boundary.TabIndex = 5;
             this.checkBox_Boundary.Text = "列标题分界线";
             this.checkBox_Boundary.UseVisualStyleBackColor = true;
@@ -297,7 +298,7 @@
             this.checkBox_Table.AutoSize = true;
             this.checkBox_Table.Location = new System.Drawing.Point(181, 19);
             this.checkBox_Table.Name = "checkBox_Table";
-            this.checkBox_Table.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_Table.Size = new System.Drawing.Size(73, 16);
             this.checkBox_Table.TabIndex = 10;
             this.checkBox_Table.Text = "报表设置";
             this.checkBox_Table.UseVisualStyleBackColor = true;
@@ -321,7 +322,7 @@
             this.checkBox_Page.AutoSize = true;
             this.checkBox_Page.Location = new System.Drawing.Point(9, 66);
             this.checkBox_Page.Name = "checkBox_Page";
-            this.checkBox_Page.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_Page.Size = new System.Drawing.Size(73, 16);
             this.checkBox_Page.TabIndex = 4;
             this.checkBox_Page.Text = "显示页脚";
             this.checkBox_Page.UseVisualStyleBackColor = true;
@@ -331,7 +332,7 @@
             this.checkBox_Title.AutoSize = true;
             this.checkBox_Title.Location = new System.Drawing.Point(9, 43);
             this.checkBox_Title.Name = "checkBox_Title";
-            this.checkBox_Title.Size = new System.Drawing.Size(132, 16);
+            this.checkBox_Title.Size = new System.Drawing.Size(133, 16);
             this.checkBox_Title.TabIndex = 3;
             this.checkBox_Title.Text = "分页后每页显示标题";
             this.checkBox_Title.UseVisualStyleBackColor = true;
@@ -363,7 +364,7 @@
             this.checkBox_Cell.AutoSize = true;
             this.checkBox_Cell.Location = new System.Drawing.Point(16, 241);
             this.checkBox_Cell.Name = "checkBox_Cell";
-            this.checkBox_Cell.Size = new System.Drawing.Size(84, 16);
+            this.checkBox_Cell.Size = new System.Drawing.Size(85, 16);
             this.checkBox_Cell.TabIndex = 7;
             this.checkBox_Cell.Text = "设置单元格";
             this.checkBox_Cell.UseVisualStyleBackColor = true;
@@ -374,7 +375,7 @@
             this.checkBox_Header.AutoSize = true;
             this.checkBox_Header.Location = new System.Drawing.Point(16, 115);
             this.checkBox_Header.Name = "checkBox_Header";
-            this.checkBox_Header.Size = new System.Drawing.Size(84, 16);
+            this.checkBox_Header.Size = new System.Drawing.Size(85, 16);
             this.checkBox_Header.TabIndex = 6;
             this.checkBox_Header.Text = "设置列标题";
             this.checkBox_Header.UseVisualStyleBackColor = true;
@@ -434,8 +435,8 @@
             this.textBox_CellSize.Size = new System.Drawing.Size(49, 21);
             this.textBox_CellSize.TabIndex = 11;
             this.textBox_CellSize.Text = "23";
-            this.textBox_CellSize.Leave += new System.EventHandler(this.textBox_CellSize_Leave);
             this.textBox_CellSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_CellSize_KeyPress);
+            this.textBox_CellSize.Leave += new System.EventHandler(this.textBox_CellSize_Leave);
             // 
             // button_CellDefault
             // 
@@ -533,8 +534,8 @@
             this.textBox_Size.Size = new System.Drawing.Size(49, 21);
             this.textBox_Size.TabIndex = 14;
             this.textBox_Size.Text = "30";
-            this.textBox_Size.Leave += new System.EventHandler(this.textBox_Size_Leave);
             this.textBox_Size.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Size_KeyPress);
+            this.textBox_Size.Leave += new System.EventHandler(this.textBox_Size_Leave);
             // 
             // label4
             // 
@@ -580,7 +581,7 @@
             this.checkBox_margin.AutoSize = true;
             this.checkBox_margin.Location = new System.Drawing.Point(16, 18);
             this.checkBox_margin.Name = "checkBox_margin";
-            this.checkBox_margin.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_margin.Size = new System.Drawing.Size(73, 16);
             this.checkBox_margin.TabIndex = 2;
             this.checkBox_margin.Text = "设置边距";
             this.checkBox_margin.UseVisualStyleBackColor = true;
@@ -609,8 +610,8 @@
             this.textBox_buttommargin.Size = new System.Drawing.Size(73, 21);
             this.textBox_buttommargin.TabIndex = 7;
             this.textBox_buttommargin.Text = "80";
-            this.textBox_buttommargin.Leave += new System.EventHandler(this.textBox_buttommargin_Leave);
             this.textBox_buttommargin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_buttommargin_KeyPress);
+            this.textBox_buttommargin.Leave += new System.EventHandler(this.textBox_buttommargin_Leave);
             // 
             // textBox_leftmargin
             // 
@@ -619,8 +620,8 @@
             this.textBox_leftmargin.Size = new System.Drawing.Size(73, 21);
             this.textBox_leftmargin.TabIndex = 6;
             this.textBox_leftmargin.Text = "50";
-            this.textBox_leftmargin.Leave += new System.EventHandler(this.textBox_leftmargin_Leave);
             this.textBox_leftmargin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_leftmargin_KeyPress);
+            this.textBox_leftmargin.Leave += new System.EventHandler(this.textBox_leftmargin_Leave);
             // 
             // textBox_topmargin
             // 
@@ -629,8 +630,8 @@
             this.textBox_topmargin.Size = new System.Drawing.Size(73, 21);
             this.textBox_topmargin.TabIndex = 5;
             this.textBox_topmargin.Text = "60";
-            this.textBox_topmargin.Leave += new System.EventHandler(this.textBox_topmargin_Leave);
             this.textBox_topmargin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_topmargin_KeyPress);
+            this.textBox_topmargin.Leave += new System.EventHandler(this.textBox_topmargin_Leave);
             // 
             // label3
             // 
@@ -668,9 +669,9 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Frm_PrintSet";
             this.Text = "打印";
+            this.Activated += new System.EventHandler(this.Frm_PrintSet_Activated);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Frm_PrintSet_Shown);
-            this.Activated += new System.EventHandler(this.Frm_PrintSet_Activated);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
