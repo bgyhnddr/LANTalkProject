@@ -65,7 +65,7 @@ namespace FactoryBoard
             row["Method"] = Global.Normal;
             MainTable.Rows.Add(row);
             row = MainTable.NewRow();
-            row["Line"] = "1";
+            row["Line"] = "12";
             row["Model"] = "1";
             row["IPN"] = "1";
             row["MOA"] = "1";
