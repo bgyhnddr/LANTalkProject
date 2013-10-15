@@ -69,7 +69,7 @@ namespace FactoryBoard
             row["Model"] = "1";
             row["IPN"] = "1";
             row["MOA"] = "1";
-            row["Order_Qty"] = "1";
+            row["Order_Qty"] = "12";
             row["Start_Time"] = "1";
             row["Daily_Plan"] = "1";
             row["Actual_Output"] = "1";
