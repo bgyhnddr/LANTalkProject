@@ -38,7 +38,7 @@ namespace DLLFullPrint
         public int leftmargin = 50;//左边距 
         public Font titlefont = new Font("arial", 14);//标题字体 
         public Font font = new Font("arial", 10);//正文字体
-         
+
         public Font footerfont = new Font("arial", 8);//页脚显示页数的字体
         public Font uplinefont = new Font("arial", 9, FontStyle.Bold);//当header分两行显示的时候，上行显示的字体
         public Font underlinefont = new Font("arial", 8);//当header分两行显示的时候，下行显示的字体
@@ -79,10 +79,10 @@ namespace DLLFullPrint
         /// <param PageS="int">纸张大小</param>
         /// <param lendscape="bool">是否横向打印</param>
         /// <returns>返回DataSet对象</returns>
-        public PrintClass(DataGridView datagrid, string title, int titlesize,int PageS, bool lendscape)
+        public PrintClass(DataGridView datagrid, string title, int titlesize, int PageS, bool lendscape)
         {
             this.title = title;//设置标题的名称
-            this.titlesize=titlesize;//设置标题的大小
+            this.titlesize = titlesize;//设置标题的大小
             this.datagrid = datagrid;//获取打印数所据
             this.PageSheet = PageS;//纸张大小
             printdocument = new PrintDocument();//实例化PrintDocument类
@@ -91,7 +91,7 @@ namespace DLLFullPrint
             printpreviewdialog = new PrintPreviewDialog();//实例化PrintPreviewDialog类
             printpreviewdialog.Document = printdocument;//获取预览文档的信息
             printpreviewdialog.FormBorderStyle = FormBorderStyle.Fixed3D;//设置窗体的边框样式
-            
+
             //横向打印的设置
             if (PageSheet >= 0)
             {
@@ -168,7 +168,7 @@ namespace DLLFullPrint
         /// <param colW="int">单元格的左边距</param>
         /// <param Ali="int">对齐方式</param>
         /// <returns>返回int对象</returns>
-        private int Alignment_Mode(int CellW, int StrW,int colW, int Ali)
+        private int Alignment_Mode(int CellW, int StrW, int colW, int Ali)
         {
             int ALiW = 0;
             switch (Ali)
@@ -215,7 +215,7 @@ namespace DLLFullPrint
             int currentpagerowcount = endrow - startrow;//获取打印页数
             colcount = datagrid.ColumnCount;//获取打印数据的列数
             x = leftmargin;//获取表格的左边距
-            
+
             //设置绘置背景颜色的点
             Point headup, headdown;
             //获取报表的宽度
@@ -234,45 +234,45 @@ namespace DLLFullPrint
                 switch (AlignmentSgin)//对齐方式
                 {
                     case 0://左对齐
-                    {
-                        x = LeftAlignment;//获取左对齐的默认边界
-                        leftmargin = x;//设置左边距
-                        if (tn > cwidth)//如果标题的宽度大于表格的宽度
-                            xoffset = leftmargin;//标题的左边距为表格的左边距
-                        else
-                            xoffset = (int)(PrintPageWidth - (PrintPageWidth - 50) + (cwidth - tn) / 2);//使标题局中
-                        break;
-                    }
-                    case 1://局中
-                    {
-                        x = (PrintPageWidth - cwidth) / 2;//设置表格的局中位置
-                        leftmargin = x;//设置左边距
-                        xoffset = (int)((PrintPageWidth - tn) / 2);//标题相对于表格局中
-                        break;
-                    }
-                    case 2://右对齐
-                    {
-                        x = PrintPageWidth - cwidth - RightAlignment;//设置表格右对齐的左边距位置
-                        leftmargin = x;//设置左边距
-                        if (tn > cwidth)//如果标题的宽度大于表格的宽度
-                            xoffset = (int)(PrintPageWidth - tn);//使标题的右边距与表格的右边距相同
-                        else
-                            xoffset = (int)(PrintPageWidth - 50 - cwidth + (cwidth - tn) / 2);//标题相对于表格局中
-                        break;
-                    }
-                case -1://标题的默认状态
-                    {
-                        if (tn > cwidth)//如果标题的宽度大于表格的宽度
                         {
-                            if ((tn - cwidth) / 2 < leftmargin)//标题在表格上局中，左边的超出的部分小于左边距
-                                xoffset = (int)(leftmargin - (tn - cwidth) / 2);//使标题相对于表格局中
+                            x = LeftAlignment;//获取左对齐的默认边界
+                            leftmargin = x;//设置左边距
+                            if (tn > cwidth)//如果标题的宽度大于表格的宽度
+                                xoffset = leftmargin;//标题的左边距为表格的左边距
                             else
-                                xoffset = leftmargin;//使标题的左边距与表格的左边距相同
+                                xoffset = (int)(PrintPageWidth - (PrintPageWidth - 50) + (cwidth - tn) / 2);//使标题局中
+                            break;
                         }
-                        else
-                            xoffset = (int)(x + (cwidth - tn) / 2);//标题相对于表格局中
-                        break;
-                    }
+                    case 1://局中
+                        {
+                            x = (PrintPageWidth - cwidth) / 2;//设置表格的局中位置
+                            leftmargin = x;//设置左边距
+                            xoffset = (int)((PrintPageWidth - tn) / 2);//标题相对于表格局中
+                            break;
+                        }
+                    case 2://右对齐
+                        {
+                            x = PrintPageWidth - cwidth - RightAlignment;//设置表格右对齐的左边距位置
+                            leftmargin = x;//设置左边距
+                            if (tn > cwidth)//如果标题的宽度大于表格的宽度
+                                xoffset = (int)(PrintPageWidth - tn);//使标题的右边距与表格的右边距相同
+                            else
+                                xoffset = (int)(PrintPageWidth - 50 - cwidth + (cwidth - tn) / 2);//标题相对于表格局中
+                            break;
+                        }
+                    case -1://标题的默认状态
+                        {
+                            if (tn > cwidth)//如果标题的宽度大于表格的宽度
+                            {
+                                if ((tn - cwidth) / 2 < leftmargin)//标题在表格上局中，左边的超出的部分小于左边距
+                                    xoffset = (int)(leftmargin - (tn - cwidth) / 2);//使标题相对于表格局中
+                                else
+                                    xoffset = leftmargin;//使标题的左边距与表格的左边距相同
+                            }
+                            else
+                                xoffset = (int)(x + (cwidth - tn) / 2);//标题相对于表格局中
+                            break;
+                        }
                 }
             }
 
@@ -293,7 +293,7 @@ namespace DLLFullPrint
             headdown = new Point(cwidth, (endrow - startrow) * rowgap);//设置右下角位置
             drawrectangle(brushCellBack, headup, headdown, e.Graphics);//填充矩形框
             //画出打印表格最左边的竖线
-            if (LineLeft==true)//如果是左边线
+            if (LineLeft == true)//如果是左边线
                 drawline(new Point(x, y), new Point(x, y + currentpagerowcount * rowgap + this.headerheight), e.Graphics, 0);//画线
             //设置标题栏中的文字及坚线
             for (int j = 0; j < colcount; j++)//遍历列数据
@@ -307,16 +307,16 @@ namespace DLLFullPrint
                     e.Graphics.DrawString(cellvalue, headerfont, brushHeaderFont, x + Ha, y + celltopmargin);//绘制列标题
                     x += colwidth + colgap;//横向，下一个单元格的位置
                     //右侧坚线
-                    if (LineUnit==true)//如果是左边单元格的线
+                    if (LineUnit == true)//如果是左边单元格的线
                         drawline(new Point(x, y), new Point(x, y + currentpagerowcount * rowgap + this.headerheight), e.Graphics, 0);//画线
-                    if ((LineLeft==true) && (j == (colcount-1)))//如果是最右边的线
+                    if ((LineLeft == true) && (j == (colcount - 1)))//如果是最右边的线
                         drawline(new Point(x, y), new Point(x, y + currentpagerowcount * rowgap + this.headerheight), e.Graphics, 0);//画线
                     int nnp = y + currentpagerowcount * rowgap + this.headerheight;//下一行线的位置
                 }
             }
             int rightbound = x;
             //列标题上边的线
-            if (LineUP==true)
+            if (LineUP == true)
                 drawline(new Point(leftmargin, y), new Point(rightbound, y), e.Graphics, 0); //绘制最上面的线 
             headup = new Point(leftmargin, y);
             y += this.headerheight;//设置下一个线的位置
@@ -337,14 +337,14 @@ namespace DLLFullPrint
                     }
                 }
                 //单元格上边的线
-                if (LineUnit==true)
+                if (LineUnit == true)
                     drawline(new Point(leftmargin, y), new Point(rightbound, y), e.Graphics, 0);
                 if (Boundary == true && i == startrow)//绘制分割线
                     drawline(new Point(leftmargin, y), new Point(rightbound, y), e.Graphics, 1);
                 y += rowgap;//设置下行的位置
             }
-             //表格最下面的边线
-            if (LineUP==true)
+            //表格最下面的边线
+            if (LineUP == true)
                 drawline(new Point(leftmargin, y), new Point(rightbound, y), e.Graphics, 0);//绘制最下面的线
             currentpageindex++;//下一页的页码
             if (this.needprintpageindex)//如果显示页脚
@@ -374,7 +374,7 @@ namespace DLLFullPrint
             int w = 1;//设置线的宽度
             if (n == 1)//如果是分割线
                 w = 2;//设置线宽为2
-            Pen pen = new Pen(LineColor,w);//设置画笔样式
+            Pen pen = new Pen(LineColor, w);//设置画笔样式
             gp.DrawLine(pen, sp, ep);//绘制线
         }
         #endregion
@@ -387,9 +387,9 @@ namespace DLLFullPrint
         /// <param P1="Point">左上角的坐标</param>
         /// <param P2="Point">右下角的坐标</param>
         /// <param gp="Graphics">Graphics类</param>
-        private void drawrectangle(Brush ColorB, Point P1,Point P2, Graphics gp)
+        private void drawrectangle(Brush ColorB, Point P1, Point P2, Graphics gp)
         {
-            gp.FillRectangle(ColorB, P1.X,P1.Y, P2.X,P2.Y);//填充一个矩形框
+            gp.FillRectangle(ColorB, P1.X, P1.Y, P2.X, P2.Y);//填充一个矩形框
         }
         #endregion
 
@@ -433,7 +433,7 @@ namespace DLLFullPrint
             else if (datagrid.DataSource.GetType().ToString() == "System.Collections.ArrayList")//判断数据类型
             {
                 rowcount = ((ArrayList)datagrid.DataSource).Count;//获取数据的行数
-            } 
+            }
             try
             {
                 printdocument.DefaultPageSettings.Landscape = PageScape;//设置横向打印
@@ -441,7 +441,7 @@ namespace DLLFullPrint
 
                 printpreviewdialog.ShowDialog();//显示打印预览窗体
             }
-            catch(Exception e)  
+            catch (Exception e)
             {
                 throw new Exception("printer error." + e.Message);
             }
