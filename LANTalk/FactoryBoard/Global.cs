@@ -20,7 +20,16 @@ namespace FactoryBoard
     {
         public string IP;
         public string Name;
-        public List<DataTable> SendList;
+        public bool Online;
+        public List<DataTable> OrderList;
+
+        public Department(string ip, string name, bool online)
+        {
+            IP = ip;
+            Name = name;
+            Online = online;
+            OrderList = new List<DataTable>();
+        }
     }
 
     public class Global
@@ -88,6 +97,21 @@ namespace FactoryBoard
             {
                 return null;
             }
+        }
+
+        public static void SaveConfig(DataTable table)
+        {
+            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            path += "\\LANTalk";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            path += "\\LANTalk.config";
+
+
+
+            File.WriteAllText(path, CSVHelper.MakeCSV(table), Encoding.GetEncoding("GB2312"));
         }
 
         public static bool FileExists(string fileName)

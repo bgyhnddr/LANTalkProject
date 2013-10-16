@@ -244,8 +244,10 @@
             this.Controls.Add(this.btnASS);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Main";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FactoryBoard";
             this.Load += new System.EventHandler(this.Main_Load);
+            this.Shown += new System.EventHandler(this.Main_Shown);
             this.gIPSet.ResumeLayout(false);
             this.gIPSet.PerformLayout();
             this.ResumeLayout(false);
