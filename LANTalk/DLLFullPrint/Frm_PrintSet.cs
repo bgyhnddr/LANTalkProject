@@ -36,13 +36,13 @@ namespace DLLFullPrint
         /// <param dgp="PrintClass">公共类PrintClass</param>
         public void MSetUp(PrintClass dgp)
         {
-            string n="false";
+            string n = "false";
             string[] margin = new string[4];
-            if (checkBox_margin.Checked==true)
-                n="true";
+            if (checkBox_margin.Checked == true)
+                n = "true";
             else
-                n="alse";
-            margin[0]=n;
+                n = "alse";
+            margin[0] = n;
             margin[1] = textBox_topmargin.Text;
             margin[2] = textBox_leftmargin.Text;
             margin[3] = textBox_buttommargin.Text;
@@ -92,7 +92,7 @@ namespace DLLFullPrint
                 textBox_Size.Text = dataGridView1.ColumnHeadersHeight.ToString();//列标题的高度
             }
             if (n == 1)
-            { 
+            {
                 Font Hfont = new Font("宋体", 9);
                 dataGridView1.RowsDefaultCellStyle.BackColor = Color.White;//单元格的背景颜色
                 dataGridView1.RowsDefaultCellStyle.ForeColor = Color.Black;//单元格的字体颜色
@@ -114,10 +114,10 @@ namespace DLLFullPrint
                 {
                     tsele = ((TextBox)sender).SelectionLength;
                 }
-                if (n >0) //只能输入2位数
+                if (n > 0) //只能输入2位数
                 {
                     if (e.KeyChar <= '9' && e.KeyChar >= '0')
-                        if (((((TextBox)sender).Text).Length-tsele + 1) > n)
+                        if (((((TextBox)sender).Text).Length - tsele + 1) > n)
                             e.Handled = true;   //处理KeyPress事件
                 }
             }
@@ -132,7 +132,7 @@ namespace DLLFullPrint
                 GroupB.Enabled = true;//可用
         }
 
-        public void TextBoxValue(object sender,int d,int n,int m)
+        public void TextBoxValue(object sender, int d, int n, int m)
         {
             if (((TextBox)sender).Text == "")
             {
@@ -334,7 +334,7 @@ namespace DLLFullPrint
             for (int i = 0; i < 2; i++)
             {
                 g.DrawLine(new Pen(Lcolor, 1), 20 + unitW, 20, 20 + unitW, paneH - 20);//绘制纵线
-                if (boundary==true && i==0)//如果是分割线并且是第一条线
+                if (boundary == true && i == 0)//如果是分割线并且是第一条线
                 {
                     //设置分割线的坐标点
                     bW = paneW - 20;
