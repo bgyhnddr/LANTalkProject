@@ -59,6 +59,12 @@
     <Compile Include="ASSEdit.Designer.cs">
       <DependentUpon>ASSEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="ASSOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ASSOrder.Designer.cs">
+      <DependentUpon>ASSOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Config.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ASSEdit.resx">
       <DependentUpon>ASSEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ASSOrder.resx">
+      <DependentUpon>ASSOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

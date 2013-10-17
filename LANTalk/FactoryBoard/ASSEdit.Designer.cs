@@ -235,9 +235,9 @@
             this.lbStart_Time.AutoSize = true;
             this.lbStart_Time.Location = new System.Drawing.Point(200, 69);
             this.lbStart_Time.Name = "lbStart_Time";
-            this.lbStart_Time.Size = new System.Drawing.Size(65, 12);
+            this.lbStart_Time.Size = new System.Drawing.Size(77, 12);
             this.lbStart_Time.TabIndex = 23;
-            this.lbStart_Time.Text = "Start_Time";
+            this.lbStart_Time.Text = "Requset_Time";
             // 
             // lbActual_Output
             // 
@@ -276,6 +276,8 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ASSEdit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ASSEdit";

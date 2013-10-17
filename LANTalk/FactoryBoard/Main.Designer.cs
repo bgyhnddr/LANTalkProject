@@ -243,6 +243,8 @@
             this.Controls.Add(this.btneWH);
             this.Controls.Add(this.btnASS);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FactoryBoard";
