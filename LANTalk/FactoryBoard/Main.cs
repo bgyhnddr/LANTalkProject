@@ -11,16 +11,6 @@ namespace FactoryBoard
 {
     public partial class Main : Form
     {
-
-        public const string DEPARTMENT_STRING = "department";
-        public const string ASS_STRING = "ASS";
-        public const string WH_STRING = "WH";
-        public const string eWH_STRING = "eWH";
-        public const string IJ_STRING = "IJ";
-        public const string SMT_STRING = "SMT";
-        public const string SSP_STRING = "SSP";
-
-
         public static List<Department> _department;
 
         public Main()
@@ -48,22 +38,22 @@ namespace FactoryBoard
         private void SaveConfig(string department)
         {
             var table = new DataTable();
-            table.Columns.Add(DEPARTMENT_STRING, typeof(string));
-            table.Columns.Add(ASS_STRING, typeof(string));
-            table.Columns.Add(WH_STRING, typeof(string));
-            table.Columns.Add(eWH_STRING, typeof(string));
-            table.Columns.Add(IJ_STRING, typeof(string));
-            table.Columns.Add(SMT_STRING, typeof(string));
-            table.Columns.Add(SSP_STRING, typeof(string));
+            table.Columns.Add(Global.DEPARTMENT_STRING, typeof(string));
+            table.Columns.Add(Global.ASS_STRING, typeof(string));
+            table.Columns.Add(Global.WH_STRING, typeof(string));
+            table.Columns.Add(Global.eWH_STRING, typeof(string));
+            table.Columns.Add(Global.IJ_STRING, typeof(string));
+            table.Columns.Add(Global.SMT_STRING, typeof(string));
+            table.Columns.Add(Global.SSP_STRING, typeof(string));
 
             var row = table.NewRow();
-            row[DEPARTMENT_STRING] = department;
-            row[ASS_STRING] = tbASSIP.Text;
-            row[WH_STRING] = tbWHIP.Text;
-            row[eWH_STRING] = tbeWHIP.Text;
-            row[IJ_STRING] = tbIJIP.Text;
-            row[SMT_STRING] = tbSMTIP.Text;
-            row[SSP_STRING] = tbSSPIP.Text;
+            row[Global.DEPARTMENT_STRING] = department;
+            row[Global.ASS_STRING] = tbASSIP.Text;
+            row[Global.WH_STRING] = tbWHIP.Text;
+            row[Global.eWH_STRING] = tbeWHIP.Text;
+            row[Global.IJ_STRING] = tbIJIP.Text;
+            row[Global.SMT_STRING] = tbSMTIP.Text;
+            row[Global.SSP_STRING] = tbSSPIP.Text;
 
             table.Rows.Add(row);
 
@@ -80,11 +70,20 @@ namespace FactoryBoard
             DataTable config = Global.LoadConfig();
             if (config != null)
             {
-                switch (config.Rows[0][DEPARTMENT_STRING].ToString())
+                tbASSIP.Text = config.Rows[0][Global.ASS_STRING].ToString();
+                tbWHIP.Text = config.Rows[0][Global.WH_STRING].ToString();
+                tbeWHIP.Text = config.Rows[0][Global.eWH_STRING].ToString();
+                tbIJIP.Text = config.Rows[0][Global.IJ_STRING].ToString();
+                tbSMTIP.Text = config.Rows[0][Global.SMT_STRING].ToString();
+                tbSSPIP.Text = config.Rows[0][Global.SSP_STRING].ToString();
+
+
+                switch (config.Rows[0][Global.DEPARTMENT_STRING].ToString())
                 {
                     case Global.ASS:
                         var form = new ASS(this);
                         form.Show();
+                        this.Hide();
                         break;
                 }
             }

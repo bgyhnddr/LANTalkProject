@@ -21,14 +21,14 @@ namespace FactoryBoard
         public string IP;
         public string Name;
         public bool Online;
-        public List<DataTable> OrderList;
+        public DataTable OrderList;
 
-        public Department(string ip, string name, bool online)
+        public Department(string ip, string name, bool online,DataTable table)
         {
             IP = ip;
             Name = name;
             Online = online;
-            OrderList = new List<DataTable>();
+            OrderList = table;
         }
     }
 
@@ -43,6 +43,19 @@ namespace FactoryBoard
         public const string SSP = "SSP";
         public const string Normal = "正常";
         public const string UnNormal = "异常";
+        public const string UnKnown = "未知";
+        public const string Receive = "收到";
+        public const string Wait = "等待";
+
+
+
+        public const string DEPARTMENT_STRING = "department";
+        public const string ASS_STRING = "ASS";
+        public const string WH_STRING = "WH";
+        public const string eWH_STRING = "eWH";
+        public const string IJ_STRING = "IJ";
+        public const string SMT_STRING = "SMT";
+        public const string SSP_STRING = "SSP";
 
         Global()
         {

@@ -16,6 +16,7 @@ namespace FactoryBoard
     {
         public static DataTable MainTable;
         public static List<Department> DepartmentList;
+        public static string CurrentOrder;
         public Main MainPage;
         private bool Return;
 
@@ -36,6 +37,9 @@ namespace FactoryBoard
         private void Init()
         {
             InitMainTable();
+            InitDepartment();
+            RefreshOrderList();
+            RefreshOrderButton();
             lbTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             path += "\\LANTalk\\SaveFile";
@@ -50,6 +54,23 @@ namespace FactoryBoard
         {
             DepartmentList = new List<Department>();
 
+            var table = new DataTable();
+            table.Columns.Add("Line", typeof(string));
+            table.Columns.Add("Model", typeof(string));
+            table.Columns.Add("IPN", typeof(string));
+            table.Columns.Add("MOA", typeof(string));
+            table.Columns.Add("P/N", typeof(string));
+            table.Columns.Add("Requset_Qtr", typeof(string));
+            table.Columns.Add("Request_Time", typeof(string));
+            table.Columns.Add("Remarks", typeof(string));
+
+            var config = Global.LoadConfig();
+
+            DepartmentList.Add(new Department(config.Rows[0][Global.IJ_STRING].ToString(), Global.IJ, false,table.Clone()));
+            DepartmentList.Add(new Department(config.Rows[0][Global.WH_STRING].ToString(), Global.WH, false, table.Clone()));
+            DepartmentList.Add(new Department(config.Rows[0][Global.eWH_STRING].ToString(), Global.eWH, false, table.Clone()));
+            DepartmentList.Add(new Department(config.Rows[0][Global.SMT_STRING].ToString(), Global.SMT, false, table.Clone()));
+            DepartmentList.Add(new Department(config.Rows[0][Global.SSP_STRING].ToString(), Global.SSP, false, table.Clone()));
 
         }
 
@@ -205,7 +226,23 @@ namespace FactoryBoard
             lbTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
+        private void RefreshOrderButton()
+        {
+            btnIJ.BackColor = btnIJ.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+            btnWH.BackColor = btnWH.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+            btneWH.BackColor = btneWH.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+            btnSMT.BackColor = btnSMT.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+            btnSSP.BackColor = btnSSP.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+        }
+
         private void btnIJ_Click(object sender, EventArgs e)
+        {
+            CurrentOrder = Global.IJ;
+            RefreshOrderButton();
+            RefreshOrderList();
+        }
+        
+        private void btnWH_Click(object sender, EventArgs e)
         {
 
         }
@@ -215,6 +252,97 @@ namespace FactoryBoard
             Return = true;
             MainPage.Show();
             this.Close();
+        }
+
+        private void btnOrder_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dglOrder_DataSourceChanged(object sender, EventArgs e)
+        {
+            if (dglOrder.Rows.Count > 0)
+            {
+                int row = dglOrder.Rows.Count;//得到总行数    
+                int cell = dglOrder.Rows[0].Cells.Count;//得到总列数    
+                for (int i = 0; i < row; i++)//得到总行数并在之内循环    
+                {
+                    for (int j = 7; j < cell; j++)//得到总列数并在之内循环    
+                    {
+                        if (dglOrder.Rows[i].Cells[j].Value != null)
+                        {
+                            if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.UnKnown)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Gray;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Wait)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.Receive)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < this.dglOrder.Columns.Count; i++)
+                {
+                    this.dglOrder.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+            }
+        }
+
+
+        private void RefreshOrderList()
+        {
+            var temp = from row in DepartmentList
+                       where row.Name == CurrentOrder
+                       select row;
+            if (temp.Count() == 0)
+            {
+                dglOrder.Hide();
+                return;
+            }
+
+            var department = temp.First();
+
+            dglOrder.DataSource = department.OrderList.Copy();
+            dglOrder.Show();
+        }
+
+        private void btnAddOrder_Click(object sender, EventArgs e)
+        {
+            var temp = from row in DepartmentList
+                       where row.Name == CurrentOrder
+                       select row;
+            if (temp.Count() == 0)
+            {
+                return;
+            }
+            var form = new ASSOrder();
+            form.ShowDialog();
+            RefreshOrderList();
+        }
+
+        private void btnDeleteOrder_Click(object sender, EventArgs e)
+        {
+            var temp = from row in DepartmentList
+                       where row.Name == CurrentOrder
+                       select row;
+            if (temp.Count() == 0)
+            {
+                return;
+            }
+
+            if (MessageBox.Show("确定删除?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                temp.First().OrderList.Rows.RemoveAt(dglOrder.CurrentCell.RowIndex);
+            }
+            RefreshOrderList();
         }
     }
 }
