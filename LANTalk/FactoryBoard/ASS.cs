@@ -42,7 +42,7 @@ namespace FactoryBoard
             RefreshOrderButton();
             lbTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            path += "\\LANTalk\\SaveFile";
+            path += "\\LANTalk\\SaveFile\\ASS";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -76,8 +76,6 @@ namespace FactoryBoard
 
         private void InitMainTable()
         {
-            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            path += "\\LANTalk\\SaveFile\\current.csv";
             LoadCurrentFile();
 
 
@@ -155,7 +153,7 @@ namespace FactoryBoard
         {
             try
             {
-                Global.SaveFile(ASS.MainTable);
+                Global.SaveFile(ASS.MainTable, Global.ASS_STRING);
                 MessageBox.Show("保存成功");
             }
             catch(Exception ex)
@@ -198,7 +196,7 @@ namespace FactoryBoard
         private void LoadCurrentFile()
         {
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            path += "\\LANTalk\\SaveFile\\current.csv";
+            path += "\\LANTalk\\SaveFile\\ASS\\current.csv";
             if (File.Exists(path))
             {
                 MainTable = CSVHelper.ReadCSVToTable(path);

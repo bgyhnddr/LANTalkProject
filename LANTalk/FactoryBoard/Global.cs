@@ -127,18 +127,10 @@ namespace FactoryBoard
             File.WriteAllText(path, CSVHelper.MakeCSV(table), Encoding.GetEncoding("GB2312"));
         }
 
-        public static bool FileExists(string fileName)
+        public static void SaveFile(DataTable table, string currentDept)
         {
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            path += "\\LANTalk\\SaveFile";
-            path += "\\" + fileName;
-            return File.Exists(path);
-        }
-
-        public static void SaveFile(DataTable table)
-        {
-            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            path += "\\LANTalk\\SaveFile";
+            path += "\\LANTalk\\SaveFile\\" + currentDept;
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

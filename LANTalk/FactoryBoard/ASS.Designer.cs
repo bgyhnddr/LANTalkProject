@@ -36,7 +36,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabMain = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tagMain = new System.Windows.Forms.TabPage();
             this.btnSetting = new System.Windows.Forms.Button();
             this.lbTime = new System.Windows.Forms.Label();
             this.lbASSTitle = new System.Windows.Forms.Label();
@@ -49,7 +49,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.dglMain = new System.Windows.Forms.DataGridView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tagOrder = new System.Windows.Forms.TabPage();
             this.btnDeleteOrder = new System.Windows.Forms.Button();
             this.btnAddOrder = new System.Windows.Forms.Button();
             this.btnOrder = new System.Windows.Forms.Button();
@@ -64,10 +64,10 @@
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.tTime = new System.Windows.Forms.Timer(this.components);
             this.tabMain.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tagMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dglMain)).BeginInit();
-            this.tabPage2.SuspendLayout();
+            this.tagOrder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dglOrder)).BeginInit();
             this.SuspendLayout();
@@ -75,8 +75,8 @@
             // tabMain
             // 
             this.tabMain.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-            this.tabMain.Controls.Add(this.tabPage1);
-            this.tabMain.Controls.Add(this.tabPage2);
+            this.tabMain.Controls.Add(this.tagMain);
+            this.tabMain.Controls.Add(this.tagOrder);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Margin = new System.Windows.Forms.Padding(0);
@@ -86,27 +86,27 @@
             this.tabMain.Size = new System.Drawing.Size(949, 456);
             this.tabMain.TabIndex = 1;
             // 
-            // tabPage1
+            // tagMain
             // 
-            this.tabPage1.Controls.Add(this.btnSetting);
-            this.tabPage1.Controls.Add(this.lbTime);
-            this.tabPage1.Controls.Add(this.lbASSTitle);
-            this.tabPage1.Controls.Add(this.pictureBox1);
-            this.tabPage1.Controls.Add(this.btnOpenFile);
-            this.tabPage1.Controls.Add(this.btnDelete);
-            this.tabPage1.Controls.Add(this.btnRevert);
-            this.tabPage1.Controls.Add(this.btnSave);
-            this.tabPage1.Controls.Add(this.btnEdit);
-            this.tabPage1.Controls.Add(this.btnAdd);
-            this.tabPage1.Controls.Add(this.btnPrint);
-            this.tabPage1.Controls.Add(this.dglMain);
-            this.tabPage1.Location = new System.Drawing.Point(4, 4);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(941, 430);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "生产线";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tagMain.Controls.Add(this.btnSetting);
+            this.tagMain.Controls.Add(this.lbTime);
+            this.tagMain.Controls.Add(this.lbASSTitle);
+            this.tagMain.Controls.Add(this.pictureBox1);
+            this.tagMain.Controls.Add(this.btnOpenFile);
+            this.tagMain.Controls.Add(this.btnDelete);
+            this.tagMain.Controls.Add(this.btnRevert);
+            this.tagMain.Controls.Add(this.btnSave);
+            this.tagMain.Controls.Add(this.btnEdit);
+            this.tagMain.Controls.Add(this.btnAdd);
+            this.tagMain.Controls.Add(this.btnPrint);
+            this.tagMain.Controls.Add(this.dglMain);
+            this.tagMain.Location = new System.Drawing.Point(4, 4);
+            this.tagMain.Name = "tagMain";
+            this.tagMain.Padding = new System.Windows.Forms.Padding(3);
+            this.tagMain.Size = new System.Drawing.Size(941, 430);
+            this.tagMain.TabIndex = 0;
+            this.tagMain.Text = "生产线";
+            this.tagMain.UseVisualStyleBackColor = true;
             // 
             // btnSetting
             // 
@@ -264,26 +264,26 @@
             this.dglMain.DataSourceChanged += new System.EventHandler(this.dglMain_DataSourceChanged);
             this.dglMain.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dglMain_CellMouseDoubleClick);
             // 
-            // tabPage2
+            // tagOrder
             // 
-            this.tabPage2.Controls.Add(this.btnDeleteOrder);
-            this.tabPage2.Controls.Add(this.btnAddOrder);
-            this.tabPage2.Controls.Add(this.btnOrder);
-            this.tabPage2.Controls.Add(this.label1);
-            this.tabPage2.Controls.Add(this.pictureBox2);
-            this.tabPage2.Controls.Add(this.dglOrder);
-            this.tabPage2.Controls.Add(this.btnIJ);
-            this.tabPage2.Controls.Add(this.btnSSP);
-            this.tabPage2.Controls.Add(this.btnSMT);
-            this.tabPage2.Controls.Add(this.btneWH);
-            this.tabPage2.Controls.Add(this.btnWH);
-            this.tabPage2.Location = new System.Drawing.Point(4, 4);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(941, 430);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "要料";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tagOrder.Controls.Add(this.btnDeleteOrder);
+            this.tagOrder.Controls.Add(this.btnAddOrder);
+            this.tagOrder.Controls.Add(this.btnOrder);
+            this.tagOrder.Controls.Add(this.label1);
+            this.tagOrder.Controls.Add(this.pictureBox2);
+            this.tagOrder.Controls.Add(this.dglOrder);
+            this.tagOrder.Controls.Add(this.btnIJ);
+            this.tagOrder.Controls.Add(this.btnSSP);
+            this.tagOrder.Controls.Add(this.btnSMT);
+            this.tagOrder.Controls.Add(this.btneWH);
+            this.tagOrder.Controls.Add(this.btnWH);
+            this.tagOrder.Location = new System.Drawing.Point(4, 4);
+            this.tagOrder.Name = "tagOrder";
+            this.tagOrder.Padding = new System.Windows.Forms.Padding(3);
+            this.tagOrder.Size = new System.Drawing.Size(941, 430);
+            this.tagOrder.TabIndex = 1;
+            this.tagOrder.Text = "要料";
+            this.tagOrder.UseVisualStyleBackColor = true;
             // 
             // btnDeleteOrder
             // 
@@ -461,12 +461,12 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ASS_FormClosed);
             this.Load += new System.EventHandler(this.ASS_Load);
             this.tabMain.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tagMain.ResumeLayout(false);
+            this.tagMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dglMain)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tagOrder.ResumeLayout(false);
+            this.tagOrder.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dglOrder)).EndInit();
             this.ResumeLayout(false);
@@ -476,10 +476,10 @@
         #endregion
 
         private System.Windows.Forms.TabControl tabMain;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tagMain;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.DataGridView dglMain;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tagOrder;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnRevert;
