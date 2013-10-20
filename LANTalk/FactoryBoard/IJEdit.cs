@@ -21,17 +21,17 @@ namespace FactoryBoard
             if (rowIndex >= 0)
             {
                 ADD = false;
-                tbMachine.ReadOnly = true;
-                LoadData(ASS.MainTable.Rows[rowIndex]);
+                tbLine.ReadOnly = true;
+                LoadData(IJ.MainTable.Rows[rowIndex]);
             }
         }
 
         private void LoadData(DataRow row)
         {
 
-            tbMachine.Text = row["Machine"].ToString();
+            tbLine.Text = row["Line"].ToString();
             tbMould.Text = row["Mould"].ToString();
-            tbMaterial.Text = row["Material"].ToString();
+            tbMaterial.Text = row["Materialcol"].ToString();
             tbIPN.Text = row["IPN"].ToString();
             tbMOA.Text = row["MOA"].ToString();
             tbOrder_Qty.Text = row["Order_Qty"].ToString();
@@ -69,15 +69,15 @@ namespace FactoryBoard
         {
             if (ADD)
             {
-                if (ASS.MainTable.Select("Line = '" + tbMachine.Text + "'").Length > 0)
+                if (IJ.MainTable.Select("Line = '" + tbLine.Text + "'").Length > 0)
                 {
                     MessageBox.Show("该生产线已存在，无法新增。");
                     return;
                 }
-                var row = ASS.MainTable.NewRow();
-                row["Machine"] = tbMachine.Text;
+                var row = IJ.MainTable.NewRow();
+                row["Line"] = tbLine.Text;
                 row["Mould"] = tbMould.Text;
-                row["Material"] = tbMaterial.Text;
+                row["Materialcol"] = tbMaterial.Text;
                 row["IPN"] = tbIPN.Text;
                 row["MOA"] = tbMOA.Text;
                 row["Order_Qty"] = tbOrder_Qty.Text;
@@ -89,14 +89,14 @@ namespace FactoryBoard
                 row["Material"] = btnMaterial.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
                 row["Method"] = btnMethod.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
 
-                ASS.MainTable.Rows.Add(row);
+                IJ.MainTable.Rows.Add(row);
             }
             else
             {
-                var row = ASS.MainTable.Select("Line = '" + tbMachine.Text + "'").First();
-                row["Machine"] = tbMachine.Text;
+                var row = IJ.MainTable.Select("Line = '" + tbLine.Text + "'").First();
+                row["Line"] = tbLine.Text;
                 row["Mould"] = tbMould.Text;
-                row["Material"] = tbMaterial.Text;
+                row["Materialcol"] = tbMaterial.Text;
                 row["IPN"] = tbIPN.Text;
                 row["MOA"] = tbMOA.Text;
                 row["Order_Qty"] = tbOrder_Qty.Text;

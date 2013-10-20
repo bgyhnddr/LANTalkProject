@@ -49,6 +49,8 @@
             this.btnWH = new System.Windows.Forms.Button();
             this.btnSMT = new System.Windows.Forms.Button();
             this.gIPSet = new System.Windows.Forms.GroupBox();
+            this.lbPort = new System.Windows.Forms.Label();
+            this.tbPort = new System.Windows.Forms.TextBox();
             this.gIPSet.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -181,6 +183,7 @@
             this.btnIJ.TabIndex = 15;
             this.btnIJ.Text = "IJ";
             this.btnIJ.UseVisualStyleBackColor = true;
+            this.btnIJ.Click += new System.EventHandler(this.btnIJ_Click);
             // 
             // btnSSP
             // 
@@ -211,6 +214,8 @@
             // 
             // gIPSet
             // 
+            this.gIPSet.Controls.Add(this.lbPort);
+            this.gIPSet.Controls.Add(this.tbPort);
             this.gIPSet.Controls.Add(this.tbASSIP);
             this.gIPSet.Controls.Add(this.lbASS);
             this.gIPSet.Controls.Add(this.lbIJ);
@@ -225,10 +230,27 @@
             this.gIPSet.Controls.Add(this.tbSSPIP);
             this.gIPSet.Location = new System.Drawing.Point(12, 12);
             this.gIPSet.Name = "gIPSet";
-            this.gIPSet.Size = new System.Drawing.Size(200, 207);
+            this.gIPSet.Size = new System.Drawing.Size(200, 241);
             this.gIPSet.TabIndex = 19;
             this.gIPSet.TabStop = false;
             this.gIPSet.Text = "IP配置";
+            // 
+            // lbPort
+            // 
+            this.lbPort.AutoSize = true;
+            this.lbPort.Location = new System.Drawing.Point(20, 196);
+            this.lbPort.Name = "lbPort";
+            this.lbPort.Size = new System.Drawing.Size(29, 12);
+            this.lbPort.TabIndex = 13;
+            this.lbPort.Text = "Port";
+            // 
+            // tbPort
+            // 
+            this.tbPort.Location = new System.Drawing.Point(67, 193);
+            this.tbPort.Name = "tbPort";
+            this.tbPort.Size = new System.Drawing.Size(114, 21);
+            this.tbPort.TabIndex = 14;
+            this.tbPort.Text = "8123";
             // 
             // Main
             // 
@@ -278,6 +300,8 @@
         private System.Windows.Forms.Button btnWH;
         private System.Windows.Forms.Button btnSMT;
         private System.Windows.Forms.GroupBox gIPSet;
+        private System.Windows.Forms.Label lbPort;
+        private System.Windows.Forms.TextBox tbPort;
     }
 }
 

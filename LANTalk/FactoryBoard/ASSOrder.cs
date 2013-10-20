@@ -25,13 +25,9 @@ namespace FactoryBoard
         private void btnConfirm_Click(object sender, EventArgs e)
         {
 
-            var temp = from row in ASS.DepartmentList
-                       where row.Name == ASS.CurrentOrder
-                       select row;
-            if (temp.Count() > 0)
+            var department = ASS.GetCurrentDepartment();
+            if (department!=null)
             {
-
-                var department = temp.First();
                 var row = department.OrderList.NewRow();
                 row["Line"] = tbLine.Text;
                 row["Model"] = tbModel.Text;

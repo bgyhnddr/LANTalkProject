@@ -6,6 +6,7 @@ using System.Management;
 using System.IO;
 using System.Data;
 using LANTalk.Core;
+using System.Net.Sockets;
 
 namespace FactoryBoard
 {
@@ -22,6 +23,7 @@ namespace FactoryBoard
         public string Name;
         public bool Online;
         public DataTable OrderList;
+        public Socket Socketor;
 
         public Department(string ip, string name, bool online,DataTable table)
         {
@@ -47,6 +49,8 @@ namespace FactoryBoard
         public const string Receive = "收到";
         public const string Wait = "等待";
 
+        public static string ErrorMessage;
+
 
 
         public const string DEPARTMENT_STRING = "department";
@@ -56,6 +60,7 @@ namespace FactoryBoard
         public const string IJ_STRING = "IJ";
         public const string SMT_STRING = "SMT";
         public const string SSP_STRING = "SSP";
+        public const string PORT_STRING = "Port";
 
         Global()
         {

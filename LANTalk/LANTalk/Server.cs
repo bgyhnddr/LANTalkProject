@@ -126,9 +126,10 @@ namespace LANTalk
             return returnString;
         }
 
-        private void SocketAcceptCallback(IPAddress ip)
+        private void SocketAcceptCallback(Socket socketor)
         {
-            var User = new OnlineUser(ip.ToString());
+            var ip = ((IPEndPoint)socketor.RemoteEndPoint).Address.ToString();
+            var User = new OnlineUser(ip);
             lock (Global.OnLineUserList)
             {
                 Global.OnLineUserList.Add(User);
@@ -138,8 +139,10 @@ namespace LANTalk
             tbInfo.Text = _message.ToString();
         }
 
-        private void SocketLostCallback(IPAddress ip)
+        private void SocketLostCallback(Socket socketor)
         {
+            var ip = ((IPEndPoint)socketor.RemoteEndPoint).Address.ToString();
+
             lock (Global.OnLineUserList)
             {
                 var temp = from row in Global.OnLineUserList

@@ -11,13 +11,13 @@ namespace LANTalk.Core
     public class Server
     {
         private Socket _socket;
-        private IPAddress _ip;
+        public IPAddress _ip;
         private int _port;
         
-        public delegate void SocketAcceptCallback(IPAddress ip);
+        public delegate void SocketAcceptCallback(Socket socketor);
         public delegate void ReceiveCallback(IPAddress ip, string content);
         public delegate string SendBefore(IPAddress ip);
-        public delegate void SocketLostCallback(IPAddress ip);
+        public delegate void SocketLostCallback(Socket socketor);
         public delegate void ListenCallback();
         public delegate void ListenErrorCallback(Exception ex);
 
@@ -45,6 +45,11 @@ namespace LANTalk.Core
             listenThread.Start();
         }
 
+        public void StopServer()
+        {
+            _socket.Close();
+        }
+
         private void Listen()
         {
             try
@@ -69,8 +74,7 @@ namespace LANTalk.Core
                     //为新建连接创建新的Socket。
                     if (_socketaccpetcallback != null)
                     {
-                        IPEndPoint clientipe = (IPEndPoint)temp.RemoteEndPoint;
-                        _socketaccpetcallback(clientipe.Address);
+                        _socketaccpetcallback(temp);
                     }
 
                     var parStart = new ParameterizedThreadStart(Recieve);
@@ -125,7 +129,7 @@ namespace LANTalk.Core
                 {
                     if (_socketLostCallback != null)
                     {
-                        _socketLostCallback(clientipe.Address);
+                        _socketLostCallback(newSocket);
                     }
 
                     newSocket.Close();
@@ -162,6 +166,36 @@ namespace LANTalk.Core
             catch (Exception ex)
             {
             }
+        }
+
+        public void CustomSend(Socket socket, string content)
+        {
+            var parStart = new ParameterizedThreadStart(SendContent);
+            var recieveThread = new Thread(parStart);
+            recieveThread.IsBackground = true;
+            var temp = new List<object>();
+
+            object o = temp;
+            recieveThread.Start(o);
+        }
+
+        private void SendContent(object o)
+        {
+            var par = (List<object>)o;
+            var socket = (Socket)par[0];
+            var content = (string)par[1];
+                
+            if (socket.Connected)
+            {
+                return;
+            }
+            var tempg = Encoding.UTF8.GetBytes(content);
+            var temp = BitConverter.GetBytes(tempg.Length);
+            var sendlist = new List<byte>();
+
+            sendlist.AddRange(temp);
+            sendlist.AddRange(tempg);
+            socket.Send(sendlist.ToArray());
         }
     }
 }

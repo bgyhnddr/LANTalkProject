@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using DLLFullPrint;
 using LANTalk.Core;
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
 
 namespace FactoryBoard
 {
@@ -19,6 +21,7 @@ namespace FactoryBoard
         public static string CurrentOrder;
         public Main MainPage;
         private bool Return;
+        private LANTalk.Core.Server _server;
 
         public ASS(Main mainpage)
         {
@@ -29,9 +32,166 @@ namespace FactoryBoard
         
         private void ASS_Load(object sender, EventArgs e)
         {
+            Control.CheckForIllegalCrossThreadCalls = false;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
             Init();
+            StartServer();
+        }
+
+        private void StartServer()
+        {
+            try
+            {
+                _server = new LANTalk.Core.Server();
+
+                var config = Global.LoadConfig();
+
+
+                _server.StartServer(
+                    IPAddress.Parse(config.Rows[0][Global.ASS_STRING].ToString()),
+                    int.Parse(config.Rows[0][Global.PORT_STRING].ToString()),
+                    SocketAcceptCallback,
+                    SocketLostCallback,
+                    ListenErrorCallback,
+                    ReceiveCallback,
+                    null,
+                    null
+                    );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("启动服务失败：" + ex.Message, "错误");
+                ReturnTitle();
+            }
+        }
+
+        public static Department GetCurrentDepartment()
+        {
+            var temp = from row in DepartmentList
+                           where row.Name == CurrentOrder
+                           select row;
+            if (temp.Count() > 0)
+            {
+                var department = temp.First();
+                return department;
+            }
+            return null;
+        }
+
+        private void SocketAcceptCallback(Socket socketor)
+        {
+            DepartmentOnline(socketor);
+        }
+
+        private void DepartmentOnline(Socket socketor)
+        {
+            lock (DepartmentList)
+            {
+                var temp = from row in DepartmentList
+                           where row.IP == ((IPEndPoint)socketor.RemoteEndPoint).Address.ToString()
+                           select row;
+                if (temp.Count()>0)
+                {
+                    var department = temp.First();
+                    department.Online = true;
+                    department.Socketor = socketor;
+                    switch (department.Name)
+                    {
+                        case Global.IJ:
+                            btnIJ.Enabled = true;
+                            RefreshOrderButton();
+                            RefreshOrderList();
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void SocketLostCallback(Socket socketor)
+        {
+            DepartmentOffline(socketor);
+        }
+
+        private void DepartmentOffline(Socket socketor)
+        {
+            lock (DepartmentList)
+            {
+                var temp = from row in DepartmentList
+                           where row.IP == ((IPEndPoint)socketor.RemoteEndPoint).Address.ToString()
+                           select row;
+                if (temp.Count()>0)
+                {
+                    var department = temp.First();
+                    department.Online = false;
+                    department.Socketor = null;
+                    switch (department.Name)
+                    {
+                        case Global.IJ:
+                            btnIJ.Enabled = false;
+                            if (CurrentOrder == Global.IJ)
+                            {
+                                CurrentOrder = string.Empty;
+                            }
+                            RefreshOrderButton();
+                            RefreshOrderList();
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void ListenErrorCallback(Exception ex)
+        {
+            if (MessageBox.Show(this, "详细：" + ex.Message, "服务异常", MessageBoxButtons.RetryCancel) == DialogResult.Retry)
+            {
+                StartServer();
+            }
+            else
+            {
+                ReturnTitle();
+            }
+        }
+
+        private void ReceiveCallback(IPAddress ip, string content)
+        {
+            try
+            {
+                lock (DepartmentList)
+                {
+                    var temp = from row in DepartmentList
+                               where row.IP == ip.ToString()
+                               select row;
+                    if (temp.Count()>0)
+                    {
+                        var department = temp.First();
+                        var contents = content.Split(' ');
+                        var mode = contents[0];
+                        var fromip = contents[1];
+                        var toip = contents[0];
+                        var message = string.Empty;
+                        var messageindex = content.IndexOf(contents[3]) + contents[3].Length;
+                        if (messageindex < content.Length)
+                        {
+                            message = content.Substring(messageindex + 1);
+                        }
+
+                        switch ((Mode)Enum.Parse(typeof(Mode), mode))
+                        {
+                            case Mode.SendOrder:
+                                if (toip == ((IPEndPoint)department.Socketor.LocalEndPoint).Address.ToString())
+                                {
+                                    department.OrderList = CSVHelper.ReadTable(message);
+                                    RefreshOrderList();
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
         }
 
         private void Init()
@@ -82,8 +242,7 @@ namespace FactoryBoard
 
             dglMain.DataSource = MainTable.Copy();
         }
-
-
+        
         private void btnPrint_Click(object sender, EventArgs e)
         {
             DataSet dy = new DataSet();
@@ -97,6 +256,7 @@ namespace FactoryBoard
             {
                 Application.Exit();
             }
+            MainPage.Focus();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -182,8 +342,11 @@ namespace FactoryBoard
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
             ofdOpenFile.ShowDialog();
-            MainTable = CSVHelper.ReadCSVToTable(ofdOpenFile.FileName);
-            dglMain.DataSource = MainTable.Copy();
+            if (!string.IsNullOrWhiteSpace(ofdOpenFile.FileName))
+            {
+                MainTable = CSVHelper.ReadCSVToTable(ofdOpenFile.FileName);
+                dglMain.DataSource = MainTable.Copy();
+            }
         }
 
         private void btnRevert_Click(object sender, EventArgs e)
@@ -247,6 +410,12 @@ namespace FactoryBoard
 
         private void btnSetting_Click(object sender, EventArgs e)
         {
+            ReturnTitle();
+        }
+
+        private void ReturnTitle()
+        {
+            _server.StopServer();
             Return = true;
             MainPage.Show();
             this.Close();
@@ -254,7 +423,20 @@ namespace FactoryBoard
 
         private void btnOrder_Click(object sender, EventArgs e)
         {
+            SendOrder();
+        }
 
+        private void SendOrder()
+        {
+            var department = GetCurrentDepartment();
+            if (department != null)
+            {
+                var content = Mode.SendOrder.ToString();
+                content += " " + _server._ip.ToString();
+                content += " " + department.IP;
+                content += " " + CSVHelper.MakeCSV(department.OrderList);
+                _server.CustomSend(department.Socketor, CSVHelper.MakeCSV(department.OrderList));
+            }
         }
 
         private void dglOrder_DataSourceChanged(object sender, EventArgs e)
@@ -297,16 +479,13 @@ namespace FactoryBoard
 
         private void RefreshOrderList()
         {
-            var temp = from row in DepartmentList
-                       where row.Name == CurrentOrder
-                       select row;
-            if (temp.Count() == 0)
+            var department = GetCurrentDepartment();
+            if (department == null)
             {
                 dglOrder.Hide();
                 return;
             }
 
-            var department = temp.First();
 
             dglOrder.DataSource = department.OrderList.Copy();
             dglOrder.Show();
@@ -314,10 +493,8 @@ namespace FactoryBoard
 
         private void btnAddOrder_Click(object sender, EventArgs e)
         {
-            var temp = from row in DepartmentList
-                       where row.Name == CurrentOrder
-                       select row;
-            if (temp.Count() == 0)
+            var department = GetCurrentDepartment();
+            if (department == null)
             {
                 return;
             }
@@ -328,19 +505,22 @@ namespace FactoryBoard
 
         private void btnDeleteOrder_Click(object sender, EventArgs e)
         {
-            var temp = from row in DepartmentList
-                       where row.Name == CurrentOrder
-                       select row;
-            if (temp.Count() == 0)
+            var department = GetCurrentDepartment();
+            if (department == null)
             {
                 return;
             }
 
             if (MessageBox.Show("确定删除?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                temp.First().OrderList.Rows.RemoveAt(dglOrder.CurrentCell.RowIndex);
+                department.OrderList.Rows.RemoveAt(dglOrder.CurrentCell.RowIndex);
             }
             RefreshOrderList();
+        }
+
+        private void ASS_Shown(object sender, EventArgs e)
+        {
+            StartServer();
         }
     }
 }

@@ -50,28 +50,35 @@ namespace LANTalk.Core
         {
             var temp = ReadCSV(file, encoding);
 
+            var table = ReadListToTable(temp, isEmpty);
+            return table;
+        }
+
+        public static DataTable ReadListToTable(List<List<string>> list, bool isEmpty = false)
+        {
             var table = new DataTable();
-            for (var i = 0; i < temp[0].Count; i++)
+            for (var i = 0; i < list[0].Count; i++)
             {
-                table.Columns.Add(temp[0][i].ToString(), typeof(string));
+                table.Columns.Add(list[0][i].ToString(), typeof(string));
             }
 
             if (isEmpty)
             {
                 return table;
             }
-            for (var i = 1; i < temp.Count; i++)
+            for (var i = 1; i < list.Count; i++)
             {
                 var row = table.NewRow();
 
-                for(var j=0;j<table.Columns.Count;j++)
+                for (var j = 0; j < table.Columns.Count; j++)
                 {
-                    row[j] = temp[i][j];
+                    row[j] = list[i][j];
                 }
                 table.Rows.Add(row);
             }
             return table;
         }
+
         /// <summary>
         /// 读取CSV格式文件
         /// </summary>
@@ -177,6 +184,122 @@ namespace LANTalk.Core
                 }
             }
             return result;
+        }
+
+        /// <summary>
+        /// 将字符串转成CSV列表
+        /// </summary>
+        /// <param name="text">字符串</param>
+        /// <returns>table</returns>
+        public static List<List<string>> ReadCSV(string text)
+        {
+            var result = new List<List<string>>();
+            var line = new List<string>();
+            var field = new StringBuilder();
+
+            //是否在双引号内
+            bool inQuata = false;
+
+            //字段是否开始
+            bool fieldStart = true;
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                char ch = text[i];
+
+                if (inQuata)
+                {
+                    //如果已经处于双引号范围内
+                    if (ch == '\"')
+                    {
+                        //如果是两个引号，则当成一个普通的引号处理
+                        if (i < text.Length - 1 && text[i + 1] == '\"')
+                        {
+                            field.Append('\"');
+                            i++;
+                        }
+                        else
+                            //否则退出引号范围
+                            inQuata = false;
+                    }
+                    else //双引号范围内的任何字符（除了双引号）都当成普通字符
+                    {
+                        field.Append(ch);
+                    }
+                }
+                else
+                {
+                    switch (ch)
+                    {
+                        case ',': //新的字段开始
+                            line.Add(field.ToString());
+                            field.Remove(0, field.Length);
+                            fieldStart = true;
+                            break;
+                        case '\"': //引号的处理
+                            if (fieldStart)
+                            {
+                                inQuata = true;
+                            }
+                            else
+                            {
+                                field.Append(ch);
+                            }
+                            break;
+                        case '\r': //新的记录行开始
+                            if (field.Length > 0 || fieldStart)
+                            {
+                                line.Add(field.ToString());
+                                field.Remove(0, field.Length);
+                            }
+                            result.Add(line);
+                            line = new List<string>();
+                            fieldStart = true;
+                            //在 window 环境下，\r\n通常是成对出现，所以要跳过
+                            if (i < text.Length - 1 && text[i + 1] == '\n')
+                            {
+                                i++;
+                            }
+                            break;
+                        default:
+                            fieldStart = false;
+                            field.Append(ch);
+                            break;
+                    }
+                }
+            }
+            //文件结束
+            if (field.Length > 0 || fieldStart)
+            {
+                line.Add(field.ToString());
+            }
+            if (result.Count > 0)
+            {
+                //列数相等，
+                if (line.Count == result[0].Count)
+                {
+                    result.Add(line);
+                }
+            }
+            else
+            {
+                if (line.Count > 0)
+                {
+                    result.Add(line);
+                }
+            }
+            return result;
+        }
+
+        public static DataTable ReadTable(string text)
+        {
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                var list = ReadCSV(text);
+                return ReadListToTable(list);
+            }
+            return new DataTable();
+
         }
 
         /// <summary>

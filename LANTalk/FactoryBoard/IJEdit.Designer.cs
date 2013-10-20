@@ -35,7 +35,7 @@
             this.lbDaily_Plan = new System.Windows.Forms.Label();
             this.lbOrder_Qty = new System.Windows.Forms.Label();
             this.lbIPN = new System.Windows.Forms.Label();
-            this.lbMacnine = new System.Windows.Forms.Label();
+            this.lbLine = new System.Windows.Forms.Label();
             this.btnMethod = new System.Windows.Forms.Button();
             this.btnMaterial = new System.Windows.Forms.Button();
             this.btnMachine = new System.Windows.Forms.Button();
@@ -47,7 +47,7 @@
             this.tbDaily_Plan = new System.Windows.Forms.TextBox();
             this.tbOrder_Qty = new System.Windows.Forms.TextBox();
             this.tbIPN = new System.Windows.Forms.TextBox();
-            this.tbMachine = new System.Windows.Forms.TextBox();
+            this.tbLine = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.lbMaterial = new System.Windows.Forms.Label();
@@ -117,14 +117,14 @@
             this.lbIPN.TabIndex = 40;
             this.lbIPN.Text = "IPN";
             // 
-            // lbMacnine
+            // lbLine
             // 
-            this.lbMacnine.AutoSize = true;
-            this.lbMacnine.Location = new System.Drawing.Point(12, 9);
-            this.lbMacnine.Name = "lbMacnine";
-            this.lbMacnine.Size = new System.Drawing.Size(47, 12);
-            this.lbMacnine.TabIndex = 39;
-            this.lbMacnine.Text = "Machine";
+            this.lbLine.AutoSize = true;
+            this.lbLine.Location = new System.Drawing.Point(12, 9);
+            this.lbLine.Name = "lbLine";
+            this.lbLine.Size = new System.Drawing.Size(29, 12);
+            this.lbLine.TabIndex = 39;
+            this.lbLine.Text = "Line";
             // 
             // btnMethod
             // 
@@ -223,12 +223,12 @@
             this.tbIPN.Size = new System.Drawing.Size(107, 21);
             this.tbIPN.TabIndex = 28;
             // 
-            // tbMachine
+            // tbLine
             // 
-            this.tbMachine.Location = new System.Drawing.Point(83, 6);
-            this.tbMachine.Name = "tbMachine";
-            this.tbMachine.Size = new System.Drawing.Size(107, 21);
-            this.tbMachine.TabIndex = 27;
+            this.tbLine.Location = new System.Drawing.Point(83, 6);
+            this.tbLine.Name = "tbLine";
+            this.tbLine.Size = new System.Drawing.Size(107, 21);
+            this.tbLine.TabIndex = 27;
             // 
             // btnCancel
             // 
@@ -255,9 +255,9 @@
             this.lbMaterial.AutoSize = true;
             this.lbMaterial.Location = new System.Drawing.Point(12, 36);
             this.lbMaterial.Name = "lbMaterial";
-            this.lbMaterial.Size = new System.Drawing.Size(65, 12);
+            this.lbMaterial.Size = new System.Drawing.Size(53, 12);
             this.lbMaterial.TabIndex = 48;
-            this.lbMaterial.Text = "Daily_Plan";
+            this.lbMaterial.Text = "Material";
             // 
             // tbMaterial
             // 
@@ -280,7 +280,7 @@
             this.Controls.Add(this.lbDaily_Plan);
             this.Controls.Add(this.lbOrder_Qty);
             this.Controls.Add(this.lbIPN);
-            this.Controls.Add(this.lbMacnine);
+            this.Controls.Add(this.lbLine);
             this.Controls.Add(this.btnMethod);
             this.Controls.Add(this.btnMaterial);
             this.Controls.Add(this.btnMachine);
@@ -292,7 +292,7 @@
             this.Controls.Add(this.tbDaily_Plan);
             this.Controls.Add(this.tbOrder_Qty);
             this.Controls.Add(this.tbIPN);
-            this.Controls.Add(this.tbMachine);
+            this.Controls.Add(this.tbLine);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -315,7 +315,7 @@
         private System.Windows.Forms.Label lbDaily_Plan;
         private System.Windows.Forms.Label lbOrder_Qty;
         private System.Windows.Forms.Label lbIPN;
-        private System.Windows.Forms.Label lbMacnine;
+        private System.Windows.Forms.Label lbLine;
         private System.Windows.Forms.Button btnMethod;
         private System.Windows.Forms.Button btnMaterial;
         private System.Windows.Forms.Button btnMachine;
@@ -327,7 +327,7 @@
         private System.Windows.Forms.TextBox tbDaily_Plan;
         private System.Windows.Forms.TextBox tbOrder_Qty;
         private System.Windows.Forms.TextBox tbIPN;
-        private System.Windows.Forms.TextBox tbMachine;
+        private System.Windows.Forms.TextBox tbLine;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Label lbMaterial;
