@@ -47,7 +47,10 @@ namespace LANTalk.Core
 
         public void StopServer()
         {
-            _socket.Close();
+            if (_socket != null)
+            {
+                _socket.Close();
+            }
         }
 
         private void Listen()
@@ -131,9 +134,7 @@ namespace LANTalk.Core
                     {
                         _socketLostCallback(newSocket);
                     }
-
                     newSocket.Close();
-                    newSocket.Dispose();
                     break;
                 }
             }
@@ -160,7 +161,6 @@ namespace LANTalk.Core
                         sendByte.AddRange(sendContent);
                         newSocket.Send(sendByte.ToArray());
                     }
-                    Thread.Sleep(150);
                 }
             }
             catch (Exception ex)
@@ -174,8 +174,10 @@ namespace LANTalk.Core
             var recieveThread = new Thread(parStart);
             recieveThread.IsBackground = true;
             var temp = new List<object>();
-
+            temp.Add(socket);
+            temp.Add(content);
             object o = temp;
+            
             recieveThread.Start(o);
         }
 
@@ -184,18 +186,24 @@ namespace LANTalk.Core
             var par = (List<object>)o;
             var socket = (Socket)par[0];
             var content = (string)par[1];
-                
-            if (socket.Connected)
+            try
             {
-                return;
-            }
-            var tempg = Encoding.UTF8.GetBytes(content);
-            var temp = BitConverter.GetBytes(tempg.Length);
-            var sendlist = new List<byte>();
 
-            sendlist.AddRange(temp);
-            sendlist.AddRange(tempg);
-            socket.Send(sendlist.ToArray());
+                if (!socket.Connected)
+                {
+                    return;
+                }
+                var tempg = Encoding.UTF8.GetBytes(content);
+                var temp = BitConverter.GetBytes(tempg.Length);
+                var sendlist = new List<byte>();
+
+                sendlist.AddRange(temp);
+                sendlist.AddRange(tempg);
+                socket.Send(sendlist.ToArray());
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }

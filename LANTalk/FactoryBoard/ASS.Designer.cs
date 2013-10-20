@@ -377,6 +377,7 @@
             // btnIJ
             // 
             this.btnIJ.BackColor = System.Drawing.Color.Red;
+            this.btnIJ.Enabled = false;
             this.btnIJ.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnIJ.Location = new System.Drawing.Point(0, 72);
             this.btnIJ.Margin = new System.Windows.Forms.Padding(0);

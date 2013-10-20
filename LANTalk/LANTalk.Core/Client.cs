@@ -49,6 +49,16 @@ namespace LANTalk.Core
             listenThread.Start();
         }
 
+
+
+        public void DisConnect()
+        {
+            if (_socket != null)
+            {
+                _socket.Close();
+            }
+        }
+
         private void Connect()
         {
             try
@@ -120,7 +130,6 @@ namespace LANTalk.Core
                         sendByte.AddRange(sendContent);
                         _socket.Send(sendByte.ToArray());
                     }
-                    Thread.Sleep(1000);
                 }
             }
             catch (Exception ex)
@@ -152,6 +161,10 @@ namespace LANTalk.Core
             }
             catch (Exception ex)
             {
+                if (_errorCallback != null)
+                {
+                    _errorCallback(ex);
+                }
             }
         }
     }

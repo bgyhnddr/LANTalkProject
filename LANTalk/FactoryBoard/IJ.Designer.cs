@@ -50,13 +50,13 @@
             this.btnPrint = new System.Windows.Forms.Button();
             this.dglMain = new System.Windows.Forms.DataGridView();
             this.tagOffer = new System.Windows.Forms.TabPage();
+            this.btnConnect = new System.Windows.Forms.Button();
             this.btnOffer = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.dglOffer = new System.Windows.Forms.DataGridView();
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.tTime = new System.Windows.Forms.Timer(this.components);
-            this.btnConnect = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.tagMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -273,6 +273,16 @@
             this.tagOffer.Text = "供料";
             this.tagOffer.UseVisualStyleBackColor = true;
             // 
+            // btnConnect
+            // 
+            this.btnConnect.Location = new System.Drawing.Point(777, 65);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect.TabIndex = 13;
+            this.btnConnect.Text = "连接";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
             // btnOffer
             // 
             this.btnOffer.Enabled = false;
@@ -351,16 +361,6 @@
             // 
             this.tTime.Enabled = true;
             this.tTime.Interval = 1000;
-            // 
-            // btnConnect
-            // 
-            this.btnConnect.Location = new System.Drawing.Point(777, 65);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(75, 23);
-            this.btnConnect.TabIndex = 13;
-            this.btnConnect.Text = "连接";
-            this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // IJ
             // 
