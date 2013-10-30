@@ -17,7 +17,7 @@ namespace FactoryBoard
         {
             InitializeComponent();
 
-            btnMan.BackColor = btnMachine.BackColor = btnMaterial.BackColor = btnMethod.BackColor = Color.GreenYellow;
+            btnMan_Status.BackColor = btnMachine_Status.BackColor = btnMaterial_Status.BackColor = btnMethod_Status.BackColor = Color.GreenYellow;
 
 
             if (rowIndex >= 0)
@@ -36,35 +36,35 @@ namespace FactoryBoard
             tbIPN.Text = row["IPN"].ToString();
             tbMOA.Text = row["MOA"].ToString();
             tbOrder_Qty.Text = row["Order_Qty"].ToString();
-            tbStart_Time.Text = row["Start_Time"].ToString();
+            dtpStart_Time.Text = row["Start_Time"].ToString();
             tbDaily_Plan.Text = row["Daily_Plan"].ToString();
             tbActual_Output.Text = row["Actual_Output"].ToString();
 
-            btnMan.BackColor = row["Man"].ToString() == Global.Normal ? Color.GreenYellow : Color.Red;
-            btnMachine.BackColor = row["Machine"].ToString() == Global.Normal ? Color.GreenYellow : Color.Red;
-            btnMaterial.BackColor = row["Material"].ToString() == Global.Normal ? Color.GreenYellow : Color.Red;
-            btnMethod.BackColor = row["Method"].ToString() == Global.Normal ? Color.GreenYellow : Color.Red;
+            btnMan_Status.BackColor = row["Man_Status"].ToString() == Global.Normal ? Color.GreenYellow : Color.Red;
+            btnMachine_Status.BackColor = row["Machine_Status"].ToString() == Global.Normal ? Color.GreenYellow : Color.Red;
+            btnMaterial_Status.BackColor = row["Material_Status"].ToString() == Global.Normal ? Color.GreenYellow : Color.Red;
+            btnMethod_Status.BackColor = row["Method_Status"].ToString() == Global.Normal ? Color.GreenYellow : Color.Red;
         }
 
         private void btnMan_Click(object sender, EventArgs e)
         {
 
-            btnMan.BackColor = btnMan.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
+            btnMan_Status.BackColor = btnMan_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
         }
 
         private void btnMachine_Click(object sender, EventArgs e)
         {
-            btnMachine.BackColor = btnMachine.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
+            btnMachine_Status.BackColor = btnMachine_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
         }
 
         private void btnMaterial_Click(object sender, EventArgs e)
         {
-            btnMaterial.BackColor = btnMaterial.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
+            btnMaterial_Status.BackColor = btnMaterial_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
         }
 
         private void btnMethod_Click(object sender, EventArgs e)
         {
-            btnMethod.BackColor = btnMethod.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
+            btnMethod_Status.BackColor = btnMethod_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
         }
 
         private void btnConfirm_Click(object sender, EventArgs e)
@@ -82,13 +82,13 @@ namespace FactoryBoard
                 row["IPN"] = tbIPN.Text;
                 row["MOA"] = tbMOA.Text;
                 row["Order_Qty"] = tbOrder_Qty.Text;
-                row["Start_Time"] = tbStart_Time.Text;
+                row["Start_Time"] = dtpStart_Time.Text;
                 row["Daily_Plan"] = tbDaily_Plan.Text;
                 row["Actual_Output"] = tbActual_Output.Text;
-                row["Man"] = btnMan.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
-                row["Machine"] = btnMachine.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
-                row["Material"] = btnMaterial.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
-                row["Method"] = btnMethod.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
+                row["Man_Status"] = btnMan_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
+                row["Machine_Status"] = btnMachine_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
+                row["Material_Status"] = btnMaterial_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
+                row["Method_Status"] = btnMethod_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
 
                 ASS.MainTable.Rows.Add(row);
             }
@@ -100,13 +100,13 @@ namespace FactoryBoard
                 row["IPN"] = tbIPN.Text;
                 row["MOA"] = tbMOA.Text;
                 row["Order_Qty"] = tbOrder_Qty.Text;
-                row["Start_Time"] = tbStart_Time.Text;
+                row["Start_Time"] = dtpStart_Time.Text;
                 row["Daily_Plan"] = tbDaily_Plan.Text;
                 row["Actual_Output"] = tbActual_Output.Text;
-                row["Man"] = btnMan.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
-                row["Machine"] = btnMachine.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
-                row["Material"] = btnMaterial.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
-                row["Method"] = btnMethod.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
+                row["Man_Status"] = btnMan_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
+                row["Machine_Status"] = btnMachine_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
+                row["Material_Status"] = btnMaterial_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
+                row["Method_Status"] = btnMethod_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
             }
 
             this.Close();

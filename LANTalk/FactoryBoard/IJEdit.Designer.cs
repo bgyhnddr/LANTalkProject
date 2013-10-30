@@ -35,11 +35,11 @@
             this.lbDaily_Plan = new System.Windows.Forms.Label();
             this.lbOrder_Qty = new System.Windows.Forms.Label();
             this.lbIPN = new System.Windows.Forms.Label();
-            this.lbLine = new System.Windows.Forms.Label();
-            this.btnMethod = new System.Windows.Forms.Button();
-            this.btnMaterial = new System.Windows.Forms.Button();
-            this.btnMachine = new System.Windows.Forms.Button();
-            this.btnMan = new System.Windows.Forms.Button();
+            this.lbMachine = new System.Windows.Forms.Label();
+            this.btnMethod_Status = new System.Windows.Forms.Button();
+            this.btnMaterial_Status = new System.Windows.Forms.Button();
+            this.btnMachine_Status = new System.Windows.Forms.Button();
+            this.btnMan_Status = new System.Windows.Forms.Button();
             this.tbMOA = new System.Windows.Forms.TextBox();
             this.tbMould = new System.Windows.Forms.TextBox();
             this.tbActual_Output = new System.Windows.Forms.TextBox();
@@ -47,7 +47,7 @@
             this.tbDaily_Plan = new System.Windows.Forms.TextBox();
             this.tbOrder_Qty = new System.Windows.Forms.TextBox();
             this.tbIPN = new System.Windows.Forms.TextBox();
-            this.tbLine = new System.Windows.Forms.TextBox();
+            this.tbMachine = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.lbMaterial = new System.Windows.Forms.Label();
@@ -68,9 +68,9 @@
             this.lbStart_Time.AutoSize = true;
             this.lbStart_Time.Location = new System.Drawing.Point(200, 90);
             this.lbStart_Time.Name = "lbStart_Time";
-            this.lbStart_Time.Size = new System.Drawing.Size(77, 12);
+            this.lbStart_Time.Size = new System.Drawing.Size(65, 12);
             this.lbStart_Time.TabIndex = 45;
-            this.lbStart_Time.Text = "Requset_Time";
+            this.lbStart_Time.Text = "Start_Time";
             // 
             // lbMOA
             // 
@@ -117,62 +117,62 @@
             this.lbIPN.TabIndex = 40;
             this.lbIPN.Text = "IPN";
             // 
-            // lbLine
+            // lbMachine
             // 
-            this.lbLine.AutoSize = true;
-            this.lbLine.Location = new System.Drawing.Point(12, 9);
-            this.lbLine.Name = "lbLine";
-            this.lbLine.Size = new System.Drawing.Size(29, 12);
-            this.lbLine.TabIndex = 39;
-            this.lbLine.Text = "Line";
+            this.lbMachine.AutoSize = true;
+            this.lbMachine.Location = new System.Drawing.Point(12, 9);
+            this.lbMachine.Name = "lbMachine";
+            this.lbMachine.Size = new System.Drawing.Size(47, 12);
+            this.lbMachine.TabIndex = 39;
+            this.lbMachine.Text = "Machine";
             // 
-            // btnMethod
+            // btnMethod_Status
             // 
-            this.btnMethod.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMethod.Location = new System.Drawing.Point(191, 143);
-            this.btnMethod.Margin = new System.Windows.Forms.Padding(0);
-            this.btnMethod.Name = "btnMethod";
-            this.btnMethod.Size = new System.Drawing.Size(60, 23);
-            this.btnMethod.TabIndex = 38;
-            this.btnMethod.Text = "Method";
-            this.btnMethod.UseVisualStyleBackColor = true;
-            this.btnMethod.Click += new System.EventHandler(this.btnMethod_Click);
+            this.btnMethod_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMethod_Status.Location = new System.Drawing.Point(191, 143);
+            this.btnMethod_Status.Margin = new System.Windows.Forms.Padding(0);
+            this.btnMethod_Status.Name = "btnMethod_Status";
+            this.btnMethod_Status.Size = new System.Drawing.Size(60, 23);
+            this.btnMethod_Status.TabIndex = 38;
+            this.btnMethod_Status.Text = "Method";
+            this.btnMethod_Status.UseVisualStyleBackColor = true;
+            this.btnMethod_Status.Click += new System.EventHandler(this.btnMethod_Click);
             // 
-            // btnMaterial
+            // btnMaterial_Status
             // 
-            this.btnMaterial.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMaterial.Location = new System.Drawing.Point(131, 143);
-            this.btnMaterial.Margin = new System.Windows.Forms.Padding(0);
-            this.btnMaterial.Name = "btnMaterial";
-            this.btnMaterial.Size = new System.Drawing.Size(60, 23);
-            this.btnMaterial.TabIndex = 37;
-            this.btnMaterial.Text = "Material";
-            this.btnMaterial.UseVisualStyleBackColor = true;
-            this.btnMaterial.Click += new System.EventHandler(this.btnMaterial_Click);
+            this.btnMaterial_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMaterial_Status.Location = new System.Drawing.Point(131, 143);
+            this.btnMaterial_Status.Margin = new System.Windows.Forms.Padding(0);
+            this.btnMaterial_Status.Name = "btnMaterial_Status";
+            this.btnMaterial_Status.Size = new System.Drawing.Size(60, 23);
+            this.btnMaterial_Status.TabIndex = 37;
+            this.btnMaterial_Status.Text = "Material";
+            this.btnMaterial_Status.UseVisualStyleBackColor = true;
+            this.btnMaterial_Status.Click += new System.EventHandler(this.btnMaterial_Click);
             // 
-            // btnMachine
+            // btnMachine_Status
             // 
-            this.btnMachine.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMachine.Location = new System.Drawing.Point(71, 143);
-            this.btnMachine.Margin = new System.Windows.Forms.Padding(0);
-            this.btnMachine.Name = "btnMachine";
-            this.btnMachine.Size = new System.Drawing.Size(60, 23);
-            this.btnMachine.TabIndex = 36;
-            this.btnMachine.Text = "Machine";
-            this.btnMachine.UseVisualStyleBackColor = true;
-            this.btnMachine.Click += new System.EventHandler(this.btnMachine_Click);
+            this.btnMachine_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMachine_Status.Location = new System.Drawing.Point(71, 143);
+            this.btnMachine_Status.Margin = new System.Windows.Forms.Padding(0);
+            this.btnMachine_Status.Name = "btnMachine_Status";
+            this.btnMachine_Status.Size = new System.Drawing.Size(60, 23);
+            this.btnMachine_Status.TabIndex = 36;
+            this.btnMachine_Status.Text = "Machine";
+            this.btnMachine_Status.UseVisualStyleBackColor = true;
+            this.btnMachine_Status.Click += new System.EventHandler(this.btnMachine_Click);
             // 
-            // btnMan
+            // btnMan_Status
             // 
-            this.btnMan.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMan.Location = new System.Drawing.Point(11, 143);
-            this.btnMan.Margin = new System.Windows.Forms.Padding(0);
-            this.btnMan.Name = "btnMan";
-            this.btnMan.Size = new System.Drawing.Size(60, 23);
-            this.btnMan.TabIndex = 35;
-            this.btnMan.Text = "Man";
-            this.btnMan.UseVisualStyleBackColor = true;
-            this.btnMan.Click += new System.EventHandler(this.btnMan_Click);
+            this.btnMan_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMan_Status.Location = new System.Drawing.Point(11, 143);
+            this.btnMan_Status.Margin = new System.Windows.Forms.Padding(0);
+            this.btnMan_Status.Name = "btnMan_Status";
+            this.btnMan_Status.Size = new System.Drawing.Size(60, 23);
+            this.btnMan_Status.TabIndex = 35;
+            this.btnMan_Status.Text = "Man";
+            this.btnMan_Status.UseVisualStyleBackColor = true;
+            this.btnMan_Status.Click += new System.EventHandler(this.btnMan_Click);
             // 
             // tbMOA
             // 
@@ -223,12 +223,12 @@
             this.tbIPN.Size = new System.Drawing.Size(107, 21);
             this.tbIPN.TabIndex = 28;
             // 
-            // tbLine
+            // tbMachine
             // 
-            this.tbLine.Location = new System.Drawing.Point(83, 6);
-            this.tbLine.Name = "tbLine";
-            this.tbLine.Size = new System.Drawing.Size(107, 21);
-            this.tbLine.TabIndex = 27;
+            this.tbMachine.Location = new System.Drawing.Point(83, 6);
+            this.tbMachine.Name = "tbMachine";
+            this.tbMachine.Size = new System.Drawing.Size(107, 21);
+            this.tbMachine.TabIndex = 27;
             // 
             // btnCancel
             // 
@@ -280,11 +280,11 @@
             this.Controls.Add(this.lbDaily_Plan);
             this.Controls.Add(this.lbOrder_Qty);
             this.Controls.Add(this.lbIPN);
-            this.Controls.Add(this.lbLine);
-            this.Controls.Add(this.btnMethod);
-            this.Controls.Add(this.btnMaterial);
-            this.Controls.Add(this.btnMachine);
-            this.Controls.Add(this.btnMan);
+            this.Controls.Add(this.lbMachine);
+            this.Controls.Add(this.btnMethod_Status);
+            this.Controls.Add(this.btnMaterial_Status);
+            this.Controls.Add(this.btnMachine_Status);
+            this.Controls.Add(this.btnMan_Status);
             this.Controls.Add(this.tbMOA);
             this.Controls.Add(this.tbMould);
             this.Controls.Add(this.tbActual_Output);
@@ -292,7 +292,7 @@
             this.Controls.Add(this.tbDaily_Plan);
             this.Controls.Add(this.tbOrder_Qty);
             this.Controls.Add(this.tbIPN);
-            this.Controls.Add(this.tbLine);
+            this.Controls.Add(this.tbMachine);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -315,11 +315,11 @@
         private System.Windows.Forms.Label lbDaily_Plan;
         private System.Windows.Forms.Label lbOrder_Qty;
         private System.Windows.Forms.Label lbIPN;
-        private System.Windows.Forms.Label lbLine;
-        private System.Windows.Forms.Button btnMethod;
-        private System.Windows.Forms.Button btnMaterial;
-        private System.Windows.Forms.Button btnMachine;
-        private System.Windows.Forms.Button btnMan;
+        private System.Windows.Forms.Label lbMachine;
+        private System.Windows.Forms.Button btnMethod_Status;
+        private System.Windows.Forms.Button btnMaterial_Status;
+        private System.Windows.Forms.Button btnMachine_Status;
+        private System.Windows.Forms.Button btnMan_Status;
         private System.Windows.Forms.TextBox tbMOA;
         private System.Windows.Forms.TextBox tbMould;
         private System.Windows.Forms.TextBox tbActual_Output;
@@ -327,7 +327,7 @@
         private System.Windows.Forms.TextBox tbDaily_Plan;
         private System.Windows.Forms.TextBox tbOrder_Qty;
         private System.Windows.Forms.TextBox tbIPN;
-        private System.Windows.Forms.TextBox tbLine;
+        private System.Windows.Forms.TextBox tbMachine;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Label lbMaterial;

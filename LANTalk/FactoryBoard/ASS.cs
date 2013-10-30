@@ -61,7 +61,7 @@ namespace FactoryBoard
             }
             catch (Exception ex)
             {
-                MessageBox.Show("启动服务失败：" + ex.Message, "错误");
+                MessageBox.Show("Start Server Error：" + ex.Message, "Error");
                 ReturnTitle();
             }
         }
@@ -169,7 +169,7 @@ namespace FactoryBoard
         {
             if (!Return)
             {
-                if (MessageBox.Show(this, "详细：" + ex.Message, "服务异常", MessageBoxButtons.RetryCancel) == DialogResult.Retry)
+                if (MessageBox.Show(this, "Detail：" + ex.Message, "Server Error", MessageBoxButtons.RetryCancel) == DialogResult.Retry)
                 {
                     StartServer();
                 }
@@ -234,7 +234,8 @@ namespace FactoryBoard
             InitDepartment();
             RefreshOrderList();
             RefreshOrderButton();
-            lbTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var time = DateTime.Now;
+            lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             path += "\\LANTalk\\SaveFile\\ASS";
             if (!Directory.Exists(path))
@@ -343,6 +344,7 @@ namespace FactoryBoard
                         this.dglMain.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                     }
                 }
+                dglMain.Columns["Line"].HeaderText = "Line\r\n生产线";
             }
         }
 
@@ -371,9 +373,12 @@ namespace FactoryBoard
 
         private void dglMain_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var form = new ASSEdit(dglMain.CurrentCell.RowIndex);
-            form.ShowDialog();
-            dglMain.DataSource = MainTable.Copy();
+            if (dglMain.CurrentCell != null)
+            {
+                var form = new ASSEdit(dglMain.CurrentCell.RowIndex);
+                form.ShowDialog();
+                dglMain.DataSource = MainTable.Copy();
+            }
         }
 
         private void btnOpenFile_Click(object sender, EventArgs e)
@@ -412,16 +417,17 @@ namespace FactoryBoard
                 MainTable.Columns.Add("Start_Time", typeof(string));
                 MainTable.Columns.Add("Daily_Plan", typeof(string));
                 MainTable.Columns.Add("Actual_Output", typeof(string));
-                MainTable.Columns.Add("Man", typeof(string));
-                MainTable.Columns.Add("Machine", typeof(string));
-                MainTable.Columns.Add("Material", typeof(string));
-                MainTable.Columns.Add("Method", typeof(string));
+                MainTable.Columns.Add("Man_Status", typeof(string));
+                MainTable.Columns.Add("Machine_Status", typeof(string));
+                MainTable.Columns.Add("Material_Status", typeof(string));
+                MainTable.Columns.Add("Method_Status", typeof(string));
             }
         }
 
         private void tTime_Tick(object sender, EventArgs e)
         {
-            lbTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var time = DateTime.Now;
+            lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
         }
 
         private void RefreshOrderButton()
@@ -513,12 +519,22 @@ namespace FactoryBoard
                             {
                                 if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.UnKnown)
                                 {
+                                    this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.White;
+                                    this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                                }
+                                else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Revoke)
+                                {
                                     this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Gray;
                                     this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
                                 }
                                 else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Wait)
                                 {
                                     this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                    this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                                }
+                                else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Sending)
+                                {
+                                    this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
                                     this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
                                 }
                                 else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Receive)
@@ -574,17 +590,49 @@ namespace FactoryBoard
             {
                 return;
             }
-
-            if (MessageBox.Show("确定删除?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            lock (dglOrder)
             {
-                department.OrderList.Rows.RemoveAt(dglOrder.CurrentCell.RowIndex);
+                if (dglOrder.CurrentCell.RowIndex > 0)
+                {
+                    if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() != Global.Receive &&
+                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() != Global.UnKnown)
+                    {
+                        if (MessageBox.Show("确定撤销?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"] = Global.Revoke;
+                        }
+                        RefreshOrderList();
+                    }
+                }
             }
-            RefreshOrderList();
         }
 
         private void ASS_Shown(object sender, EventArgs e)
         {
             StartServer();
+        }
+
+        private void btnConfirm_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+            if (department == null)
+            {
+                return;
+            }
+            lock (dglOrder)
+            {
+                if (dglOrder.CurrentCell.RowIndex > 0)
+                {
+                    if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() == Global.Sending)
+                    {
+                        if (MessageBox.Show("确定接收?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"] = Global.Receive;
+                        }
+                        RefreshOrderList();
+                    }
+                }
+            }
         }
     }
 }

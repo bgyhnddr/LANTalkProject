@@ -43,11 +43,13 @@ namespace FactoryBoard
         public const string eWH = "e-W/H";
         public const string SMT = "SMT";
         public const string SSP = "SSP";
-        public const string Normal = "正常";
-        public const string UnNormal = "异常";
-        public const string UnKnown = "未知";
-        public const string Receive = "收到";
-        public const string Wait = "等待";
+        public const string Normal = "Normal";
+        public const string UnNormal = "Unnormal";
+        public const string UnKnown = "Unknown";
+        public const string Receive = "Receive";
+        public const string Wait = "Wait";
+        public const string Revoke = "Revoke";
+        public const string Sending = "Sending";
 
         public static string ErrorMessage;
 

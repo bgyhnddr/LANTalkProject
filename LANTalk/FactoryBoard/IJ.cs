@@ -47,7 +47,8 @@ namespace FactoryBoard
             InitMainTable();
             InitDepartment();
             RefreshOfferTable();
-            lbTime.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            var time = DateTime.Now;
+            lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             path += "\\LANTalk\\SaveFile\\IJ";
             if (!Directory.Exists(path))
@@ -80,7 +81,7 @@ namespace FactoryBoard
 
         private void ConnectCallback()
         {
-            btnConnect.Text = "已连接";
+            btnConnect.Text = "Connected(已连接)";
             btnConnect.Enabled = false;
             btnOffer.Enabled = true;
         }
@@ -89,7 +90,9 @@ namespace FactoryBoard
         {
             if (!Return)
             {
-                //error;
+                btnConnect.Text = "Connect(连接)";
+                btnConnect.Enabled = true;
+                btnOffer.Enabled = false;
             }
         }
 
@@ -256,19 +259,19 @@ namespace FactoryBoard
             else
             {
                 MainTable = new DataTable();
-                MainTable.Columns.Add("Line", typeof(string));
+                MainTable.Columns.Add("Machine", typeof(string));
                 MainTable.Columns.Add("Mould", typeof(string));
-                MainTable.Columns.Add("Materialcol", typeof(string));
+                MainTable.Columns.Add("Material", typeof(string));
                 MainTable.Columns.Add("IPN", typeof(string));
                 MainTable.Columns.Add("MOA", typeof(string));
                 MainTable.Columns.Add("Order_Qty", typeof(string));
                 MainTable.Columns.Add("Start_Time", typeof(string));
                 MainTable.Columns.Add("Daily_Plan", typeof(string));
                 MainTable.Columns.Add("Actual_Output", typeof(string));
-                MainTable.Columns.Add("Man", typeof(string));
-                MainTable.Columns.Add("Machine", typeof(string));
-                MainTable.Columns.Add("Material", typeof(string));
-                MainTable.Columns.Add("Method", typeof(string));
+                MainTable.Columns.Add("Man_Status", typeof(string));
+                MainTable.Columns.Add("Machine_Status", typeof(string));
+                MainTable.Columns.Add("Material_Status", typeof(string));
+                MainTable.Columns.Add("Method_Status", typeof(string));
             }
         }
 
@@ -394,9 +397,12 @@ namespace FactoryBoard
 
         private void dglMain_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            var form = new IJEdit(dglMain.CurrentCell.RowIndex);
-            form.ShowDialog();
-            dglMain.DataSource = MainTable.Copy();
+            if (dglMain.CurrentCell != null)
+            {
+                var form = new IJEdit(dglMain.CurrentCell.RowIndex);
+                form.ShowDialog();
+                dglMain.DataSource = MainTable.Copy();
+            }
         }
 
         private void dglOffer_DataSourceChanged(object sender, EventArgs e)
@@ -415,12 +421,22 @@ namespace FactoryBoard
                             {
                                 if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.UnKnown)
                                 {
+                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.White;
+                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
+                                }
+                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Revoke)
+                                {
                                     this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Gray;
                                     this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
                                 }
                                 else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Wait)
                                 {
                                     this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
+                                }
+                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Sending)
+                                {
+                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
                                     this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
                                 }
                                 else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Receive)
@@ -451,12 +467,18 @@ namespace FactoryBoard
             {
                 if (index < DepartmentList[0].OrderList.Rows.Count)
                 {
-                    DepartmentList[0].OrderList.Rows[index]["Remarks"] = Global.Receive;
+                    if (DepartmentList[0].OrderList.Rows[index]["Remarks"] == Global.Wait)
+                    {
+                        DepartmentList[0].OrderList.Rows[index]["Remarks"] = Global.Sending;
+                    }
                 }
                 else
                 {
-                    index = index - DepartmentList[0].OrderList.Rows.Count;
-                    DepartmentList[1].OrderList.Rows[index]["Remarks"] = Global.Receive;
+                    if (DepartmentList[1].OrderList.Rows[index]["Remarks"] == Global.Wait)
+                    {
+                        index = index - DepartmentList[0].OrderList.Rows.Count;
+                        DepartmentList[1].OrderList.Rows[index]["Remarks"] = Global.Sending;
+                    }
                 }
                 RefreshOfferTable();
                 SendOfferTable();
@@ -466,6 +488,12 @@ namespace FactoryBoard
         private void btnConnect_Click(object sender, EventArgs e)
         {
             Connect();
+        }
+
+        private void tTime_Tick(object sender, EventArgs e)
+        {
+            var time = DateTime.Now;
+            lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
         }
 
     }

@@ -34,14 +34,13 @@
             this.tbIPN = new System.Windows.Forms.TextBox();
             this.tbOrder_Qty = new System.Windows.Forms.TextBox();
             this.tbDaily_Plan = new System.Windows.Forms.TextBox();
-            this.tbStart_Time = new System.Windows.Forms.TextBox();
             this.tbActual_Output = new System.Windows.Forms.TextBox();
             this.tbModel = new System.Windows.Forms.TextBox();
             this.tbMOA = new System.Windows.Forms.TextBox();
-            this.btnMan = new System.Windows.Forms.Button();
-            this.btnMachine = new System.Windows.Forms.Button();
-            this.btnMaterial = new System.Windows.Forms.Button();
-            this.btnMethod = new System.Windows.Forms.Button();
+            this.btnMan_Status = new System.Windows.Forms.Button();
+            this.btnMachine_Status = new System.Windows.Forms.Button();
+            this.btnMaterial_Status = new System.Windows.Forms.Button();
+            this.btnMethod_Status = new System.Windows.Forms.Button();
             this.lbLine = new System.Windows.Forms.Label();
             this.lbIPN = new System.Windows.Forms.Label();
             this.lbOrder_Qty = new System.Windows.Forms.Label();
@@ -50,6 +49,7 @@
             this.lbMOA = new System.Windows.Forms.Label();
             this.lbStart_Time = new System.Windows.Forms.Label();
             this.lbActual_Output = new System.Windows.Forms.Label();
+            this.dtpStart_Time = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // btnConfirm
@@ -100,81 +100,74 @@
             this.tbDaily_Plan.Size = new System.Drawing.Size(107, 21);
             this.tbDaily_Plan.TabIndex = 5;
             // 
-            // tbStart_Time
-            // 
-            this.tbStart_Time.Location = new System.Drawing.Point(286, 66);
-            this.tbStart_Time.Name = "tbStart_Time";
-            this.tbStart_Time.Size = new System.Drawing.Size(107, 21);
-            this.tbStart_Time.TabIndex = 8;
-            // 
             // tbActual_Output
             // 
             this.tbActual_Output.Location = new System.Drawing.Point(286, 93);
             this.tbActual_Output.Name = "tbActual_Output";
-            this.tbActual_Output.Size = new System.Drawing.Size(107, 21);
+            this.tbActual_Output.Size = new System.Drawing.Size(135, 21);
             this.tbActual_Output.TabIndex = 9;
             // 
             // tbModel
             // 
             this.tbModel.Location = new System.Drawing.Point(286, 12);
             this.tbModel.Name = "tbModel";
-            this.tbModel.Size = new System.Drawing.Size(107, 21);
+            this.tbModel.Size = new System.Drawing.Size(135, 21);
             this.tbModel.TabIndex = 11;
             // 
             // tbMOA
             // 
             this.tbMOA.Location = new System.Drawing.Point(286, 39);
             this.tbMOA.Name = "tbMOA";
-            this.tbMOA.Size = new System.Drawing.Size(107, 21);
+            this.tbMOA.Size = new System.Drawing.Size(135, 21);
             this.tbMOA.TabIndex = 12;
             // 
-            // btnMan
+            // btnMan_Status
             // 
-            this.btnMan.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMan.Location = new System.Drawing.Point(9, 130);
-            this.btnMan.Margin = new System.Windows.Forms.Padding(0);
-            this.btnMan.Name = "btnMan";
-            this.btnMan.Size = new System.Drawing.Size(60, 23);
-            this.btnMan.TabIndex = 13;
-            this.btnMan.Text = "Man";
-            this.btnMan.UseVisualStyleBackColor = true;
-            this.btnMan.Click += new System.EventHandler(this.btnMan_Click);
+            this.btnMan_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMan_Status.Location = new System.Drawing.Point(9, 130);
+            this.btnMan_Status.Margin = new System.Windows.Forms.Padding(0);
+            this.btnMan_Status.Name = "btnMan_Status";
+            this.btnMan_Status.Size = new System.Drawing.Size(60, 23);
+            this.btnMan_Status.TabIndex = 13;
+            this.btnMan_Status.Text = "Man";
+            this.btnMan_Status.UseVisualStyleBackColor = true;
+            this.btnMan_Status.Click += new System.EventHandler(this.btnMan_Click);
             // 
-            // btnMachine
+            // btnMachine_Status
             // 
-            this.btnMachine.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMachine.Location = new System.Drawing.Point(69, 130);
-            this.btnMachine.Margin = new System.Windows.Forms.Padding(0);
-            this.btnMachine.Name = "btnMachine";
-            this.btnMachine.Size = new System.Drawing.Size(60, 23);
-            this.btnMachine.TabIndex = 14;
-            this.btnMachine.Text = "Machine";
-            this.btnMachine.UseVisualStyleBackColor = true;
-            this.btnMachine.Click += new System.EventHandler(this.btnMachine_Click);
+            this.btnMachine_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMachine_Status.Location = new System.Drawing.Point(69, 130);
+            this.btnMachine_Status.Margin = new System.Windows.Forms.Padding(0);
+            this.btnMachine_Status.Name = "btnMachine_Status";
+            this.btnMachine_Status.Size = new System.Drawing.Size(60, 23);
+            this.btnMachine_Status.TabIndex = 14;
+            this.btnMachine_Status.Text = "Machine";
+            this.btnMachine_Status.UseVisualStyleBackColor = true;
+            this.btnMachine_Status.Click += new System.EventHandler(this.btnMachine_Click);
             // 
-            // btnMaterial
+            // btnMaterial_Status
             // 
-            this.btnMaterial.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMaterial.Location = new System.Drawing.Point(129, 130);
-            this.btnMaterial.Margin = new System.Windows.Forms.Padding(0);
-            this.btnMaterial.Name = "btnMaterial";
-            this.btnMaterial.Size = new System.Drawing.Size(60, 23);
-            this.btnMaterial.TabIndex = 15;
-            this.btnMaterial.Text = "Material";
-            this.btnMaterial.UseVisualStyleBackColor = true;
-            this.btnMaterial.Click += new System.EventHandler(this.btnMaterial_Click);
+            this.btnMaterial_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMaterial_Status.Location = new System.Drawing.Point(129, 130);
+            this.btnMaterial_Status.Margin = new System.Windows.Forms.Padding(0);
+            this.btnMaterial_Status.Name = "btnMaterial_Status";
+            this.btnMaterial_Status.Size = new System.Drawing.Size(60, 23);
+            this.btnMaterial_Status.TabIndex = 15;
+            this.btnMaterial_Status.Text = "Material";
+            this.btnMaterial_Status.UseVisualStyleBackColor = true;
+            this.btnMaterial_Status.Click += new System.EventHandler(this.btnMaterial_Click);
             // 
-            // btnMethod
+            // btnMethod_Status
             // 
-            this.btnMethod.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMethod.Location = new System.Drawing.Point(189, 130);
-            this.btnMethod.Margin = new System.Windows.Forms.Padding(0);
-            this.btnMethod.Name = "btnMethod";
-            this.btnMethod.Size = new System.Drawing.Size(60, 23);
-            this.btnMethod.TabIndex = 16;
-            this.btnMethod.Text = "Method";
-            this.btnMethod.UseVisualStyleBackColor = true;
-            this.btnMethod.Click += new System.EventHandler(this.btnMethod_Click);
+            this.btnMethod_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnMethod_Status.Location = new System.Drawing.Point(189, 130);
+            this.btnMethod_Status.Margin = new System.Windows.Forms.Padding(0);
+            this.btnMethod_Status.Name = "btnMethod_Status";
+            this.btnMethod_Status.Size = new System.Drawing.Size(60, 23);
+            this.btnMethod_Status.TabIndex = 16;
+            this.btnMethod_Status.Text = "Method";
+            this.btnMethod_Status.UseVisualStyleBackColor = true;
+            this.btnMethod_Status.Click += new System.EventHandler(this.btnMethod_Click);
             // 
             // lbLine
             // 
@@ -235,9 +228,9 @@
             this.lbStart_Time.AutoSize = true;
             this.lbStart_Time.Location = new System.Drawing.Point(200, 69);
             this.lbStart_Time.Name = "lbStart_Time";
-            this.lbStart_Time.Size = new System.Drawing.Size(77, 12);
+            this.lbStart_Time.Size = new System.Drawing.Size(65, 12);
             this.lbStart_Time.TabIndex = 23;
-            this.lbStart_Time.Text = "Requset_Time";
+            this.lbStart_Time.Text = "Start_Time";
             // 
             // lbActual_Output
             // 
@@ -248,11 +241,22 @@
             this.lbActual_Output.TabIndex = 24;
             this.lbActual_Output.Text = "Actual_Output";
             // 
+            // dtpStart_Time
+            // 
+            this.dtpStart_Time.CustomFormat = "yyyy/MM/dd hh:mm";
+            this.dtpStart_Time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpStart_Time.Location = new System.Drawing.Point(286, 66);
+            this.dtpStart_Time.Name = "dtpStart_Time";
+            this.dtpStart_Time.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dtpStart_Time.Size = new System.Drawing.Size(135, 21);
+            this.dtpStart_Time.TabIndex = 25;
+            // 
             // ASSEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(410, 208);
+            this.ClientSize = new System.Drawing.Size(478, 208);
+            this.Controls.Add(this.dtpStart_Time);
             this.Controls.Add(this.lbActual_Output);
             this.Controls.Add(this.lbStart_Time);
             this.Controls.Add(this.lbMOA);
@@ -261,14 +265,13 @@
             this.Controls.Add(this.lbOrder_Qty);
             this.Controls.Add(this.lbIPN);
             this.Controls.Add(this.lbLine);
-            this.Controls.Add(this.btnMethod);
-            this.Controls.Add(this.btnMaterial);
-            this.Controls.Add(this.btnMachine);
-            this.Controls.Add(this.btnMan);
+            this.Controls.Add(this.btnMethod_Status);
+            this.Controls.Add(this.btnMaterial_Status);
+            this.Controls.Add(this.btnMachine_Status);
+            this.Controls.Add(this.btnMan_Status);
             this.Controls.Add(this.tbMOA);
             this.Controls.Add(this.tbModel);
             this.Controls.Add(this.tbActual_Output);
-            this.Controls.Add(this.tbStart_Time);
             this.Controls.Add(this.tbDaily_Plan);
             this.Controls.Add(this.tbOrder_Qty);
             this.Controls.Add(this.tbIPN);
@@ -294,14 +297,13 @@
         private System.Windows.Forms.TextBox tbIPN;
         private System.Windows.Forms.TextBox tbOrder_Qty;
         private System.Windows.Forms.TextBox tbDaily_Plan;
-        private System.Windows.Forms.TextBox tbStart_Time;
         private System.Windows.Forms.TextBox tbActual_Output;
         private System.Windows.Forms.TextBox tbModel;
         private System.Windows.Forms.TextBox tbMOA;
-        private System.Windows.Forms.Button btnMan;
-        private System.Windows.Forms.Button btnMachine;
-        private System.Windows.Forms.Button btnMaterial;
-        private System.Windows.Forms.Button btnMethod;
+        private System.Windows.Forms.Button btnMan_Status;
+        private System.Windows.Forms.Button btnMachine_Status;
+        private System.Windows.Forms.Button btnMaterial_Status;
+        private System.Windows.Forms.Button btnMethod_Status;
         private System.Windows.Forms.Label lbLine;
         private System.Windows.Forms.Label lbIPN;
         private System.Windows.Forms.Label lbOrder_Qty;
@@ -310,5 +312,6 @@
         private System.Windows.Forms.Label lbMOA;
         private System.Windows.Forms.Label lbStart_Time;
         private System.Windows.Forms.Label lbActual_Output;
+        private System.Windows.Forms.DateTimePicker dtpStart_Time;
     }
 }
