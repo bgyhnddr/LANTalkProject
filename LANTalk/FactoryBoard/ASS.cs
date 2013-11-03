@@ -24,6 +24,10 @@ namespace FactoryBoard
         private bool Return;
         private LANTalk.Core.Server _server;
 
+        private delegate void RefreshDelegate();//定义委托
+        private delegate void RefreshDelegateSocket(Socket socket);//定义委托
+        private delegate void ShowMessageBox(Exception ex);//定义委托
+
         public ASS(Main mainpage)
         {
             MainPage = mainpage;
@@ -33,7 +37,6 @@ namespace FactoryBoard
         
         private void ASS_Load(object sender, EventArgs e)
         {
-            Control.CheckForIllegalCrossThreadCalls = false;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
             Init();
@@ -104,26 +107,32 @@ namespace FactoryBoard
 
         private void DepartmentOnline(Socket socketor)
         {
-            lock (DepartmentList)
-            {
-                var temp = from row in DepartmentList
-                           where row.IP == ((IPEndPoint)socketor.RemoteEndPoint).Address.ToString()
-                           select row;
-                if (temp.Count()>0)
-                {
-                    var department = temp.First();
-                    department.Online = true;
-                    department.Socketor = socketor;
-                    switch (department.Name)
-                    {
-                        case Global.IJ:
-                            btnIJ.Enabled = true;
-                            RefreshOrderButton();
-                            RefreshOrderList();
-                            break;
-                    }
-                }
-            }
+            RefreshDelegateSocket refresh = (x) =>
+           {
+               var temp = from row in DepartmentList
+                          where row.IP == ((IPEndPoint)x.RemoteEndPoint).Address.ToString()
+                          select row;
+               if (temp.Count() > 0)
+               {
+                   var department = temp.First();
+                   department.Online = true;
+                   department.Socketor = socketor;
+                   switch (department.Name)
+                   {
+                       case Global.IJ:
+                           btnIJ.Enabled = true;
+                           RefreshOrderButton();
+                           RefreshOrderList();
+                           break;
+                       case Global.SSP:
+                           btnSSP.Enabled = true;
+                           RefreshOrderButton();
+                           RefreshOrderList();
+                           break;
+                   }
+               }
+           };
+            this.Invoke(refresh, socketor);
         }
 
         private void SocketLostCallback(Socket socketor)
@@ -133,39 +142,62 @@ namespace FactoryBoard
 
         private void DepartmentOffline(Socket socketor)
         {
-            lock (DepartmentList)
+            RefreshDelegateSocket refresh = (x) =>
             {
-                try
+                var temp = from row in DepartmentList
+                           where row.IP == ((IPEndPoint)x.RemoteEndPoint).Address.ToString()
+                           select row;
+                if (temp.Count() > 0)
                 {
-                    var temp = from row in DepartmentList
-                               where row.IP == ((IPEndPoint)socketor.RemoteEndPoint).Address.ToString()
-                               select row;
-                    if (temp.Count() > 0)
+                    var department = temp.First();
+                    department.Online = false;
+                    department.Socketor = null;
+                    switch (department.Name)
                     {
-                        var department = temp.First();
-                        department.Online = false;
-                        department.Socketor = null;
-                        switch (department.Name)
-                        {
-                            case Global.IJ:
-                                btnIJ.Enabled = false;
-                                if (CurrentOrder == Global.IJ)
-                                {
-                                    CurrentOrder = string.Empty;
-                                }
-                                RefreshOrderButton();
-                                RefreshOrderList();
-                                break;
-                        }
+                        case Global.IJ:
+                            btnIJ.Enabled = false;
+                            if (CurrentOrder == Global.IJ)
+                            {
+                                CurrentOrder = string.Empty;
+                            }
+                            RefreshOrderButton();
+                            RefreshOrderList();
+                            break;
+                        case Global.SSP:
+                            btnSSP.Enabled = false;
+                            if (CurrentOrder == Global.SSP)
+                            {
+                                CurrentOrder = string.Empty;
+                            }
+                            RefreshOrderButton();
+                            RefreshOrderList();
+                            break;
                     }
                 }
-                catch
-                {
-                }
-            }
+            };
+            this.Invoke(refresh, socketor);
         }
 
         private void ListenErrorCallback(Exception ex)
+        {
+            ShowMessageBox show = (x) =>
+            {
+                if (MessageBox.Show(this, "Detail：" + x.Message, "Server Error", MessageBoxButtons.RetryCancel) == DialogResult.Retry)
+                {
+                    StartServer();
+                }
+                else
+                {
+                    ReturnTitle();
+                }
+            };
+            if (!Return)
+            {
+                this.Invoke(show, ex);
+            }
+        }
+
+        private void ShowRetryMessageBox(Exception ex)
         {
             if (!Return)
             {
@@ -182,48 +214,49 @@ namespace FactoryBoard
 
         private void ReceiveCallback(IPAddress ip, string content)
         {
-            try
+            var temp = from row in DepartmentList
+                       where row.IP == ip.ToString()
+                       select row;
+            if (temp.Count() > 0)
             {
-                lock (DepartmentList)
+                var department = temp.First();
+                var contents = content.Split(' ');
+                var mode = contents[0];
+                var fromip = contents[1];
+                var toip = contents[2];
+                var message = string.Empty;
+                var messageindex = content.LastIndexOf(contents[2]) + contents[2].Length;
+                if (messageindex < content.Length)
                 {
-                    var temp = from row in DepartmentList
-                               where row.IP == ip.ToString()
-                               select row;
-                    if (temp.Count()>0)
-                    {
-                        var department = temp.First();
-                        var contents = content.Split(' ');
-                        var mode = contents[0];
-                        var fromip = contents[1];
-                        var toip = contents[2];
-                        var message = string.Empty;
-                        var messageindex = content.LastIndexOf(contents[2]) + contents[2].Length;
-                        if (messageindex < content.Length)
-                        {
-                            message = content.Substring(messageindex + 1);
-                        }
-
-                        switch ((Mode)Enum.Parse(typeof(Mode), mode))
-                        {
-                            case Mode.SendOrder:
-                                if (toip == ((IPEndPoint)department.Socketor.LocalEndPoint).Address.ToString())
-                                {
-                                    var offertable = CSVHelper.ReadTable(message);
-                                    for (var i = 0; i < offertable.Rows.Count; i++)
-                                    {
-                                        department.OrderList.Rows[i]["Remarks"] = offertable.Rows[i]["Remarks"];
-                                    }
-                                    
-
-                                    RefreshOrderList();
-                                }
-                                break;
-                        }
-                    }
+                    message = content.Substring(messageindex + 1);
                 }
-            }
-            catch
-            {
+
+                switch ((Mode)Enum.Parse(typeof(Mode), mode))
+                {
+                    case Mode.SendOrder:
+                        if (toip == ((IPEndPoint)department.Socketor.LocalEndPoint).Address.ToString())
+                        {
+                            var offertable = CSVHelper.ReadTable(message);
+                            for (var i = 0; i < offertable.Rows.Count; i++)
+                            {
+                                department.OrderList.Rows[i]["Remarks"] = offertable.Rows[i]["Remarks"];
+                            }
+
+                            RefreshOrderList();
+                        }
+                        else
+                        {
+                            var todepartment = from row in DepartmentList
+                                               where row.IP == toip.ToString() && row.Online == true
+                                               select row;
+                            if (todepartment.Count() > 0)
+                            {
+                                _server.CustomSend(todepartment.First().Socketor, content);
+                            }
+                        }
+                        break;
+                }
+
             }
         }
 
@@ -235,7 +268,7 @@ namespace FactoryBoard
             RefreshOrderList();
             RefreshOrderButton();
             var time = DateTime.Now;
-            lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
+            lbTime.Text = lbTime2.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             path += "\\LANTalk\\SaveFile\\ASS";
             if (!Directory.Exists(path))
@@ -272,9 +305,6 @@ namespace FactoryBoard
         private void InitMainTable()
         {
             LoadCurrentFile();
-
-
-
             dglMain.DataSource = MainTable.Copy();
         }
         
@@ -287,11 +317,38 @@ namespace FactoryBoard
 
         private void ASS_FormClosed(object sender, FormClosedEventArgs e)
         {
+            SaveOrderList();
             if (!Return)
             {
                 Application.Exit();
             }
-            MainPage.Focus();
+            else
+            {
+                MainPage.Focus();
+            }
+        }
+
+
+        private void SaveOrderList()
+        {
+            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            foreach (var department in DepartmentList)
+            {
+                if (department.OrderList.Rows.Count > 0)
+                {
+                    var currentpath = path + "\\LANTalk\\OrderList";
+                    currentpath += "\\" + department.Name;
+
+                    if (!Directory.Exists(currentpath))
+                    {
+                        Directory.CreateDirectory(currentpath);
+                    }
+                    currentpath += "\\" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".csv";
+                    File.WriteAllText(currentpath, CSVHelper.MakeCSV(department.OrderList), Encoding.GetEncoding("GB2312"));
+                }
+            }
+
+            
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -314,38 +371,46 @@ namespace FactoryBoard
 
         private void dglMain_DataSourceChanged(object sender, EventArgs e)
         {
-            lock (dglMain)
+            if (dglMain.Rows.Count > 0)
             {
-                if (dglMain.Rows.Count > 0)
+                int row = dglMain.Rows.Count;//得到总行数    
+                int cell = dglMain.Rows[0].Cells.Count;//得到总列数    
+                for (int i = 0; i < row; i++)//得到总行数并在之内循环    
                 {
-                    int row = dglMain.Rows.Count;//得到总行数    
-                    int cell = dglMain.Rows[0].Cells.Count;//得到总列数    
-                    for (int i = 0; i < row; i++)//得到总行数并在之内循环    
+                    for (int j = 8; j < cell; j++)//得到总列数并在之内循环    
                     {
-                        for (int j = 8; j < cell; j++)//得到总列数并在之内循环    
+                        if (dglMain.Rows[i].Cells[j].Value != null)
                         {
-                            if (dglMain.Rows[i].Cells[j].Value != null)
+                            if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.UnNormal)
                             {
-                                if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.UnNormal)
-                                {
-                                    this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.Red;
-                                    this.dglMain.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.Normal)
-                                {
-                                    this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
-                                    this.dglMain.Rows[i].Cells[j].Value = string.Empty;
-                                }
+                                this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                this.dglMain.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.Normal)
+                            {
+                                this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
+                                this.dglMain.Rows[i].Cells[j].Value = string.Empty;
                             }
                         }
                     }
-                    for (int i = 0; i < this.dglMain.Columns.Count; i++)
-                    {
-                        this.dglMain.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                    }
                 }
-                dglMain.Columns["Line"].HeaderText = "Line\r\n生产线";
+                for (int i = 0; i < this.dglMain.Columns.Count; i++)
+                {
+                    this.dglMain.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
             }
+            dglMain.Columns["Line"].HeaderText = "Line\r\n线别";
+            dglMain.Columns["Model"].HeaderText = "Model\r\n产品型号";
+            dglMain.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
+            dglMain.Columns["MOA"].HeaderText = "MOA\r\n工单号";
+            dglMain.Columns["Order_Qty"].HeaderText = "Order Qty\r\n订单数量";
+            dglMain.Columns["Start_Time"].HeaderText = "Start Time\r\n开始时间";
+            dglMain.Columns["Daily_Plan"].HeaderText = "Daily Plan\r\n标准产能";
+            dglMain.Columns["Actual_Output"].HeaderText = "Actual Output\r\n实际产能";
+            dglMain.Columns["Man_Status"].HeaderText = "Man\r\n人数";
+            dglMain.Columns["Machine_Status"].HeaderText = "Machine\r\n机器";
+            dglMain.Columns["Material_Status"].HeaderText = "Material\r\n物料";
+            dglMain.Columns["Method_Status"].HeaderText = "Method\r\n方法";
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -353,17 +418,17 @@ namespace FactoryBoard
             try
             {
                 Global.SaveFile(ASS.MainTable, Global.ASS_STRING);
-                MessageBox.Show("保存成功");
+                MessageBox.Show("Save Success");
             }
             catch(Exception ex)
             {
-                MessageBox.Show("保存失败：" + ex.Message);
+                MessageBox.Show("Save fail：" + ex.Message);
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("确定删除?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Delete?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
 
                 MainTable.Rows.RemoveAt(dglMain.CurrentCell.RowIndex);
@@ -427,16 +492,20 @@ namespace FactoryBoard
         private void tTime_Tick(object sender, EventArgs e)
         {
             var time = DateTime.Now;
-            lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
+            lbTime.Text = lbTime2.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
         }
 
         private void RefreshOrderButton()
         {
-            btnIJ.BackColor = btnIJ.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
-            btnWH.BackColor = btnWH.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
-            btneWH.BackColor = btneWH.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
-            btnSMT.BackColor = btnSMT.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
-            btnSSP.BackColor = btnSSP.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+            RefreshDelegate refresh = () =>
+            {
+                btnIJ.BackColor = btnIJ.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+                btnWH.BackColor = btnWH.Enabled == true ? (btnWH.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+                btneWH.BackColor = btneWH.Enabled == true ? (btneWH.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+                btnSMT.BackColor = btnSMT.Enabled == true ? (btnSMT.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+                btnSSP.BackColor = btnSSP.Enabled == true ? (btnSSP.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+            };
+            this.Invoke(refresh);
         }
 
         private void btnIJ_Click(object sender, EventArgs e)
@@ -444,6 +513,7 @@ namespace FactoryBoard
             CurrentOrder = Global.IJ;
             RefreshOrderButton();
             RefreshOrderList();
+            dglOrder.Show();
         }
         
         private void btnWH_Click(object sender, EventArgs e)
@@ -467,19 +537,16 @@ namespace FactoryBoard
 
         private void StopAllSocket()
         {
-            lock (DepartmentList)
+            foreach (var department in DepartmentList)
             {
-                foreach (var department in DepartmentList)
+                if (department.Socketor != null)
                 {
-                    if (department.Socketor != null)
+                    try
                     {
-                        try
-                        {
-                            department.Socketor.Close();
-                        }
-                        catch
-                        {
-                        }
+                        department.Socketor.Close();
+                    }
+                    catch
+                    {
                     }
                 }
             }
@@ -487,7 +554,13 @@ namespace FactoryBoard
 
         private void btnOrder_Click(object sender, EventArgs e)
         {
-            SendOrder();
+            try
+            {
+                SendOrder();
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         private void SendOrder()
@@ -505,58 +578,65 @@ namespace FactoryBoard
 
         private void dglOrder_DataSourceChanged(object sender, EventArgs e)
         {
-            lock (dglOrder)
+            if (dglOrder.Rows.Count > 0)
             {
-                if (dglOrder.Rows.Count > 0)
+                int row = dglOrder.Rows.Count;//得到总行数    
+                int cell = dglOrder.Rows[0].Cells.Count;//得到总列数    
+                for (int i = 0; i < row; i++)//得到总行数并在之内循环    
                 {
-                    int row = dglOrder.Rows.Count;//得到总行数    
-                    int cell = dglOrder.Rows[0].Cells.Count;//得到总列数    
-                    for (int i = 0; i < row; i++)//得到总行数并在之内循环    
+                    for (int j = 7; j < cell; j++)//得到总列数并在之内循环    
                     {
-                        for (int j = 7; j < cell; j++)//得到总列数并在之内循环    
+                        if (dglOrder.Rows[i].Cells[j].Value != null)
                         {
-                            if (dglOrder.Rows[i].Cells[j].Value != null)
+                            if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.UnKnown)
                             {
-                                if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.UnKnown)
-                                {
-                                    this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.White;
-                                    this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Revoke)
-                                {
-                                    this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Gray;
-                                    this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Wait)
-                                {
-                                    this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Red;
-                                    this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Sending)
-                                {
-                                    this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
-                                    this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Receive)
-                                {
-                                    this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
-                                    this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
-                                }
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.White;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Revoke)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Gray;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Wait)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Sending)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Receive)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
                             }
                         }
                     }
-                    for (int i = 0; i < this.dglOrder.Columns.Count; i++)
-                    {
-                        this.dglOrder.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                    }
+                }
+                for (int i = 0; i < this.dglOrder.Columns.Count; i++)
+                {
+                    this.dglOrder.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
             }
+
+            dglOrder.Columns["Line"].HeaderText = "Line\r\n线别";
+            dglOrder.Columns["Model"].HeaderText = "Model\r\n产品型号";
+            dglOrder.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
+            dglOrder.Columns["MOA"].HeaderText = "MOA\r\n工单号";
+            dglOrder.Columns["P/N"].HeaderText = "P/N\r\n品号";
+            dglOrder.Columns["Requset_Qtr"].HeaderText = "Requset Qtr\r\n需求数量";
+            dglOrder.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
+            dglOrder.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
         }
 
 
         private void RefreshOrderList()
         {
-            lock (this)
+
+            RefreshDelegate refresh = () =>
             {
                 var department = GetCurrentDepartment();
                 if (department == null)
@@ -564,11 +644,10 @@ namespace FactoryBoard
                     dglOrder.Hide();
                     return;
                 }
-
-
                 dglOrder.DataSource = department.OrderList.Copy();
-                dglOrder.Show();
-            }
+            };
+
+            this.Invoke(refresh);
         }
 
         private void btnAddOrder_Click(object sender, EventArgs e)
@@ -590,19 +669,17 @@ namespace FactoryBoard
             {
                 return;
             }
-            lock (dglOrder)
+            if (dglOrder.CurrentCell.RowIndex >= 0)
             {
-                if (dglOrder.CurrentCell.RowIndex > 0)
+                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() != Global.Receive &&
+                    department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() != Global.UnKnown)
                 {
-                    if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() != Global.Receive &&
-                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() != Global.UnKnown)
+                    if (MessageBox.Show("confirm?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        if (MessageBox.Show("确定撤销?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"] = Global.Revoke;
-                        }
-                        RefreshOrderList();
+                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"] = Global.Revoke;
                     }
+                    RefreshOrderList();
+                    SendOrder();
                 }
             }
         }
@@ -619,20 +696,31 @@ namespace FactoryBoard
             {
                 return;
             }
-            lock (dglOrder)
+            if (dglOrder.CurrentCell.RowIndex >= 0)
             {
-                if (dglOrder.CurrentCell.RowIndex > 0)
+                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() == Global.Sending)
                 {
-                    if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() == Global.Sending)
+                    if (MessageBox.Show("confirm?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        if (MessageBox.Show("确定接收?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"] = Global.Receive;
-                        }
-                        RefreshOrderList();
+                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"] = Global.Receive;
                     }
+                    RefreshOrderList();
+                    SendOrder();
                 }
             }
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnSSP_Click(object sender, EventArgs e)
+        {
+            CurrentOrder = Global.SSP;
+            RefreshOrderButton();
+            RefreshOrderList();
+            dglOrder.Show();
         }
     }
 }

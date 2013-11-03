@@ -9,10 +9,10 @@ using System.Windows.Forms;
 
 namespace FactoryBoard
 {
-    public partial class ASSOrder : Form
+    public partial class SSPOrder : Form
     {
 
-        public ASSOrder()
+        public SSPOrder()
         {
             InitializeComponent();
         }
@@ -25,7 +25,7 @@ namespace FactoryBoard
         private void btnConfirm_Click(object sender, EventArgs e)
         {
 
-            var department = ASS.GetCurrentDepartment();
+            var department = SSP.GetCurrentDepartment();
             if (department!=null)
             {
                 var row = department.OrderList.NewRow();

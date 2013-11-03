@@ -1,6 +1,6 @@
 ﻿namespace FactoryBoard
 {
-    partial class ASSOrder
+    partial class SSPOrder
     {
         /// <summary>
         /// Required designer variable.
@@ -183,7 +183,7 @@
             this.dtpRequest_Time.Size = new System.Drawing.Size(135, 21);
             this.dtpRequest_Time.TabIndex = 50;
             // 
-            // ASSOrder
+            // SSPOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -205,9 +205,9 @@
             this.Controls.Add(this.tbModel);
             this.Controls.Add(this.tbLine);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "ASSOrder";
+            this.Name = "SSPOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ASSOrder";
+            this.Text = "SSPOrder";
             this.ResumeLayout(false);
             this.PerformLayout();
 

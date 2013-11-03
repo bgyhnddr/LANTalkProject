@@ -43,7 +43,6 @@
             this.tbMOA = new System.Windows.Forms.TextBox();
             this.tbMould = new System.Windows.Forms.TextBox();
             this.tbActual_Output = new System.Windows.Forms.TextBox();
-            this.tbStart_Time = new System.Windows.Forms.TextBox();
             this.tbDaily_Plan = new System.Windows.Forms.TextBox();
             this.tbOrder_Qty = new System.Windows.Forms.TextBox();
             this.tbIPN = new System.Windows.Forms.TextBox();
@@ -52,6 +51,9 @@
             this.btnConfirm = new System.Windows.Forms.Button();
             this.lbMaterial = new System.Windows.Forms.Label();
             this.tbMaterial = new System.Windows.Forms.TextBox();
+            this.dtpStart_Time = new System.Windows.Forms.DateTimePicker();
+            this.lbPN = new System.Windows.Forms.Label();
+            this.tbPN = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lbActual_Output
@@ -111,7 +113,7 @@
             // lbIPN
             // 
             this.lbIPN.AutoSize = true;
-            this.lbIPN.Location = new System.Drawing.Point(12, 63);
+            this.lbIPN.Location = new System.Drawing.Point(200, 36);
             this.lbIPN.Name = "lbIPN";
             this.lbIPN.Size = new System.Drawing.Size(23, 12);
             this.lbIPN.TabIndex = 40;
@@ -178,29 +180,22 @@
             // 
             this.tbMOA.Location = new System.Drawing.Point(286, 60);
             this.tbMOA.Name = "tbMOA";
-            this.tbMOA.Size = new System.Drawing.Size(107, 21);
+            this.tbMOA.Size = new System.Drawing.Size(135, 21);
             this.tbMOA.TabIndex = 34;
             // 
             // tbMould
             // 
             this.tbMould.Location = new System.Drawing.Point(286, 6);
             this.tbMould.Name = "tbMould";
-            this.tbMould.Size = new System.Drawing.Size(107, 21);
+            this.tbMould.Size = new System.Drawing.Size(135, 21);
             this.tbMould.TabIndex = 33;
             // 
             // tbActual_Output
             // 
             this.tbActual_Output.Location = new System.Drawing.Point(286, 114);
             this.tbActual_Output.Name = "tbActual_Output";
-            this.tbActual_Output.Size = new System.Drawing.Size(107, 21);
+            this.tbActual_Output.Size = new System.Drawing.Size(135, 21);
             this.tbActual_Output.TabIndex = 32;
-            // 
-            // tbStart_Time
-            // 
-            this.tbStart_Time.Location = new System.Drawing.Point(286, 87);
-            this.tbStart_Time.Name = "tbStart_Time";
-            this.tbStart_Time.Size = new System.Drawing.Size(107, 21);
-            this.tbStart_Time.TabIndex = 31;
             // 
             // tbDaily_Plan
             // 
@@ -218,9 +213,9 @@
             // 
             // tbIPN
             // 
-            this.tbIPN.Location = new System.Drawing.Point(83, 60);
+            this.tbIPN.Location = new System.Drawing.Point(286, 33);
             this.tbIPN.Name = "tbIPN";
-            this.tbIPN.Size = new System.Drawing.Size(107, 21);
+            this.tbIPN.Size = new System.Drawing.Size(135, 21);
             this.tbIPN.TabIndex = 28;
             // 
             // tbMachine
@@ -232,21 +227,23 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(92, 180);
+            this.btnCancel.AutoSize = true;
+            this.btnCancel.Location = new System.Drawing.Point(74, 180);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(51, 23);
             this.btnCancel.TabIndex = 26;
-            this.btnCancel.Text = "取消";
+            this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnConfirm
             // 
+            this.btnConfirm.AutoSize = true;
             this.btnConfirm.Location = new System.Drawing.Point(11, 180);
             this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(75, 23);
+            this.btnConfirm.Size = new System.Drawing.Size(57, 23);
             this.btnConfirm.TabIndex = 25;
-            this.btnConfirm.Text = "确定";
+            this.btnConfirm.Text = "Confirm";
             this.btnConfirm.UseVisualStyleBackColor = true;
             this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
@@ -266,11 +263,40 @@
             this.tbMaterial.Size = new System.Drawing.Size(107, 21);
             this.tbMaterial.TabIndex = 47;
             // 
+            // dtpStart_Time
+            // 
+            this.dtpStart_Time.CustomFormat = "yyyy/MM/dd hh:mm";
+            this.dtpStart_Time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpStart_Time.Location = new System.Drawing.Point(286, 87);
+            this.dtpStart_Time.Name = "dtpStart_Time";
+            this.dtpStart_Time.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dtpStart_Time.Size = new System.Drawing.Size(135, 21);
+            this.dtpStart_Time.TabIndex = 49;
+            // 
+            // lbPN
+            // 
+            this.lbPN.AutoSize = true;
+            this.lbPN.Location = new System.Drawing.Point(14, 63);
+            this.lbPN.Name = "lbPN";
+            this.lbPN.Size = new System.Drawing.Size(23, 12);
+            this.lbPN.TabIndex = 50;
+            this.lbPN.Text = "P/N";
+            // 
+            // tbPN
+            // 
+            this.tbPN.Location = new System.Drawing.Point(83, 60);
+            this.tbPN.Name = "tbPN";
+            this.tbPN.Size = new System.Drawing.Size(107, 21);
+            this.tbPN.TabIndex = 51;
+            // 
             // IJEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(423, 219);
+            this.ClientSize = new System.Drawing.Size(437, 218);
+            this.Controls.Add(this.tbPN);
+            this.Controls.Add(this.lbPN);
+            this.Controls.Add(this.dtpStart_Time);
             this.Controls.Add(this.lbMaterial);
             this.Controls.Add(this.tbMaterial);
             this.Controls.Add(this.lbActual_Output);
@@ -288,7 +314,6 @@
             this.Controls.Add(this.tbMOA);
             this.Controls.Add(this.tbMould);
             this.Controls.Add(this.tbActual_Output);
-            this.Controls.Add(this.tbStart_Time);
             this.Controls.Add(this.tbDaily_Plan);
             this.Controls.Add(this.tbOrder_Qty);
             this.Controls.Add(this.tbIPN);
@@ -323,7 +348,6 @@
         private System.Windows.Forms.TextBox tbMOA;
         private System.Windows.Forms.TextBox tbMould;
         private System.Windows.Forms.TextBox tbActual_Output;
-        private System.Windows.Forms.TextBox tbStart_Time;
         private System.Windows.Forms.TextBox tbDaily_Plan;
         private System.Windows.Forms.TextBox tbOrder_Qty;
         private System.Windows.Forms.TextBox tbIPN;
@@ -332,6 +356,9 @@
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Label lbMaterial;
         private System.Windows.Forms.TextBox tbMaterial;
+        private System.Windows.Forms.DateTimePicker dtpStart_Time;
+        private System.Windows.Forms.Label lbPN;
+        private System.Windows.Forms.TextBox tbPN;
 
     }
 }

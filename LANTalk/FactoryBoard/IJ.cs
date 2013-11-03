@@ -10,6 +10,7 @@ using System.IO;
 using LANTalk.Core;
 using DLLFullPrint;
 using System.Net;
+using System.Threading;
 
 namespace FactoryBoard
 {
@@ -20,7 +21,7 @@ namespace FactoryBoard
         public Main MainPage;
         private bool Return;
         private LANTalk.Core.Client _client;
-
+        private delegate void RefreshDelegate();//定义委托
 
         public IJ(Main mainpage)
         {
@@ -31,7 +32,6 @@ namespace FactoryBoard
 
         private void IJ_Load(object sender, EventArgs e)
         {
-            Control.CheckForIllegalCrossThreadCalls = false;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
             Init();
@@ -48,7 +48,7 @@ namespace FactoryBoard
             InitDepartment();
             RefreshOfferTable();
             var time = DateTime.Now;
-            lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
+            lbTime.Text = lbTime2.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             path += "\\LANTalk\\SaveFile\\IJ";
             if (!Directory.Exists(path))
@@ -81,18 +81,28 @@ namespace FactoryBoard
 
         private void ConnectCallback()
         {
-            btnConnect.Text = "Connected(已连接)";
-            btnConnect.Enabled = false;
-            btnOffer.Enabled = true;
+            RefreshDelegate refresh = () =>
+               {
+                   btnConnect.Text = "Connected(已连接)";
+                   btnConnect.Enabled = false;
+                   btnOffer.Enabled = true;
+               };
+            this.Invoke(refresh);
         }
 
         private void ErrorCallback(Exception ex)
         {
-            if (!Return)
+            RefreshDelegate refresh = () =>
             {
+
                 btnConnect.Text = "Connect(连接)";
                 btnConnect.Enabled = true;
                 btnOffer.Enabled = false;
+
+            };
+            if (!Return)
+            {
+                this.Invoke(refresh);
             }
         }
 
@@ -117,9 +127,9 @@ namespace FactoryBoard
                         if (department != null)
                         {
                             department.OrderList = CSVHelper.ReadTable(message);
+                            RefreshOfferTable();
+                            SendOfferTable();
                         }
-                        RefreshOfferTable();
-                        SendOfferTable();
                         break;
                 }
             }
@@ -143,19 +153,25 @@ namespace FactoryBoard
 
         private void RefreshOfferTable()
         {
-            dglOffer.DataSource = GetOfferTable();
+            RefreshDelegate refresh = () =>
+            {
+                dglOffer.DataSource = GetOfferTable();
+            };
+            this.Invoke(refresh);
         }
 
         private void SendOfferTable()
         {
-            foreach (var department in DepartmentList)
+            lock (DepartmentList)
             {
-                var content = Mode.SendOrder.ToString();
-                content += " " + _client.ClientIP.ToString();
-                content += " " + department.IP;
-                content += " " + CSVHelper.MakeCSV(department.OrderList);
-
-                _client.SendContent(content);
+                foreach (var department in DepartmentList)
+                {
+                    var content = Mode.SendOrder.ToString();
+                    content += " " + _client.ClientIP.ToString();
+                    content += " " + department.IP;
+                    content += " " + CSVHelper.MakeCSV(department.OrderList);
+                    _client.SendContent(content);
+                }
             }
         }
 
@@ -171,46 +187,48 @@ namespace FactoryBoard
             table.Columns.Add("Requset_Qtr", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
             table.Columns.Add("Remarks", typeof(string));
-
-            foreach (DataRow row in DepartmentList[0].OrderList.Rows)
+            lock (DepartmentList)
             {
-                var newRow = table.NewRow();
-                if (row["Remarks"].ToString() == Global.UnKnown)
+                foreach (DataRow row in DepartmentList[0].OrderList.Rows)
                 {
-                    row["Remarks"] = Global.Wait;
+                    var newRow = table.NewRow();
+                    if (row["Remarks"].ToString() == Global.UnKnown)
+                    {
+                        row["Remarks"] = Global.Wait;
+                    }
+                    newRow["Department"] = DepartmentList[0].Name;
+                    newRow["Line"] = row["Line"];
+                    newRow["Model"] = row["Model"];
+                    newRow["IPN"] = row["IPN"];
+                    newRow["MOA"] = row["MOA"];
+                    newRow["P/N"] = row["P/N"];
+                    newRow["Requset_Qtr"] = row["Requset_Qtr"];
+                    newRow["Request_Time"] = row["Request_Time"];
+                    newRow["Remarks"] = row["Remarks"];
+                    table.Rows.Add(newRow);
                 }
-                newRow["Department"] = DepartmentList[0].Name;
-                newRow["Line"] = row["Line"];
-                newRow["Model"] = row["Model"];
-                newRow["IPN"] = row["IPN"];
-                newRow["MOA"] = row["MOA"];
-                newRow["P/N"] = row["P/N"];
-                newRow["Requset_Qtr"] = row["Requset_Qtr"];
-                newRow["Request_Time"] = row["Request_Time"];
-                newRow["Remarks"] = row["Remarks"];
-                table.Rows.Add(newRow);
-            }
 
 
-            foreach (DataRow row in DepartmentList[1].OrderList.Rows)
-            {
-                var newRow = table.NewRow();
-                if (row["Remarks"].ToString() == Global.UnKnown)
+                foreach (DataRow row in DepartmentList[1].OrderList.Rows)
                 {
-                    row["Remarks"] = Global.Wait;
+                    var newRow = table.NewRow();
+                    if (row["Remarks"].ToString() == Global.UnKnown)
+                    {
+                        row["Remarks"] = Global.Wait;
+                    }
+                    newRow["Department"] = DepartmentList[1].Name;
+                    newRow["Line"] = string.Empty;
+                    newRow["Model"] = row["Model"];
+                    newRow["IPN"] = row["IPN"];
+                    newRow["MOA"] = row["MOA"];
+                    newRow["P/N"] = row["P/N"];
+                    newRow["Requset_Qtr"] = row["Requset_Qtr"];
+                    newRow["Request_Time"] = row["Request_Time"];
+                    newRow["Remarks"] = row["Remarks"];
+                    table.Rows.Add(newRow);
                 }
-                newRow["Department"] = DepartmentList[0].Name;
-                newRow["Line"] = string.Empty;
-                newRow["Model"] = row["Model"];
-                newRow["IPN"] = row["IPN"];
-                newRow["MOA"] = row["MOA"];
-                newRow["P/N"] = row["P/N"];
-                newRow["Requset_Qtr"] = row["Requset_Qtr"];
-                newRow["Request_Time"] = row["Request_Time"];
-                newRow["Remarks"] = row["Remarks"];
-                table.Rows.Add(newRow);
+                return table;
             }
-            return table;
         }
 
         private void InitDepartment()
@@ -264,6 +282,7 @@ namespace FactoryBoard
                 MainTable.Columns.Add("Material", typeof(string));
                 MainTable.Columns.Add("IPN", typeof(string));
                 MainTable.Columns.Add("MOA", typeof(string));
+                MainTable.Columns.Add("P/N", typeof(string));
                 MainTable.Columns.Add("Order_Qty", typeof(string));
                 MainTable.Columns.Add("Start_Time", typeof(string));
                 MainTable.Columns.Add("Daily_Plan", typeof(string));
@@ -357,7 +376,10 @@ namespace FactoryBoard
             {
                 Application.Exit();
             }
-            MainPage.Focus();
+            else
+            {
+                MainPage.Focus();
+            }
         }
 
         private void dglMain_DataSourceChanged(object sender, EventArgs e)
@@ -392,6 +414,20 @@ namespace FactoryBoard
                         this.dglMain.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                     }
                 }
+                dglMain.Columns["Machine"].HeaderText = "Machine\r\n设备";
+                dglMain.Columns["Mould"].HeaderText = "Mould\r\n模具";
+                dglMain.Columns["Material"].HeaderText = "Material\r\n物料";
+                dglMain.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
+                dglMain.Columns["MOA"].HeaderText = "MOA\r\n工单号";
+                dglMain.Columns["P/N"].HeaderText = "P/N\r\n品号";
+                dglMain.Columns["Order_Qty"].HeaderText = "Order Qty\r\n订单数量";
+                dglMain.Columns["Start_Time"].HeaderText = "Start Time\r\n开始时间";
+                dglMain.Columns["Daily_Plan"].HeaderText = "Daily Plan\r\n标准产能";
+                dglMain.Columns["Actual_Output"].HeaderText = "Actual Output\r\n实际产能";
+                dglMain.Columns["Man_Status"].HeaderText = "Man\r\n人数";
+                dglMain.Columns["Machine_Status"].HeaderText = "Machine\r\n机器";
+                dglMain.Columns["Material_Status"].HeaderText = "Material\r\n物料";
+                dglMain.Columns["Method_Status"].HeaderText = "Method\r\n方法";
             }
         }
 
@@ -451,6 +487,16 @@ namespace FactoryBoard
                     {
                         this.dglOffer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                     }
+
+                    dglOffer.Columns["Department"].HeaderText = "Department\r\n部门";
+                    dglOffer.Columns["Line"].HeaderText = "Line\r\n线别";
+                    dglOffer.Columns["Model"].HeaderText = "Model\r\n产品型号";
+                    dglOffer.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
+                    dglOffer.Columns["MOA"].HeaderText = "MOA\r\n工单号";
+                    dglOffer.Columns["P/N"].HeaderText = "P/N\r\n品号";
+                    dglOffer.Columns["Requset_Qtr"].HeaderText = "Requset Qtr\r\n需求数量";
+                    dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
+                    dglOffer.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
                 }
             }
         }
@@ -462,26 +508,29 @@ namespace FactoryBoard
 
         private void Offer()
         {
-            var index = dglOffer.CurrentCell.RowIndex;
-            if (dglOffer.CurrentCell.RowIndex >= 0)
+            if (dglOffer.CurrentCell != null)
             {
-                if (index < DepartmentList[0].OrderList.Rows.Count)
+                var index = dglOffer.CurrentCell.RowIndex;
+                if (dglOffer.CurrentCell.RowIndex >= 0)
                 {
-                    if (DepartmentList[0].OrderList.Rows[index]["Remarks"] == Global.Wait)
+                    if (index < DepartmentList[0].OrderList.Rows.Count)
                     {
-                        DepartmentList[0].OrderList.Rows[index]["Remarks"] = Global.Sending;
+                        if (DepartmentList[0].OrderList.Rows[index]["Remarks"].ToString() == Global.Wait)
+                        {
+                            DepartmentList[0].OrderList.Rows[index]["Remarks"] = Global.Sending;
+                        }
                     }
-                }
-                else
-                {
-                    if (DepartmentList[1].OrderList.Rows[index]["Remarks"] == Global.Wait)
+                    else
                     {
-                        index = index - DepartmentList[0].OrderList.Rows.Count;
-                        DepartmentList[1].OrderList.Rows[index]["Remarks"] = Global.Sending;
+                        if (DepartmentList[1].OrderList.Rows[index]["Remarks"].ToString() == Global.Wait)
+                        {
+                            index = index - DepartmentList[0].OrderList.Rows.Count;
+                            DepartmentList[1].OrderList.Rows[index]["Remarks"] = Global.Sending;
+                        }
                     }
+                    RefreshOfferTable();
+                    SendOfferTable();
                 }
-                RefreshOfferTable();
-                SendOfferTable();
             }
         }
 
@@ -493,7 +542,12 @@ namespace FactoryBoard
         private void tTime_Tick(object sender, EventArgs e)
         {
             var time = DateTime.Now;
-            lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
+            lbTime.Text = lbTime2.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
     }

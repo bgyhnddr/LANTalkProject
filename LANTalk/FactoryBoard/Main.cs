@@ -28,14 +28,6 @@ namespace FactoryBoard
             _department = new List<Department>();
         }
 
-        private void btnASS_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            SaveConfig(Global.ASS);
-            var form = new ASS(this);
-            form.Show();
-        }
-
         private void SaveConfig(string department)
         {
             var table = new DataTable();
@@ -99,6 +91,10 @@ namespace FactoryBoard
                             new IJ(this).Show();
                             this.Hide();
                             break;
+                        case Global.SSP:
+                            new SSP(this).Show();
+                            this.Hide();
+                            break;
 
                     }
                 }
@@ -113,6 +109,20 @@ namespace FactoryBoard
             this.Hide();
             SaveConfig(Global.IJ);
             new IJ(this).Show();
+        }
+
+        private void btnSSP_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            SaveConfig(Global.SSP);
+            new SSP(this).Show();
+        }
+
+        private void btnASS_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            SaveConfig(Global.ASS);
+            new ASS(this).Show(); 
         }
     }
 }

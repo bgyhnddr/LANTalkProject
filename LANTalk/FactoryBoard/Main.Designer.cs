@@ -193,6 +193,7 @@
             this.btnSSP.TabIndex = 16;
             this.btnSSP.Text = "SSP";
             this.btnSSP.UseVisualStyleBackColor = true;
+            this.btnSSP.Click += new System.EventHandler(this.btnSSP_Click);
             // 
             // btnWH
             // 
@@ -233,7 +234,7 @@
             this.gIPSet.Size = new System.Drawing.Size(200, 241);
             this.gIPSet.TabIndex = 19;
             this.gIPSet.TabStop = false;
-            this.gIPSet.Text = "IP配置";
+            this.gIPSet.Text = "IP config";
             // 
             // lbPort
             // 

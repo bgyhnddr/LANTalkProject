@@ -1,6 +1,6 @@
 ﻿namespace FactoryBoard
 {
-    partial class ASSEdit
+    partial class SSPEdit
     {
         /// <summary>
         /// Required designer variable.
@@ -50,12 +50,14 @@
             this.lbStart_Time = new System.Windows.Forms.Label();
             this.lbActual_Output = new System.Windows.Forms.Label();
             this.dtpStart_Time = new System.Windows.Forms.DateTimePicker();
+            this.tbPN = new System.Windows.Forms.TextBox();
+            this.lbPN = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnConfirm
             // 
             this.btnConfirm.AutoSize = true;
-            this.btnConfirm.Location = new System.Drawing.Point(9, 169);
+            this.btnConfirm.Location = new System.Drawing.Point(12, 214);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(57, 23);
             this.btnConfirm.TabIndex = 0;
@@ -66,7 +68,7 @@
             // btnCancel
             // 
             this.btnCancel.AutoSize = true;
-            this.btnCancel.Location = new System.Drawing.Point(72, 169);
+            this.btnCancel.Location = new System.Drawing.Point(75, 214);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(51, 23);
             this.btnCancel.TabIndex = 1;
@@ -90,21 +92,21 @@
             // 
             // tbOrder_Qty
             // 
-            this.tbOrder_Qty.Location = new System.Drawing.Point(83, 66);
+            this.tbOrder_Qty.Location = new System.Drawing.Point(83, 93);
             this.tbOrder_Qty.Name = "tbOrder_Qty";
             this.tbOrder_Qty.Size = new System.Drawing.Size(107, 21);
             this.tbOrder_Qty.TabIndex = 4;
             // 
             // tbDaily_Plan
             // 
-            this.tbDaily_Plan.Location = new System.Drawing.Point(83, 93);
+            this.tbDaily_Plan.Location = new System.Drawing.Point(83, 120);
             this.tbDaily_Plan.Name = "tbDaily_Plan";
             this.tbDaily_Plan.Size = new System.Drawing.Size(107, 21);
             this.tbDaily_Plan.TabIndex = 5;
             // 
             // tbActual_Output
             // 
-            this.tbActual_Output.Location = new System.Drawing.Point(286, 93);
+            this.tbActual_Output.Location = new System.Drawing.Point(286, 120);
             this.tbActual_Output.Name = "tbActual_Output";
             this.tbActual_Output.Size = new System.Drawing.Size(135, 21);
             this.tbActual_Output.TabIndex = 9;
@@ -126,7 +128,7 @@
             // btnMan_Status
             // 
             this.btnMan_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMan_Status.Location = new System.Drawing.Point(9, 130);
+            this.btnMan_Status.Location = new System.Drawing.Point(12, 175);
             this.btnMan_Status.Margin = new System.Windows.Forms.Padding(0);
             this.btnMan_Status.Name = "btnMan_Status";
             this.btnMan_Status.Size = new System.Drawing.Size(60, 23);
@@ -138,7 +140,7 @@
             // btnMachine_Status
             // 
             this.btnMachine_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMachine_Status.Location = new System.Drawing.Point(69, 130);
+            this.btnMachine_Status.Location = new System.Drawing.Point(72, 175);
             this.btnMachine_Status.Margin = new System.Windows.Forms.Padding(0);
             this.btnMachine_Status.Name = "btnMachine_Status";
             this.btnMachine_Status.Size = new System.Drawing.Size(60, 23);
@@ -150,7 +152,7 @@
             // btnMaterial_Status
             // 
             this.btnMaterial_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMaterial_Status.Location = new System.Drawing.Point(129, 130);
+            this.btnMaterial_Status.Location = new System.Drawing.Point(132, 175);
             this.btnMaterial_Status.Margin = new System.Windows.Forms.Padding(0);
             this.btnMaterial_Status.Name = "btnMaterial_Status";
             this.btnMaterial_Status.Size = new System.Drawing.Size(60, 23);
@@ -162,7 +164,7 @@
             // btnMethod_Status
             // 
             this.btnMethod_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMethod_Status.Location = new System.Drawing.Point(189, 130);
+            this.btnMethod_Status.Location = new System.Drawing.Point(192, 175);
             this.btnMethod_Status.Margin = new System.Windows.Forms.Padding(0);
             this.btnMethod_Status.Name = "btnMethod_Status";
             this.btnMethod_Status.Size = new System.Drawing.Size(60, 23);
@@ -192,7 +194,7 @@
             // lbOrder_Qty
             // 
             this.lbOrder_Qty.AutoSize = true;
-            this.lbOrder_Qty.Location = new System.Drawing.Point(12, 69);
+            this.lbOrder_Qty.Location = new System.Drawing.Point(12, 96);
             this.lbOrder_Qty.Name = "lbOrder_Qty";
             this.lbOrder_Qty.Size = new System.Drawing.Size(59, 12);
             this.lbOrder_Qty.TabIndex = 19;
@@ -201,7 +203,7 @@
             // lbDaily_Plan
             // 
             this.lbDaily_Plan.AutoSize = true;
-            this.lbDaily_Plan.Location = new System.Drawing.Point(12, 96);
+            this.lbDaily_Plan.Location = new System.Drawing.Point(12, 123);
             this.lbDaily_Plan.Name = "lbDaily_Plan";
             this.lbDaily_Plan.Size = new System.Drawing.Size(65, 12);
             this.lbDaily_Plan.TabIndex = 20;
@@ -228,7 +230,7 @@
             // lbStart_Time
             // 
             this.lbStart_Time.AutoSize = true;
-            this.lbStart_Time.Location = new System.Drawing.Point(200, 69);
+            this.lbStart_Time.Location = new System.Drawing.Point(200, 96);
             this.lbStart_Time.Name = "lbStart_Time";
             this.lbStart_Time.Size = new System.Drawing.Size(65, 12);
             this.lbStart_Time.TabIndex = 23;
@@ -237,7 +239,7 @@
             // lbActual_Output
             // 
             this.lbActual_Output.AutoSize = true;
-            this.lbActual_Output.Location = new System.Drawing.Point(200, 96);
+            this.lbActual_Output.Location = new System.Drawing.Point(200, 123);
             this.lbActual_Output.Name = "lbActual_Output";
             this.lbActual_Output.Size = new System.Drawing.Size(83, 12);
             this.lbActual_Output.TabIndex = 24;
@@ -247,17 +249,35 @@
             // 
             this.dtpStart_Time.CustomFormat = "yyyy/MM/dd hh:mm";
             this.dtpStart_Time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpStart_Time.Location = new System.Drawing.Point(286, 66);
+            this.dtpStart_Time.Location = new System.Drawing.Point(286, 93);
             this.dtpStart_Time.Name = "dtpStart_Time";
             this.dtpStart_Time.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dtpStart_Time.Size = new System.Drawing.Size(135, 21);
             this.dtpStart_Time.TabIndex = 25;
             // 
-            // ASSEdit
+            // tbPN
+            // 
+            this.tbPN.Location = new System.Drawing.Point(83, 66);
+            this.tbPN.Name = "tbPN";
+            this.tbPN.Size = new System.Drawing.Size(107, 21);
+            this.tbPN.TabIndex = 53;
+            // 
+            // lbPN
+            // 
+            this.lbPN.AutoSize = true;
+            this.lbPN.Location = new System.Drawing.Point(14, 69);
+            this.lbPN.Name = "lbPN";
+            this.lbPN.Size = new System.Drawing.Size(23, 12);
+            this.lbPN.TabIndex = 52;
+            this.lbPN.Text = "P/N";
+            // 
+            // SSPEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(478, 208);
+            this.ClientSize = new System.Drawing.Size(478, 249);
+            this.Controls.Add(this.tbPN);
+            this.Controls.Add(this.lbPN);
             this.Controls.Add(this.dtpStart_Time);
             this.Controls.Add(this.lbActual_Output);
             this.Controls.Add(this.lbStart_Time);
@@ -283,9 +303,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ASSEdit";
+            this.Name = "SSPEdit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ASSEdit";
+            this.Text = "SSPEdit";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -315,5 +335,7 @@
         private System.Windows.Forms.Label lbStart_Time;
         private System.Windows.Forms.Label lbActual_Output;
         private System.Windows.Forms.DateTimePicker dtpStart_Time;
+        private System.Windows.Forms.TextBox tbPN;
+        private System.Windows.Forms.Label lbPN;
     }
 }

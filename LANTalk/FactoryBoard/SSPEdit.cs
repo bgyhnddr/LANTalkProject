@@ -9,29 +9,30 @@ using System.Windows.Forms;
 
 namespace FactoryBoard
 {
-    public partial class IJEdit : Form
+    public partial class SSPEdit : Form
     {
         private bool ADD = true;
-        public IJEdit(int rowIndex)
+
+        public SSPEdit(int rowIndex)
         {
             InitializeComponent();
+
             btnMan_Status.BackColor = btnMachine_Status.BackColor = btnMaterial_Status.BackColor = btnMethod_Status.BackColor = Color.GreenYellow;
 
 
             if (rowIndex >= 0)
             {
                 ADD = false;
-                tbMachine.ReadOnly = true;
-                LoadData(IJ.MainTable.Rows[rowIndex]);
+                tbLine.ReadOnly = true;
+                LoadData(SSP.MainTable.Rows[rowIndex]);
             }
         }
 
         private void LoadData(DataRow row)
         {
 
-            tbMachine.Text = row["Machine"].ToString();
-            tbMould.Text = row["Mould"].ToString();
-            tbMaterial.Text = row["Material"].ToString();
+            tbLine.Text = row["Line"].ToString();
+            tbModel.Text = row["Model"].ToString();
             tbIPN.Text = row["IPN"].ToString();
             tbMOA.Text = row["MOA"].ToString();
             tbPN.Text = row["P/N"].ToString();
@@ -48,6 +49,7 @@ namespace FactoryBoard
 
         private void btnMan_Click(object sender, EventArgs e)
         {
+
             btnMan_Status.BackColor = btnMan_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
         }
 
@@ -70,15 +72,14 @@ namespace FactoryBoard
         {
             if (ADD)
             {
-                if (IJ.MainTable.Select("Machine = '" + tbMachine.Text + "'").Length > 0)
+                if (SSP.MainTable.Select("Line = '" + tbLine.Text + "'").Length > 0)
                 {
                     MessageBox.Show("该生产线已存在，无法新增。");
                     return;
                 }
-                var row = IJ.MainTable.NewRow();
-                row["Machine"] = tbMachine.Text;
-                row["Mould"] = tbMould.Text;
-                row["Material"] = tbMaterial.Text;
+                var row = SSP.MainTable.NewRow();
+                row["Line"] = tbLine.Text;
+                row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
                 row["MOA"] = tbMOA.Text;
                 row["P/N"] = tbPN.Text;
@@ -91,14 +92,13 @@ namespace FactoryBoard
                 row["Material_Status"] = btnMaterial_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
                 row["Method_Status"] = btnMethod_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
 
-                IJ.MainTable.Rows.Add(row);
+                SSP.MainTable.Rows.Add(row);
             }
             else
             {
-                var row = IJ.MainTable.Select("Machine = '" + tbMachine.Text + "'").First();
-                row["Machine"] = tbMachine.Text;
-                row["Mould"] = tbMould.Text;
-                row["Material"] = tbMaterial.Text;
+                var row = SSP.MainTable.Select("Line = '" + tbLine.Text + "'").First();
+                row["Line"] = tbLine.Text;
+                row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
                 row["MOA"] = tbMOA.Text;
                 row["P/N"] = tbPN.Text;
