@@ -414,6 +414,7 @@ namespace FactoryBoard
                             switch (department.Name)
                             {
                                 case Global.ASS:
+                                    Global.PlaySound();
                                     RefreshOfferTable();
                                     SendOfferTable();
                                     break;
@@ -519,14 +520,12 @@ namespace FactoryBoard
         {
             lock (DepartmentList)
             {
-                foreach (var department in DepartmentList)
-                {
-                    var content = Mode.SendOrder.ToString();
-                    content += " " + _client.ClientIP.ToString();
-                    content += " " + department.IP;
-                    content += " " + CSVHelper.MakeCSV(department.OrderList);
-                    _client.SendContent(content);
-                }
+                var department = DepartmentList[0];
+                var content = Mode.SendOrder.ToString();
+                content += " " + _client.ClientIP.ToString();
+                content += " " + department.IP;
+                content += " " + CSVHelper.MakeCSV(department.OrderList);
+                _client.SendContent(content);
             }
         }
 

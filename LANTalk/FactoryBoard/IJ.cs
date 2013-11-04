@@ -123,6 +123,7 @@ namespace FactoryBoard
                 switch ((Mode)Enum.Parse(typeof(Mode), mode))
                 {
                     case Mode.SendOrder:
+                        Global.PlaySound();
                         var department = GetDepartment(fromip);
                         if (department != null)
                         {

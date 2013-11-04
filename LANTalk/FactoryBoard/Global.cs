@@ -7,6 +7,7 @@ using System.IO;
 using System.Data;
 using LANTalk.Core;
 using System.Net.Sockets;
+using System.Media;
 
 namespace FactoryBoard
 {
@@ -25,7 +26,7 @@ namespace FactoryBoard
         public DataTable OrderList;
         public Socket Socketor;
 
-        public Department(string ip, string name, bool online,DataTable table)
+        public Department(string ip, string name, bool online, DataTable table)
         {
             IP = ip;
             Name = name;
@@ -53,7 +54,7 @@ namespace FactoryBoard
 
         public static string ErrorMessage;
 
-
+        public const string WAVFile = "Sound.wav";
 
         public const string DEPARTMENT_STRING = "department";
         public const string ASS_STRING = "ASS";
@@ -147,7 +148,19 @@ namespace FactoryBoard
             File.WriteAllText(path, CSVHelper.MakeCSV(table), Encoding.GetEncoding("GB2312"));
             File.WriteAllText(current, CSVHelper.MakeCSV(table), Encoding.GetEncoding("GB2312"));
         }
-    }
 
-    
+        public static void PlaySound()
+        {
+            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            path += "\\LANTalk\\" + Global.WAVFile;
+
+            if (File.Exists(path))
+            {
+                SoundPlayer player = new System.Media.SoundPlayer();
+                player.SoundLocation = path;
+                player.LoadAsync();
+                player.PlaySync();
+            }
+        }
+    }
 }
