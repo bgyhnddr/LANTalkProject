@@ -35,7 +35,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.lbTime2 = new System.Windows.Forms.TabControl();
+            this.tabMain = new System.Windows.Forms.TabControl();
             this.tagMain = new System.Windows.Forms.TabPage();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnSetting = new System.Windows.Forms.Button();
@@ -51,7 +51,7 @@
             this.dglMain = new System.Windows.Forms.DataGridView();
             this.lbASSTitle = new System.Windows.Forms.Label();
             this.tagOffer = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbTime2 = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnOffer = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -59,7 +59,7 @@
             this.lbOffer = new System.Windows.Forms.Label();
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.tTime = new System.Windows.Forms.Timer(this.components);
-            this.lbTime2.SuspendLayout();
+            this.tabMain.SuspendLayout();
             this.tagMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dglMain)).BeginInit();
@@ -68,19 +68,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.dglOffer)).BeginInit();
             this.SuspendLayout();
             // 
-            // lbTime2
+            // tabMain
             // 
-            this.lbTime2.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-            this.lbTime2.Controls.Add(this.tagMain);
-            this.lbTime2.Controls.Add(this.tagOffer);
-            this.lbTime2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbTime2.Location = new System.Drawing.Point(0, 0);
-            this.lbTime2.Margin = new System.Windows.Forms.Padding(0);
-            this.lbTime2.Name = "lbTime2";
-            this.lbTime2.Padding = new System.Drawing.Point(0, 0);
-            this.lbTime2.SelectedIndex = 0;
-            this.lbTime2.Size = new System.Drawing.Size(948, 441);
-            this.lbTime2.TabIndex = 2;
+            this.tabMain.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+            this.tabMain.Controls.Add(this.tagMain);
+            this.tabMain.Controls.Add(this.tagOffer);
+            this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabMain.Location = new System.Drawing.Point(0, 0);
+            this.tabMain.Margin = new System.Windows.Forms.Padding(0);
+            this.tabMain.Name = "tabMain";
+            this.tabMain.Padding = new System.Drawing.Point(0, 0);
+            this.tabMain.SelectedIndex = 0;
+            this.tabMain.Size = new System.Drawing.Size(948, 441);
+            this.tabMain.TabIndex = 2;
             // 
             // tagMain
             // 
@@ -100,7 +100,7 @@
             this.tagMain.Location = new System.Drawing.Point(4, 4);
             this.tagMain.Name = "tagMain";
             this.tagMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tagMain.Size = new System.Drawing.Size(940, 416);
+            this.tagMain.Size = new System.Drawing.Size(940, 415);
             this.tagMain.TabIndex = 0;
             this.tagMain.Text = "Info(信息)";
             this.tagMain.UseVisualStyleBackColor = true;
@@ -234,9 +234,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
             this.dglMain.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dglMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dglMain.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dglMain.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -279,7 +279,7 @@
             // 
             // tagOffer
             // 
-            this.tagOffer.Controls.Add(this.label1);
+            this.tagOffer.Controls.Add(this.lbTime2);
             this.tagOffer.Controls.Add(this.btnConnect);
             this.tagOffer.Controls.Add(this.btnOffer);
             this.tagOffer.Controls.Add(this.pictureBox2);
@@ -288,20 +288,20 @@
             this.tagOffer.Location = new System.Drawing.Point(4, 4);
             this.tagOffer.Name = "tagOffer";
             this.tagOffer.Padding = new System.Windows.Forms.Padding(3);
-            this.tagOffer.Size = new System.Drawing.Size(940, 416);
+            this.tagOffer.Size = new System.Drawing.Size(940, 415);
             this.tagOffer.TabIndex = 1;
             this.tagOffer.Text = "Offer(供料)";
             this.tagOffer.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // lbTime2
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(755, 79);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(179, 12);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "Date:yyyy-MM-dd Time:hh:mm:ss";
+            this.lbTime2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbTime2.AutoSize = true;
+            this.lbTime2.Location = new System.Drawing.Point(755, 79);
+            this.lbTime2.Name = "lbTime2";
+            this.lbTime2.Size = new System.Drawing.Size(179, 12);
+            this.lbTime2.TabIndex = 14;
+            this.lbTime2.Text = "Date:yyyy-MM-dd Time:hh:mm:ss";
             // 
             // btnConnect
             // 
@@ -345,9 +345,9 @@
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
             this.dglOffer.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dglOffer.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
@@ -401,13 +401,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 441);
-            this.Controls.Add(this.lbTime2);
+            this.Controls.Add(this.tabMain);
             this.Name = "IJ";
             this.Text = "IJ";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.IJ_FormClosed);
             this.Load += new System.EventHandler(this.IJ_Load);
             this.Shown += new System.EventHandler(this.IJ_Shown);
-            this.lbTime2.ResumeLayout(false);
+            this.tabMain.ResumeLayout(false);
             this.tagMain.ResumeLayout(false);
             this.tagMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -422,7 +422,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl lbTime2;
+        private System.Windows.Forms.TabControl tabMain;
         private System.Windows.Forms.TabPage tagMain;
         private System.Windows.Forms.Button btnSetting;
         private System.Windows.Forms.Label lbTime;
@@ -444,7 +444,7 @@
         private System.Windows.Forms.OpenFileDialog ofdOpenFile;
         private System.Windows.Forms.Timer tTime;
         private System.Windows.Forms.Button btnConnect;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbTime2;
         private System.Windows.Forms.Button btnExit;
     }
 }

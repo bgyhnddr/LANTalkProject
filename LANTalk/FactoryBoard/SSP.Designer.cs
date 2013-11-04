@@ -65,7 +65,7 @@
             this.btnWH = new System.Windows.Forms.Button();
             this.tagOrder = new System.Windows.Forms.TabPage();
             this.tabMain = new System.Windows.Forms.TabControl();
-            this.tabOrder = new System.Windows.Forms.TabPage();
+            this.tagOffer = new System.Windows.Forms.TabPage();
             this.lbTime3 = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnOffer = new System.Windows.Forms.Button();
@@ -80,7 +80,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dglMain)).BeginInit();
             this.tagOrder.SuspendLayout();
             this.tabMain.SuspendLayout();
-            this.tabOrder.SuspendLayout();
+            this.tagOffer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dglOffer)).BeginInit();
             this.SuspendLayout();
@@ -171,9 +171,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
             this.dglOrder.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dglOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dglOrder.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dglOrder.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -234,7 +234,7 @@
             this.tagMain.Location = new System.Drawing.Point(4, 4);
             this.tagMain.Name = "tagMain";
             this.tagMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tagMain.Size = new System.Drawing.Size(940, 416);
+            this.tagMain.Size = new System.Drawing.Size(940, 415);
             this.tagMain.TabIndex = 0;
             this.tagMain.Text = "Info(信息)";
             this.tagMain.UseVisualStyleBackColor = true;
@@ -358,9 +358,9 @@
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
             this.dglMain.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            this.dglMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dglMain.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dglMain.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -444,7 +444,7 @@
             this.tagOrder.Location = new System.Drawing.Point(4, 4);
             this.tagOrder.Name = "tagOrder";
             this.tagOrder.Padding = new System.Windows.Forms.Padding(3);
-            this.tagOrder.Size = new System.Drawing.Size(940, 416);
+            this.tagOrder.Size = new System.Drawing.Size(940, 415);
             this.tagOrder.TabIndex = 1;
             this.tagOrder.Text = "Order(要料)";
             this.tagOrder.UseVisualStyleBackColor = true;
@@ -454,7 +454,7 @@
             this.tabMain.Alignment = System.Windows.Forms.TabAlignment.Bottom;
             this.tabMain.Controls.Add(this.tagMain);
             this.tabMain.Controls.Add(this.tagOrder);
-            this.tabMain.Controls.Add(this.tabOrder);
+            this.tabMain.Controls.Add(this.tagOffer);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Margin = new System.Windows.Forms.Padding(0);
@@ -464,21 +464,21 @@
             this.tabMain.Size = new System.Drawing.Size(948, 441);
             this.tabMain.TabIndex = 2;
             // 
-            // tabOrder
+            // tagOffer
             // 
-            this.tabOrder.Controls.Add(this.lbTime3);
-            this.tabOrder.Controls.Add(this.btnConnect);
-            this.tabOrder.Controls.Add(this.btnOffer);
-            this.tabOrder.Controls.Add(this.pictureBox3);
-            this.tabOrder.Controls.Add(this.dglOffer);
-            this.tabOrder.Controls.Add(this.lbOffer);
-            this.tabOrder.Location = new System.Drawing.Point(4, 4);
-            this.tabOrder.Name = "tabOrder";
-            this.tabOrder.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOrder.Size = new System.Drawing.Size(940, 416);
-            this.tabOrder.TabIndex = 2;
-            this.tabOrder.Text = "Offer(供料)";
-            this.tabOrder.UseVisualStyleBackColor = true;
+            this.tagOffer.Controls.Add(this.lbTime3);
+            this.tagOffer.Controls.Add(this.btnConnect);
+            this.tagOffer.Controls.Add(this.btnOffer);
+            this.tagOffer.Controls.Add(this.pictureBox3);
+            this.tagOffer.Controls.Add(this.dglOffer);
+            this.tagOffer.Controls.Add(this.lbOffer);
+            this.tagOffer.Location = new System.Drawing.Point(4, 4);
+            this.tagOffer.Name = "tagOffer";
+            this.tagOffer.Padding = new System.Windows.Forms.Padding(3);
+            this.tagOffer.Size = new System.Drawing.Size(940, 415);
+            this.tagOffer.TabIndex = 2;
+            this.tagOffer.Text = "Offer(供料)";
+            this.tagOffer.UseVisualStyleBackColor = true;
             // 
             // lbTime3
             // 
@@ -532,9 +532,9 @@
             dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
             this.dglOffer.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
-            this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dglOffer.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.Color.White;
@@ -599,8 +599,8 @@
             this.tagOrder.ResumeLayout(false);
             this.tagOrder.PerformLayout();
             this.tabMain.ResumeLayout(false);
-            this.tabOrder.ResumeLayout(false);
-            this.tabOrder.PerformLayout();
+            this.tagOffer.ResumeLayout(false);
+            this.tagOffer.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dglOffer)).EndInit();
             this.ResumeLayout(false);
@@ -637,7 +637,7 @@
         private System.Windows.Forms.TabPage tagOrder;
         private System.Windows.Forms.TabControl tabMain;
         private System.Windows.Forms.Timer tTime;
-        private System.Windows.Forms.TabPage tabOrder;
+        private System.Windows.Forms.TabPage tagOffer;
         private System.Windows.Forms.Label lbTime3;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Button btnOffer;

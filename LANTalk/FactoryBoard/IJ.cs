@@ -46,7 +46,6 @@ namespace FactoryBoard
         {
             InitMainTable();
             InitDepartment();
-            RefreshOfferTable();
             var time = DateTime.Now;
             lbTime.Text = lbTime2.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -123,7 +122,6 @@ namespace FactoryBoard
                 switch ((Mode)Enum.Parse(typeof(Mode), mode))
                 {
                     case Mode.SendOrder:
-                        Global.PlaySound();
                         var department = GetDepartment(fromip);
                         if (department != null)
                         {
@@ -156,7 +154,9 @@ namespace FactoryBoard
         {
             RefreshDelegate refresh = () =>
             {
+                Global.PlaySound();
                 dglOffer.DataSource = GetOfferTable();
+                tabMain.SelectedTab = tagOffer;
             };
             this.Invoke(refresh);
         }
@@ -543,7 +543,7 @@ namespace FactoryBoard
         private void tTime_Tick(object sender, EventArgs e)
         {
             var time = DateTime.Now;
-            lbTime.Text = lbTime2.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
+            lbTime.Text = lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
         }
 
         private void btnExit_Click(object sender, EventArgs e)

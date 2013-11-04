@@ -45,7 +45,6 @@ namespace FactoryBoard
         {
             InitMainTable();
             InitDepartment();
-            RefreshOfferTable();
             RefreshOrderList();
             RefreshOrderButton();
             var time = DateTime.Now;
@@ -122,7 +121,9 @@ namespace FactoryBoard
         {
             RefreshDelegate refresh = () =>
             {
+                Global.PlaySound();
                 dglOffer.DataSource = GetOfferTable();
+                tabMain.SelectedTab = tagOffer;
             };
             this.Invoke(refresh);
         }

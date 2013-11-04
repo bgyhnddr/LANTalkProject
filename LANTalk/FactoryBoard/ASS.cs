@@ -121,15 +121,15 @@ namespace FactoryBoard
                    {
                        case Global.IJ:
                            btnIJ.Enabled = true;
-                           RefreshOrderButton();
-                           RefreshOrderList();
                            break;
                        case Global.SSP:
                            btnSSP.Enabled = true;
-                           RefreshOrderButton();
-                           RefreshOrderList();
                            break;
                    }
+
+                   RefreshOrderButton();
+                   RefreshOrderList();
+                   SendOrder();
                }
            };
             this.Invoke(refresh, socketor);
