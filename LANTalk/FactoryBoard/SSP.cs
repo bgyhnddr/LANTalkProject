@@ -10,6 +10,8 @@ using System.IO;
 using LANTalk.Core;
 using System.Net;
 using DLLFullPrint;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace FactoryBoard
 {
@@ -45,6 +47,7 @@ namespace FactoryBoard
         {
             InitMainTable();
             InitDepartment();
+            dglOffer.DataSource = GetOfferTable();
             RefreshOrderList();
             RefreshOrderButton();
             var time = DateTime.Now;
@@ -122,8 +125,8 @@ namespace FactoryBoard
             RefreshDelegate refresh = () =>
             {
                 Global.PlaySound();
-                dglOffer.DataSource = GetOfferTable();
                 tabMain.SelectedTab = tagOffer;
+                dglOffer.DataSource = GetOfferTable();
             };
             this.Invoke(refresh);
         }
@@ -202,50 +205,6 @@ namespace FactoryBoard
             this.Invoke(refresh);
         }
 
-        private void dglMain_DataSourceChanged(object sender, EventArgs e)
-        {
-            if (dglMain.Rows.Count > 0)
-            {
-                int row = dglMain.Rows.Count;//得到总行数    
-                int cell = dglMain.Rows[0].Cells.Count;//得到总列数    
-                for (int i = 0; i < row; i++)//得到总行数并在之内循环    
-                {
-                    for (int j = 9; j < cell; j++)//得到总列数并在之内循环    
-                    {
-                        if (dglMain.Rows[i].Cells[j].Value != null)
-                        {
-                            if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.UnNormal)
-                            {
-                                this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.Red;
-                                this.dglMain.Rows[i].Cells[j].Value = string.Empty;
-                            }
-                            else if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.Normal)
-                            {
-                                this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
-                                this.dglMain.Rows[i].Cells[j].Value = string.Empty;
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < this.dglMain.Columns.Count; i++)
-                {
-                    this.dglMain.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                }
-            }
-            dglMain.Columns["Line"].HeaderText = "Line\r\n线别";
-            dglMain.Columns["Model"].HeaderText = "Model\r\n产品型号";
-            dglMain.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
-            dglMain.Columns["MOA"].HeaderText = "MOA\r\n工单号";
-            dglMain.Columns["P/N"].HeaderText = "P/N\r\n品号";
-            dglMain.Columns["Order_Qty"].HeaderText = "Order Qty\r\n订单数量";
-            dglMain.Columns["Start_Time"].HeaderText = "Start Time\r\n开始时间";
-            dglMain.Columns["Daily_Plan"].HeaderText = "Daily Plan\r\n标准产能";
-            dglMain.Columns["Actual_Output"].HeaderText = "Actual Output\r\n实际产能";
-            dglMain.Columns["Man_Status"].HeaderText = "Man\r\n人数";
-            dglMain.Columns["Machine_Status"].HeaderText = "Machine\r\n机器";
-            dglMain.Columns["Material_Status"].HeaderText = "Material\r\n物料";
-            dglMain.Columns["Method_Status"].HeaderText = "Method\r\n方法";
-        }
 
         private void dglMain_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -255,61 +214,6 @@ namespace FactoryBoard
                 form.ShowDialog();
                 dglMain.DataSource = MainTable.Copy();
             }
-        }
-
-        private void dglOrder_DataSourceChanged(object sender, EventArgs e)
-        {
-            if (dglOrder.Rows.Count > 0)
-            {
-                int row = dglOrder.Rows.Count;//得到总行数    
-                int cell = dglOrder.Rows[0].Cells.Count;//得到总列数    
-                for (int i = 0; i < row; i++)//得到总行数并在之内循环    
-                {
-                    for (int j = 6; j < cell; j++)//得到总列数并在之内循环    
-                    {
-                        if (dglOrder.Rows[i].Cells[j].Value != null)
-                        {
-                            if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.UnKnown)
-                            {
-                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.White;
-                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
-                            }
-                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Revoke)
-                            {
-                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Gray;
-                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
-                            }
-                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Wait)
-                            {
-                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Red;
-                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
-                            }
-                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Sending)
-                            {
-                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
-                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
-                            }
-                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Receive)
-                            {
-                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
-                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < this.dglOrder.Columns.Count; i++)
-                {
-                    this.dglOrder.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                }
-            }
-
-            dglOrder.Columns["Model"].HeaderText = "Model\r\n产品型号";
-            dglOrder.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
-            dglOrder.Columns["MOA"].HeaderText = "MOA\r\n工单号";
-            dglOrder.Columns["P/N"].HeaderText = "P/N\r\n品号";
-            dglOrder.Columns["Requset_Qtr"].HeaderText = "Requset Qtr\r\n需求数量";
-            dglOrder.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
-            dglOrder.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
         }
 
         private void SSP_FormClosed(object sender, FormClosedEventArgs e)
@@ -357,7 +261,7 @@ namespace FactoryBoard
                 var config = Global.LoadConfig();
                 _client = new Client();
                 _client.ConnectServer(
-                    IPAddress.Parse(config.Rows[0][Global.SSP_STRING].ToString()),
+                    IPAddress.Parse(config.Rows[0][Global.ASS_STRING].ToString()),
                     int.Parse(config.Rows[0][Global.PORT_STRING].ToString()),
                     ConnectCallback,
                     ReceiveCallback,
@@ -386,6 +290,19 @@ namespace FactoryBoard
                 btnConnect.Text = "Connected(已连接)";
                 btnConnect.Enabled = false;
                 btnOffer.Enabled = true;
+                if (tabMain.SelectedTab == tagMain)
+                {
+                    tabMain.SelectedTab = tagOffer;
+                    Task task = new Task(() =>
+                    {
+                        RefreshDelegate refresh2 = () =>
+                        {
+                            tabMain.SelectedTab = tagMain;
+                        };
+                        this.Invoke(refresh2);
+                    });
+                    task.Start();
+                }
             };
             this.Invoke(refresh);
         }
@@ -545,63 +462,6 @@ namespace FactoryBoard
             }
         }
 
-        private void dglOffer_DataSourceChanged(object sender, EventArgs e)
-        {
-            lock (dglOffer)
-            {
-                if (dglOffer.Rows.Count > 0)
-                {
-                    int row = dglOffer.Rows.Count;//得到总行数    
-                    int cell = dglOffer.Rows[0].Cells.Count;//得到总列数    
-                    for (int i = 0; i < row; i++)//得到总行数并在之内循环    
-                    {
-                        for (int j = 7; j < cell; j++)//得到总列数并在之内循环    
-                        {
-                            if (dglOffer.Rows[i].Cells[j].Value != null)
-                            {
-                                if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.UnKnown)
-                                {
-                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.White;
-                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Revoke)
-                                {
-                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Gray;
-                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Wait)
-                                {
-                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Red;
-                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Sending)
-                                {
-                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
-                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Receive)
-                                {
-                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
-                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                            }
-                        }
-                    }
-                    for (int i = 0; i < this.dglOffer.Columns.Count; i++)
-                    {
-                        this.dglOffer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                    }
-
-                    dglOffer.Columns["Model"].HeaderText = "Model\r\n产品型号";
-                    dglOffer.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
-                    dglOffer.Columns["MOA"].HeaderText = "MOA\r\n工单号";
-                    dglOffer.Columns["P/N"].HeaderText = "P/N\r\n品号";
-                    dglOffer.Columns["Requset_Qtr"].HeaderText = "Requset Qtr\r\n需求数量";
-                    dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
-                    dglOffer.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
-                }
-            }
-        }
 
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
@@ -784,6 +644,164 @@ namespace FactoryBoard
         private void btnConnect_Click(object sender, EventArgs e)
         {
             Connect();
+        }
+
+        private void dglMain_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dglMain.Rows.Count > 0)
+            {
+                int row = dglMain.Rows.Count;//得到总行数    
+                int cell = dglMain.Rows[0].Cells.Count;//得到总列数    
+                for (int i = 0; i < row; i++)//得到总行数并在之内循环    
+                {
+                    for (int j = 9; j < cell; j++)//得到总列数并在之内循环    
+                    {
+                        if (dglMain.Rows[i].Cells[j].Value != null)
+                        {
+                            if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.UnNormal)
+                            {
+                                this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                this.dglMain.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.Normal)
+                            {
+                                this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
+                                this.dglMain.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < this.dglMain.Columns.Count; i++)
+                {
+                    this.dglMain.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+            }
+            dglMain.Columns["Line"].HeaderText = "Line\r\n线别";
+            dglMain.Columns["Model"].HeaderText = "Model\r\n产品型号";
+            dglMain.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
+            dglMain.Columns["MOA"].HeaderText = "MOA\r\n工单号";
+            dglMain.Columns["P/N"].HeaderText = "P/N\r\n品号";
+            dglMain.Columns["Order_Qty"].HeaderText = "Order Qty\r\n订单数量";
+            dglMain.Columns["Start_Time"].HeaderText = "Start Time\r\n开始时间";
+            dglMain.Columns["Daily_Plan"].HeaderText = "Daily Plan\r\n标准产能";
+            dglMain.Columns["Actual_Output"].HeaderText = "Actual Output\r\n实际产能";
+            dglMain.Columns["Man_Status"].HeaderText = "Man\r\n人数";
+            dglMain.Columns["Machine_Status"].HeaderText = "Machine\r\n机器";
+            dglMain.Columns["Material_Status"].HeaderText = "Material\r\n物料";
+            dglMain.Columns["Method_Status"].HeaderText = "Method\r\n方法";
+        }
+
+        private void dglOrder_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dglOrder.Rows.Count > 0)
+            {
+                int row = dglOrder.Rows.Count;//得到总行数    
+                int cell = dglOrder.Rows[0].Cells.Count;//得到总列数    
+                for (int i = 0; i < row; i++)//得到总行数并在之内循环    
+                {
+                    for (int j = 6; j < cell; j++)//得到总列数并在之内循环    
+                    {
+                        if (dglOrder.Rows[i].Cells[j].Value != null)
+                        {
+                            if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.UnKnown)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.White;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Revoke)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Gray;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Wait)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Sending)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglOrder.Rows[i].Cells[j].Value.ToString() == Global.Receive)
+                            {
+                                this.dglOrder.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
+                                this.dglOrder.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < this.dglOrder.Columns.Count; i++)
+                {
+                    this.dglOrder.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
+            }
+
+            dglOrder.Columns["Model"].HeaderText = "Model\r\n产品型号";
+            dglOrder.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
+            dglOrder.Columns["MOA"].HeaderText = "MOA\r\n工单号";
+            dglOrder.Columns["P/N"].HeaderText = "P/N\r\n品号";
+            dglOrder.Columns["Requset_Qtr"].HeaderText = "Requset Qtr\r\n需求数量";
+            dglOrder.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
+            dglOrder.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
+        }
+
+        private void dglOffer_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            lock (dglOffer)
+            {
+                if (dglOffer.Rows.Count > 0)
+                {
+                    int row = dglOffer.Rows.Count;//得到总行数    
+                    int cell = dglOffer.Rows[0].Cells.Count;//得到总列数    
+                    for (int i = 0; i < row; i++)//得到总行数并在之内循环    
+                    {
+                        for (int j = 7; j < cell; j++)//得到总列数并在之内循环    
+                        {
+                            if (dglOffer.Rows[i].Cells[j].Value != null)
+                            {
+                                if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.UnKnown)
+                                {
+                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.White;
+                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
+                                }
+                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Revoke)
+                                {
+                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Gray;
+                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
+                                }
+                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Wait)
+                                {
+                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
+                                }
+                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Sending)
+                                {
+                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
+                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
+                                }
+                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Receive)
+                                {
+                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
+                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
+                                }
+                            }
+                        }
+                    }
+                    for (int i = 0; i < this.dglOffer.Columns.Count; i++)
+                    {
+                        this.dglOffer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    }
+                }
+
+                dglOffer.Columns["Model"].HeaderText = "Model\r\n产品型号";
+                dglOffer.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
+                dglOffer.Columns["MOA"].HeaderText = "MOA\r\n工单号";
+                dglOffer.Columns["P/N"].HeaderText = "P/N\r\n品号";
+                dglOffer.Columns["Requset_Qtr"].HeaderText = "Requset Qtr\r\n需求数量";
+                dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
+                dglOffer.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
+            }
         }
     }
 }

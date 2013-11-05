@@ -37,6 +37,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tagMain = new System.Windows.Forms.TabPage();
+            this.btnConnect = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnSetting = new System.Windows.Forms.Button();
             this.lbTime = new System.Windows.Forms.Label();
@@ -52,7 +53,6 @@
             this.lbASSTitle = new System.Windows.Forms.Label();
             this.tagOffer = new System.Windows.Forms.TabPage();
             this.lbTime2 = new System.Windows.Forms.Label();
-            this.btnConnect = new System.Windows.Forms.Button();
             this.btnOffer = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.dglOffer = new System.Windows.Forms.DataGridView();
@@ -84,6 +84,7 @@
             // 
             // tagMain
             // 
+            this.tagMain.Controls.Add(this.btnConnect);
             this.tagMain.Controls.Add(this.btnExit);
             this.tagMain.Controls.Add(this.btnSetting);
             this.tagMain.Controls.Add(this.lbTime);
@@ -104,6 +105,17 @@
             this.tagMain.TabIndex = 0;
             this.tagMain.Text = "Info(信息)";
             this.tagMain.UseVisualStyleBackColor = true;
+            // 
+            // btnConnect
+            // 
+            this.btnConnect.AutoSize = true;
+            this.btnConnect.Location = new System.Drawing.Point(627, 68);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(93, 23);
+            this.btnConnect.TabIndex = 17;
+            this.btnConnect.Text = "Connect(连接)";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // btnExit
             // 
@@ -263,8 +275,8 @@
             this.dglMain.RowTemplate.Height = 23;
             this.dglMain.Size = new System.Drawing.Size(940, 321);
             this.dglMain.TabIndex = 0;
-            this.dglMain.DataSourceChanged += new System.EventHandler(this.dglMain_DataSourceChanged);
             this.dglMain.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dglMain_CellMouseDoubleClick);
+            this.dglMain.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dglMain_DataBindingComplete);
             // 
             // lbASSTitle
             // 
@@ -280,7 +292,6 @@
             // tagOffer
             // 
             this.tagOffer.Controls.Add(this.lbTime2);
-            this.tagOffer.Controls.Add(this.btnConnect);
             this.tagOffer.Controls.Add(this.btnOffer);
             this.tagOffer.Controls.Add(this.pictureBox2);
             this.tagOffer.Controls.Add(this.dglOffer);
@@ -302,17 +313,6 @@
             this.lbTime2.Size = new System.Drawing.Size(179, 12);
             this.lbTime2.TabIndex = 14;
             this.lbTime2.Text = "Date:yyyy-MM-dd Time:hh:mm:ss";
-            // 
-            // btnConnect
-            // 
-            this.btnConnect.AutoSize = true;
-            this.btnConnect.Location = new System.Drawing.Point(98, 66);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(93, 23);
-            this.btnConnect.TabIndex = 13;
-            this.btnConnect.Text = "Connect(连接)";
-            this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // btnOffer
             // 
@@ -348,6 +348,7 @@
             this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglOffer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dglOffer.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
@@ -373,7 +374,7 @@
             this.dglOffer.RowTemplate.Height = 23;
             this.dglOffer.Size = new System.Drawing.Size(941, 322);
             this.dglOffer.TabIndex = 6;
-            this.dglOffer.DataSourceChanged += new System.EventHandler(this.dglOffer_DataSourceChanged);
+            this.dglOffer.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dglOffer_DataBindingComplete);
             // 
             // lbOffer
             // 
@@ -443,8 +444,8 @@
         private System.Windows.Forms.DataGridView dglOffer;
         private System.Windows.Forms.OpenFileDialog ofdOpenFile;
         private System.Windows.Forms.Timer tTime;
-        private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Label lbTime2;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnConnect;
     }
 }

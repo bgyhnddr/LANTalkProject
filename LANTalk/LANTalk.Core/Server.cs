@@ -50,6 +50,8 @@ namespace LANTalk.Core
             if (_socket != null)
             {
                 _socket.Close();
+                _socket.Dispose();
+                _socket = null;
             }
         }
 
@@ -57,6 +59,8 @@ namespace LANTalk.Core
         {
             try
             {
+                StopServer();
+
                 _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //设定接收超时
                 _socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 0);
@@ -96,9 +100,19 @@ namespace LANTalk.Core
             }
             catch (Exception ex)
             {
-                if (_listenErrorCallback != null)
+                if (_socket != null)
                 {
-                    _listenErrorCallback(ex);
+                    lock (_socket)
+                    {
+                        _socket.Close();
+                        _socket.Dispose();
+                        _socket = null;
+
+                        if (_listenErrorCallback != null)
+                        {
+                            _listenErrorCallback(ex);
+                        }
+                    }
                 }
             }
         }
@@ -130,41 +144,50 @@ namespace LANTalk.Core
                 }
                 catch (Exception ex)
                 {
-                    if (_socketLostCallback != null)
+                    if (newSocket != null)
                     {
-                        _socketLostCallback(newSocket);
+                        lock (newSocket)
+                        {
+                            if (_socketLostCallback != null)
+                            {
+                                _socketLostCallback(newSocket);
+                            }
+                            newSocket.Disconnect(false);
+                        }
                     }
-                    newSocket.Close();
-                    break;
                 }
             }
         }
 
         private void Send(object parObject)
         {
-            try
+            var newSocket = (Socket)parObject;
+            while (true)
             {
-                var newSocket = (Socket)parObject;
-                while (true)
+                try
                 {
                     if (!newSocket.Connected)
                     {
                         break;
                     }
                     IPEndPoint clientipe = (IPEndPoint)newSocket.RemoteEndPoint;
-                    var sendString = _sendBefore(clientipe.Address);
-                    if (sendString.Length > 0)
+                    if (_sendBefore != null)
                     {
-                        var sendContent = Encoding.UTF8.GetBytes(sendString);
-                        var sendByte = new List<byte>();
-                        sendByte.AddRange(BitConverter.GetBytes(sendContent.Length));
-                        sendByte.AddRange(sendContent);
-                        newSocket.Send(sendByte.ToArray());
+                        var sendString = _sendBefore(clientipe.Address);
+                        if (sendString.Length > 0)
+                        {
+                            var sendContent = Encoding.UTF8.GetBytes(sendString);
+                            var sendByte = new List<byte>();
+                            sendByte.AddRange(BitConverter.GetBytes(sendContent.Length));
+                            sendByte.AddRange(sendContent);
+                            newSocket.Send(sendByte.ToArray());
+                        }
                     }
+
                 }
-            }
-            catch (Exception ex)
-            {
+                catch (Exception ex)
+                {
+                }
             }
         }
 

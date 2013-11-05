@@ -56,6 +56,8 @@ namespace LANTalk.Core
             if (_socket != null)
             {
                 _socket.Close();
+                _socket.Dispose();
+                _socket = null;
             }
         }
 
@@ -63,6 +65,8 @@ namespace LANTalk.Core
         {
             try
             {
+                DisConnect();
+
                 _socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 _socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 0);
                 _socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 0);
@@ -87,27 +91,42 @@ namespace LANTalk.Core
                 //开启线程 监控连接
                 while (true)
                 {
-                    var rclength = new byte[4];
-                    _socket.Receive(rclength);
-
-                    var length = BitConverter.ToInt32(rclength, 0);
-
-                    var rece = new byte[length];
-                    _socket.Receive(rece);
-
-                    if (_receivecallback != null)
+                    try
                     {
-                        _receivecallback(((IPEndPoint)_socket.LocalEndPoint).Address, Encoding.UTF8.GetString(rece));
-                    }
+                        var rclength = new byte[4];
+                        _socket.Receive(rclength);
 
+                        var length = BitConverter.ToInt32(rclength, 0);
+
+                        var rece = new byte[length];
+                        _socket.Receive(rece);
+
+                        if (_receivecallback != null)
+                        {
+                            _receivecallback(((IPEndPoint)_socket.LocalEndPoint).Address, Encoding.UTF8.GetString(rece));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (_socket != null)
+                        {
+                            lock (_socket)
+                            {
+                                if (_errorCallback != null)
+                                {
+                                    _errorCallback(ex);
+                                }
+                                _socket.Close();
+                                _socket.Dispose();
+                                _socket = null;
+
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                if (_errorCallback != null)
-                {
-                    _errorCallback(ex);
-                }
             }
         }
 
@@ -121,22 +140,35 @@ namespace LANTalk.Core
                     {
                         break;
                     }
-                    var sendString = _sendBefore();
-                    if (sendString.Length > 0)
+                    if (_sendBefore != null)
                     {
-                        var sendContent = Encoding.UTF8.GetBytes(sendString);
-                        var sendByte = new List<byte>();
-                        sendByte.AddRange(BitConverter.GetBytes(sendContent.Length));
-                        sendByte.AddRange(sendContent);
-                        _socket.Send(sendByte.ToArray());
+                        var sendString = _sendBefore();
+                        if (sendString.Length > 0)
+                        {
+                            var sendContent = Encoding.UTF8.GetBytes(sendString);
+                            var sendByte = new List<byte>();
+                            sendByte.AddRange(BitConverter.GetBytes(sendContent.Length));
+                            sendByte.AddRange(sendContent);
+                            _socket.Send(sendByte.ToArray());
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                if (_errorCallback != null)
+                if (_socket != null)
                 {
-                    _errorCallback(ex);
+                    lock (_socket)
+                    {
+                        if (_errorCallback != null)
+                        {
+                            _errorCallback(ex);
+                        }
+                        _socket.Close();
+                        _socket.Dispose();
+                        _socket = null;
+
+                    }
                 }
             }
         }
@@ -161,9 +193,18 @@ namespace LANTalk.Core
             }
             catch (Exception ex)
             {
-                if (_errorCallback != null)
+                if (_socket != null)
                 {
-                    _errorCallback(ex);
+                    lock (_socket)
+                    {
+                        if (_errorCallback != null)
+                        {
+                            _errorCallback(ex);
+                        }
+                        _socket.Close();
+                        _socket.Dispose();
+                        _socket = null;
+                    }
                 }
             }
         }
