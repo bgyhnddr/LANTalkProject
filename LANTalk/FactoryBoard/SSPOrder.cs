@@ -29,7 +29,6 @@ namespace FactoryBoard
             if (department!=null)
             {
                 var row = department.OrderList.NewRow();
-                row["Line"] = tbLine.Text;
                 row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
                 row["MOA"] = tbMOA.Text;

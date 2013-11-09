@@ -416,14 +416,17 @@ namespace FactoryBoard
         {
             if (dglOffer.CurrentCell != null)
             {
-                var index = dglOffer.CurrentCell.RowIndex;
                 if (dglOffer.CurrentCell.RowIndex >= 0)
                 {
-                    if (index < DepartmentList[0].OrderList.Rows.Count)
+                    var index = dglOffer.CurrentCell.RowIndex;
+                    if (dglOffer.CurrentCell.RowIndex < DepartmentList[0].OrderList.Rows.Count)
                     {
-                        if (DepartmentList[0].OrderList.Rows[index]["Remarks"].ToString() == Global.Wait)
+                        if (DepartmentList[0].OrderList.Rows.Count > 0)
                         {
-                            DepartmentList[0].OrderList.Rows[index]["Remarks"] = Global.Sending;
+                            if (DepartmentList[0].OrderList.Rows[index]["Remarks"].ToString() == Global.Wait)
+                            {
+                                DepartmentList[0].OrderList.Rows[index]["Remarks"] = Global.Sending;
+                            }
                         }
                     }
                     else

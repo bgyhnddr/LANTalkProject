@@ -72,7 +72,7 @@ namespace FactoryBoard
         private string SendBefore(IPAddress ip)
         {
             Thread.Sleep(1000);
-            return Mode.OnlineList.ToString() + " 0 0 " + GetOnlineList();
+            return Mode.OnlineList.ToString() + " 0.0.0.0 0.0.0.0 " + GetOnlineList();
         }
 
         private string GetOnlineList()

@@ -365,6 +365,7 @@ namespace FactoryBoard
             {
                 lock (DepartmentList)
                 {
+                    var change = false;
                     var temp = from row in DepartmentList
                                where x.IndexOf(row.IP) >= 0 && row.IP.Length > 0
                                select row;
@@ -382,6 +383,7 @@ namespace FactoryBoard
                                     btnWH.Enabled = true;
                                     break;
                             }
+                            change = true;
                         }
                     }
 
@@ -411,11 +413,14 @@ namespace FactoryBoard
                                     }
                                     break;
                             }
+                            change = true;
                         }
                     }
-
-                    RefreshOrderButton();
-                    RefreshOrderList();
+                    if (change)
+                    {
+                        RefreshOrderButton();
+                        RefreshOrderList();
+                    }
                 }
             };
             this.Invoke(refresh, ips);
@@ -551,7 +556,7 @@ namespace FactoryBoard
             {
                 return;
             }
-            var form = new ASSOrder();
+            var form = new SSPOrder();
             form.ShowDialog();
             RefreshOrderList();
         }
