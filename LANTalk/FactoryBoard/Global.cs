@@ -54,7 +54,7 @@ namespace FactoryBoard
 
         public static string ErrorMessage;
 
-        public const string WAVFile = "Sound.wav";
+        public const string WAVFile = "sound.wav";
 
         public const string DEPARTMENT_STRING = "department";
         public const string ASS_STRING = "ASS";
@@ -158,8 +158,7 @@ namespace FactoryBoard
             {
                 SoundPlayer player = new System.Media.SoundPlayer();
                 player.SoundLocation = path;
-                player.LoadAsync();
-                player.PlaySync();
+                player.Play();
             }
         }
     }

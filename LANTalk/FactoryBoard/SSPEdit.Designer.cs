@@ -57,7 +57,7 @@
             // btnConfirm
             // 
             this.btnConfirm.AutoSize = true;
-            this.btnConfirm.Location = new System.Drawing.Point(12, 214);
+            this.btnConfirm.Location = new System.Drawing.Point(12, 208);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(57, 23);
             this.btnConfirm.TabIndex = 0;
@@ -68,7 +68,7 @@
             // btnCancel
             // 
             this.btnCancel.AutoSize = true;
-            this.btnCancel.Location = new System.Drawing.Point(75, 214);
+            this.btnCancel.Location = new System.Drawing.Point(75, 208);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(51, 23);
             this.btnCancel.TabIndex = 1;
@@ -78,49 +78,49 @@
             // 
             // tbLine
             // 
-            this.tbLine.Location = new System.Drawing.Point(83, 12);
+            this.tbLine.Location = new System.Drawing.Point(83, 6);
             this.tbLine.Name = "tbLine";
             this.tbLine.Size = new System.Drawing.Size(107, 21);
             this.tbLine.TabIndex = 2;
             // 
             // tbIPN
             // 
-            this.tbIPN.Location = new System.Drawing.Point(83, 39);
+            this.tbIPN.Location = new System.Drawing.Point(83, 33);
             this.tbIPN.Name = "tbIPN";
             this.tbIPN.Size = new System.Drawing.Size(107, 21);
             this.tbIPN.TabIndex = 3;
             // 
             // tbOrder_Qty
             // 
-            this.tbOrder_Qty.Location = new System.Drawing.Point(83, 93);
+            this.tbOrder_Qty.Location = new System.Drawing.Point(83, 87);
             this.tbOrder_Qty.Name = "tbOrder_Qty";
             this.tbOrder_Qty.Size = new System.Drawing.Size(107, 21);
             this.tbOrder_Qty.TabIndex = 4;
             // 
             // tbDaily_Plan
             // 
-            this.tbDaily_Plan.Location = new System.Drawing.Point(83, 120);
+            this.tbDaily_Plan.Location = new System.Drawing.Point(83, 114);
             this.tbDaily_Plan.Name = "tbDaily_Plan";
             this.tbDaily_Plan.Size = new System.Drawing.Size(107, 21);
             this.tbDaily_Plan.TabIndex = 5;
             // 
             // tbActual_Output
             // 
-            this.tbActual_Output.Location = new System.Drawing.Point(286, 120);
+            this.tbActual_Output.Location = new System.Drawing.Point(286, 114);
             this.tbActual_Output.Name = "tbActual_Output";
             this.tbActual_Output.Size = new System.Drawing.Size(135, 21);
             this.tbActual_Output.TabIndex = 9;
             // 
             // tbModel
             // 
-            this.tbModel.Location = new System.Drawing.Point(286, 12);
+            this.tbModel.Location = new System.Drawing.Point(286, 6);
             this.tbModel.Name = "tbModel";
             this.tbModel.Size = new System.Drawing.Size(135, 21);
             this.tbModel.TabIndex = 11;
             // 
             // tbMOA
             // 
-            this.tbMOA.Location = new System.Drawing.Point(286, 39);
+            this.tbMOA.Location = new System.Drawing.Point(286, 33);
             this.tbMOA.Name = "tbMOA";
             this.tbMOA.Size = new System.Drawing.Size(135, 21);
             this.tbMOA.TabIndex = 12;
@@ -128,7 +128,7 @@
             // btnMan_Status
             // 
             this.btnMan_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMan_Status.Location = new System.Drawing.Point(12, 175);
+            this.btnMan_Status.Location = new System.Drawing.Point(12, 169);
             this.btnMan_Status.Margin = new System.Windows.Forms.Padding(0);
             this.btnMan_Status.Name = "btnMan_Status";
             this.btnMan_Status.Size = new System.Drawing.Size(60, 23);
@@ -140,7 +140,7 @@
             // btnMachine_Status
             // 
             this.btnMachine_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMachine_Status.Location = new System.Drawing.Point(72, 175);
+            this.btnMachine_Status.Location = new System.Drawing.Point(72, 169);
             this.btnMachine_Status.Margin = new System.Windows.Forms.Padding(0);
             this.btnMachine_Status.Name = "btnMachine_Status";
             this.btnMachine_Status.Size = new System.Drawing.Size(60, 23);
@@ -152,7 +152,7 @@
             // btnMaterial_Status
             // 
             this.btnMaterial_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMaterial_Status.Location = new System.Drawing.Point(132, 175);
+            this.btnMaterial_Status.Location = new System.Drawing.Point(132, 169);
             this.btnMaterial_Status.Margin = new System.Windows.Forms.Padding(0);
             this.btnMaterial_Status.Name = "btnMaterial_Status";
             this.btnMaterial_Status.Size = new System.Drawing.Size(60, 23);
@@ -164,7 +164,7 @@
             // btnMethod_Status
             // 
             this.btnMethod_Status.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnMethod_Status.Location = new System.Drawing.Point(192, 175);
+            this.btnMethod_Status.Location = new System.Drawing.Point(192, 169);
             this.btnMethod_Status.Margin = new System.Windows.Forms.Padding(0);
             this.btnMethod_Status.Name = "btnMethod_Status";
             this.btnMethod_Status.Size = new System.Drawing.Size(60, 23);
@@ -176,7 +176,7 @@
             // lbLine
             // 
             this.lbLine.AutoSize = true;
-            this.lbLine.Location = new System.Drawing.Point(12, 15);
+            this.lbLine.Location = new System.Drawing.Point(12, 9);
             this.lbLine.Name = "lbLine";
             this.lbLine.Size = new System.Drawing.Size(29, 12);
             this.lbLine.TabIndex = 17;
@@ -185,7 +185,7 @@
             // lbIPN
             // 
             this.lbIPN.AutoSize = true;
-            this.lbIPN.Location = new System.Drawing.Point(12, 42);
+            this.lbIPN.Location = new System.Drawing.Point(12, 36);
             this.lbIPN.Name = "lbIPN";
             this.lbIPN.Size = new System.Drawing.Size(23, 12);
             this.lbIPN.TabIndex = 18;
@@ -194,7 +194,7 @@
             // lbOrder_Qty
             // 
             this.lbOrder_Qty.AutoSize = true;
-            this.lbOrder_Qty.Location = new System.Drawing.Point(12, 96);
+            this.lbOrder_Qty.Location = new System.Drawing.Point(12, 90);
             this.lbOrder_Qty.Name = "lbOrder_Qty";
             this.lbOrder_Qty.Size = new System.Drawing.Size(59, 12);
             this.lbOrder_Qty.TabIndex = 19;
@@ -203,7 +203,7 @@
             // lbDaily_Plan
             // 
             this.lbDaily_Plan.AutoSize = true;
-            this.lbDaily_Plan.Location = new System.Drawing.Point(12, 123);
+            this.lbDaily_Plan.Location = new System.Drawing.Point(12, 117);
             this.lbDaily_Plan.Name = "lbDaily_Plan";
             this.lbDaily_Plan.Size = new System.Drawing.Size(65, 12);
             this.lbDaily_Plan.TabIndex = 20;
@@ -212,7 +212,7 @@
             // lbModel
             // 
             this.lbModel.AutoSize = true;
-            this.lbModel.Location = new System.Drawing.Point(200, 15);
+            this.lbModel.Location = new System.Drawing.Point(200, 9);
             this.lbModel.Name = "lbModel";
             this.lbModel.Size = new System.Drawing.Size(35, 12);
             this.lbModel.TabIndex = 21;
@@ -221,7 +221,7 @@
             // lbMOA
             // 
             this.lbMOA.AutoSize = true;
-            this.lbMOA.Location = new System.Drawing.Point(200, 42);
+            this.lbMOA.Location = new System.Drawing.Point(200, 36);
             this.lbMOA.Name = "lbMOA";
             this.lbMOA.Size = new System.Drawing.Size(23, 12);
             this.lbMOA.TabIndex = 22;
@@ -230,7 +230,7 @@
             // lbStart_Time
             // 
             this.lbStart_Time.AutoSize = true;
-            this.lbStart_Time.Location = new System.Drawing.Point(200, 96);
+            this.lbStart_Time.Location = new System.Drawing.Point(200, 90);
             this.lbStart_Time.Name = "lbStart_Time";
             this.lbStart_Time.Size = new System.Drawing.Size(65, 12);
             this.lbStart_Time.TabIndex = 23;
@@ -239,7 +239,7 @@
             // lbActual_Output
             // 
             this.lbActual_Output.AutoSize = true;
-            this.lbActual_Output.Location = new System.Drawing.Point(200, 123);
+            this.lbActual_Output.Location = new System.Drawing.Point(200, 117);
             this.lbActual_Output.Name = "lbActual_Output";
             this.lbActual_Output.Size = new System.Drawing.Size(83, 12);
             this.lbActual_Output.TabIndex = 24;
@@ -249,7 +249,7 @@
             // 
             this.dtpStart_Time.CustomFormat = "yyyy/MM/dd hh:mm";
             this.dtpStart_Time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpStart_Time.Location = new System.Drawing.Point(286, 93);
+            this.dtpStart_Time.Location = new System.Drawing.Point(286, 87);
             this.dtpStart_Time.Name = "dtpStart_Time";
             this.dtpStart_Time.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dtpStart_Time.Size = new System.Drawing.Size(135, 21);
@@ -257,7 +257,7 @@
             // 
             // tbPN
             // 
-            this.tbPN.Location = new System.Drawing.Point(83, 66);
+            this.tbPN.Location = new System.Drawing.Point(83, 60);
             this.tbPN.Name = "tbPN";
             this.tbPN.Size = new System.Drawing.Size(107, 21);
             this.tbPN.TabIndex = 53;
@@ -265,7 +265,7 @@
             // lbPN
             // 
             this.lbPN.AutoSize = true;
-            this.lbPN.Location = new System.Drawing.Point(14, 69);
+            this.lbPN.Location = new System.Drawing.Point(14, 63);
             this.lbPN.Name = "lbPN";
             this.lbPN.Size = new System.Drawing.Size(23, 12);
             this.lbPN.TabIndex = 52;
@@ -275,7 +275,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(478, 249);
+            this.ClientSize = new System.Drawing.Size(443, 240);
             this.Controls.Add(this.tbPN);
             this.Controls.Add(this.lbPN);
             this.Controls.Add(this.dtpStart_Time);

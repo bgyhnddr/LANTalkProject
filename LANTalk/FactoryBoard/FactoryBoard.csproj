@@ -71,6 +71,12 @@
     <Compile Include="Config.Designer.cs">
       <DependentUpon>Config.cs</DependentUpon>
     </Compile>
+    <Compile Include="eWH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="eWH.Designer.cs">
+      <DependentUpon>eWH.cs</DependentUpon>
+    </Compile>
     <Compile Include="IJ.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +98,18 @@
     <Compile Include="Global.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SMT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMT.Designer.cs">
+      <DependentUpon>SMT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SMTEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMTEdit.Designer.cs">
+      <DependentUpon>SMTEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="SSP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +128,12 @@
     <Compile Include="SSPOrder.Designer.cs">
       <DependentUpon>SSPOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="WH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WH.Designer.cs">
+      <DependentUpon>WH.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ASS.resx">
       <DependentUpon>ASS.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -119,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ASSOrder.resx">
       <DependentUpon>ASSOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eWH.resx">
+      <DependentUpon>eWH.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IJ.resx">
       <DependentUpon>IJ.cs</DependentUpon>
@@ -139,6 +166,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SMT.resx">
+      <DependentUpon>SMT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SMTEdit.resx">
+      <DependentUpon>SMTEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SSP.resx">
       <DependentUpon>SSP.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,6 +180,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SSPOrder.resx">
       <DependentUpon>SSPOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WH.resx">
+      <DependentUpon>WH.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

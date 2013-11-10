@@ -9,14 +9,13 @@ using System.Windows.Forms;
 
 namespace FactoryBoard
 {
-    public partial class SSPEdit : Form
+    public partial class SMTEdit : Form
     {
         private bool ADD = true;
 
-        public SSPEdit(int rowIndex)
+        public SMTEdit(int rowIndex)
         {
             InitializeComponent();
-
             btnMan_Status.BackColor = btnMachine_Status.BackColor = btnMaterial_Status.BackColor = btnMethod_Status.BackColor = Color.GreenYellow;
 
 
@@ -24,7 +23,7 @@ namespace FactoryBoard
             {
                 ADD = false;
                 tbLine.ReadOnly = true;
-                LoadData(SSP.MainTable.Rows[rowIndex]);
+                LoadData(SMT.MainTable.Rows[rowIndex]);
             }
         }
 
@@ -46,23 +45,22 @@ namespace FactoryBoard
             btnMethod_Status.BackColor = row["Method_Status"].ToString() == Global.Normal ? Color.GreenYellow : Color.Red;
         }
 
-        private void btnMan_Click(object sender, EventArgs e)
+        private void btnMan_Status_Click(object sender, EventArgs e)
         {
-
             btnMan_Status.BackColor = btnMan_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
         }
 
-        private void btnMachine_Click(object sender, EventArgs e)
+        private void btnMachine_Status_Click(object sender, EventArgs e)
         {
             btnMachine_Status.BackColor = btnMachine_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
         }
 
-        private void btnMaterial_Click(object sender, EventArgs e)
+        private void btnMaterial_Status_Click(object sender, EventArgs e)
         {
             btnMaterial_Status.BackColor = btnMaterial_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
         }
 
-        private void btnMethod_Click(object sender, EventArgs e)
+        private void btnMethod_Status_Click(object sender, EventArgs e)
         {
             btnMethod_Status.BackColor = btnMethod_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
         }

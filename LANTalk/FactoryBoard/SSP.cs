@@ -270,7 +270,7 @@ namespace FactoryBoard
             }
             catch (Exception ex)
             {
-                MessageBox.Show("连接服务失败：" + ex.Message, "错误");
+                MessageBox.Show("connect error：" + ex.Message, "error");
                 ReturnTitle();
             }
         }
@@ -332,7 +332,6 @@ namespace FactoryBoard
                             switch (department.Name)
                             {
                                 case Global.ASS:
-                                    Global.PlaySound();
                                     RefreshOfferTable();
                                     SendOfferTable();
                                     break;
@@ -483,11 +482,11 @@ namespace FactoryBoard
             try
             {
                 Global.SaveFile(SSP.MainTable, Global.SSP_STRING);
-                MessageBox.Show("保存成功");
+                MessageBox.Show("Saved");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("保存失败：" + ex.Message);
+                MessageBox.Show("Fail：" + ex.Message);
             }
         }
 
@@ -619,20 +618,9 @@ namespace FactoryBoard
                 var index = dglOffer.CurrentCell.RowIndex;
                 if (dglOffer.CurrentCell.RowIndex >= 0)
                 {
-                    if (index < DepartmentList[0].OrderList.Rows.Count)
+                    if (DepartmentList[0].OrderList.Rows[index]["Remarks"].ToString() == Global.Wait)
                     {
-                        if (DepartmentList[0].OrderList.Rows[index]["Remarks"].ToString() == Global.Wait)
-                        {
-                            DepartmentList[0].OrderList.Rows[index]["Remarks"] = Global.Sending;
-                        }
-                    }
-                    else
-                    {
-                        if (DepartmentList[1].OrderList.Rows[index]["Remarks"].ToString() == Global.Wait)
-                        {
-                            index = index - DepartmentList[0].OrderList.Rows.Count;
-                            DepartmentList[1].OrderList.Rows[index]["Remarks"] = Global.Sending;
-                        }
+                        DepartmentList[0].OrderList.Rows[index]["Remarks"] = Global.Sending;
                     }
                     RefreshOfferTable();
                     SendOfferTable();
@@ -807,6 +795,35 @@ namespace FactoryBoard
                 dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
                 dglOffer.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
             }
+        }
+
+        private void btnConfirm_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+            if (department == null)
+            {
+                return;
+            }
+            if (dglOrder.CurrentCell.RowIndex >= 0)
+            {
+                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() == Global.Sending)
+                {
+                    if (MessageBox.Show("confirm?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"] = Global.Receive;
+                    }
+                    RefreshOrderList();
+                    SendOrder();
+                }
+            }
+        }
+
+        private void btnWH_Click(object sender, EventArgs e)
+        {
+            CurrentOrder = Global.WH;
+            RefreshOrderButton();
+            RefreshOrderList();
+            dglOrder.Show();
         }
     }
 }

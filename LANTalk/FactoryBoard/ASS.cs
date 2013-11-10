@@ -125,6 +125,15 @@ namespace FactoryBoard
                        case Global.SSP:
                            btnSSP.Enabled = true;
                            break;
+                       case Global.SMT:
+                           btnSMT.Enabled = true;
+                           break;
+                       case Global.WH:
+                           btnWH.Enabled = true;
+                           break;
+                       case Global.eWH:
+                           btneWH.Enabled = true;
+                           break;
                    }
 
                    RefreshOrderButton();
@@ -374,11 +383,11 @@ namespace FactoryBoard
             try
             {
                 Global.SaveFile(ASS.MainTable, Global.ASS_STRING);
-                MessageBox.Show("Save Success");
+                MessageBox.Show("Saved");
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Save fail：" + ex.Message);
+                MessageBox.Show("Fail：" + ex.Message);
             }
         }
 
@@ -474,7 +483,10 @@ namespace FactoryBoard
         
         private void btnWH_Click(object sender, EventArgs e)
         {
-
+            CurrentOrder = Global.WH;
+            RefreshOrderButton();
+            RefreshOrderList();
+            dglOrder.Show();
         }
 
         private void btnSetting_Click(object sender, EventArgs e)
@@ -722,6 +734,22 @@ namespace FactoryBoard
             dglOrder.Columns["Requset_Qtr"].HeaderText = "Requset Qtr\r\n需求数量";
             dglOrder.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
             dglOrder.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
+        }
+
+        private void btnSMT_Click(object sender, EventArgs e)
+        {
+            CurrentOrder = Global.SMT;
+            RefreshOrderButton();
+            RefreshOrderList();
+            dglOrder.Show();
+        }
+
+        private void btneWH_Click(object sender, EventArgs e)
+        {
+            CurrentOrder = Global.eWH;
+            RefreshOrderButton();
+            RefreshOrderList();
+            dglOrder.Show();
         }
     }
 }

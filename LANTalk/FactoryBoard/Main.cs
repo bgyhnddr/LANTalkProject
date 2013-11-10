@@ -95,7 +95,18 @@ namespace FactoryBoard
                             new SSP(this).Show();
                             this.Hide();
                             break;
-
+                        case Global.SMT:
+                            new SMT(this).Show();
+                            this.Hide();
+                            break;
+                        case Global.WH:
+                            new WH(this).Show();
+                            this.Hide();
+                            break;
+                        case Global.eWH:
+                            new eWH(this).Show();
+                            this.Hide();
+                            break;
                     }
                 }
                 catch
@@ -123,6 +134,28 @@ namespace FactoryBoard
             this.Hide();
             SaveConfig(Global.ASS);
             new ASS(this).Show(); 
+        }
+
+        private void btnSMT_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            SaveConfig(Global.SMT);
+            new SMT(this).Show(); 
+        }
+
+        private void btnWH_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            SaveConfig(Global.WH);
+            new SMT(this).Show(); 
+        }
+
+        private void btneWH_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            SaveConfig(Global.eWH);
+            new eWH(this).Show(); 
+
         }
     }
 }

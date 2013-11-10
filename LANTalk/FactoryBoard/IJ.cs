@@ -75,7 +75,7 @@ namespace FactoryBoard
             }
             catch (Exception ex)
             {
-                MessageBox.Show("连接服务失败：" + ex.Message, "错误");
+                MessageBox.Show("connect error：" + ex.Message, "error");
                 ReturnTitle();
             }
         }
@@ -323,7 +323,7 @@ namespace FactoryBoard
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("确定删除?", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Delete?", "Tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
 
                 MainTable.Rows.RemoveAt(dglMain.CurrentCell.RowIndex);
@@ -366,11 +366,11 @@ namespace FactoryBoard
             try
             {
                 Global.SaveFile(IJ.MainTable, Global.IJ_STRING);
-                MessageBox.Show("保存成功");
+                MessageBox.Show("Saved");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("保存失败：" + ex.Message);
+                MessageBox.Show("Fail：" + ex.Message);
             }
         }
 

@@ -174,6 +174,7 @@
             this.btneWH.TabIndex = 14;
             this.btneWH.Text = "e-W/H";
             this.btneWH.UseVisualStyleBackColor = true;
+            this.btneWH.Click += new System.EventHandler(this.btneWH_Click);
             // 
             // btnIJ
             // 
@@ -203,6 +204,7 @@
             this.btnWH.TabIndex = 17;
             this.btnWH.Text = "W/H";
             this.btnWH.UseVisualStyleBackColor = true;
+            this.btnWH.Click += new System.EventHandler(this.btnWH_Click);
             // 
             // btnSMT
             // 
@@ -212,6 +214,7 @@
             this.btnSMT.TabIndex = 18;
             this.btnSMT.Text = "SMT";
             this.btnSMT.UseVisualStyleBackColor = true;
+            this.btnSMT.Click += new System.EventHandler(this.btnSMT_Click);
             // 
             // gIPSet
             // 
