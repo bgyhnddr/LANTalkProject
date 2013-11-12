@@ -69,12 +69,12 @@ namespace FactoryBoard
         {
             if (ADD)
             {
-                if (SSP.MainTable.Select("Line = '" + tbLine.Text + "'").Length > 0)
+                if (SMT.MainTable.Select("Line = '" + tbLine.Text + "'").Length > 0)
                 {
                     MessageBox.Show("该生产线已存在，无法新增。");
                     return;
                 }
-                var row = SSP.MainTable.NewRow();
+                var row = SMT.MainTable.NewRow();
                 row["Line"] = tbLine.Text;
                 row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
@@ -89,11 +89,11 @@ namespace FactoryBoard
                 row["Material_Status"] = btnMaterial_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
                 row["Method_Status"] = btnMethod_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
 
-                SSP.MainTable.Rows.Add(row);
+                SMT.MainTable.Rows.Add(row);
             }
             else
             {
-                var row = SSP.MainTable.Select("Line = '" + tbLine.Text + "'").First();
+                var row = SMT.MainTable.Select("Line = '" + tbLine.Text + "'").First();
                 row["Line"] = tbLine.Text;
                 row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
@@ -115,6 +115,26 @@ namespace FactoryBoard
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnMan_Status_Click_1(object sender, EventArgs e)
+        {
+            btnMan_Status.BackColor = btnMan_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
+        }
+
+        private void btnMachine_Status_Click_1(object sender, EventArgs e)
+        {
+            btnMachine_Status.BackColor = btnMachine_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
+        }
+
+        private void btnMaterial_Status_Click_1(object sender, EventArgs e)
+        {
+            btnMaterial_Status.BackColor = btnMaterial_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
+        }
+
+        private void btnMethod_Status_Click_1(object sender, EventArgs e)
+        {
+            btnMethod_Status.BackColor = btnMethod_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
         }
     }
 }

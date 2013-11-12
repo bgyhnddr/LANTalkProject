@@ -162,6 +162,7 @@
             this.btnMethod_Status.TabIndex = 66;
             this.btnMethod_Status.Text = "Method";
             this.btnMethod_Status.UseVisualStyleBackColor = true;
+            this.btnMethod_Status.Click += new System.EventHandler(this.btnMethod_Status_Click_1);
             // 
             // btnMaterial_Status
             // 
@@ -173,6 +174,7 @@
             this.btnMaterial_Status.TabIndex = 65;
             this.btnMaterial_Status.Text = "Material";
             this.btnMaterial_Status.UseVisualStyleBackColor = true;
+            this.btnMaterial_Status.Click += new System.EventHandler(this.btnMaterial_Status_Click_1);
             // 
             // btnMachine_Status
             // 
@@ -184,6 +186,7 @@
             this.btnMachine_Status.TabIndex = 64;
             this.btnMachine_Status.Text = "Machine";
             this.btnMachine_Status.UseVisualStyleBackColor = true;
+            this.btnMachine_Status.Click += new System.EventHandler(this.btnMachine_Status_Click_1);
             // 
             // btnMan_Status
             // 
@@ -195,6 +198,7 @@
             this.btnMan_Status.TabIndex = 63;
             this.btnMan_Status.Text = "Man";
             this.btnMan_Status.UseVisualStyleBackColor = true;
+            this.btnMan_Status.Click += new System.EventHandler(this.btnMan_Status_Click_1);
             // 
             // tbMOA
             // 
@@ -254,6 +258,7 @@
             this.btnCancel.TabIndex = 55;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnConfirm
             // 
@@ -264,6 +269,7 @@
             this.btnConfirm.TabIndex = 54;
             this.btnConfirm.Text = "Confirm";
             this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
             // SMTEdit
             // 
