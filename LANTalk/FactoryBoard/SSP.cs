@@ -136,6 +136,7 @@ namespace FactoryBoard
                 Global.PlaySound();
                 tabMain.SelectedTab = tagOffer;
                 dglOffer.DataSource = GetOfferTable();
+                this.Activate();
             };
             this.Invoke(refresh);
         }
@@ -297,7 +298,6 @@ namespace FactoryBoard
             RefreshDelegate refresh = () =>
             {
                 btnConnect.Text = "Connected(已连接)";
-                btnConnect.Enabled = false;
                 btnOffer.Enabled = true;
                 if (tabMain.SelectedTab == tagMain)
                 {
@@ -465,9 +465,9 @@ namespace FactoryBoard
         {
             RefreshDelegate refresh = () =>
             {
-                btnConnect.Text = "Connect(连接)";
-                btnConnect.Enabled = true;
+                btnConnect.Text = "Disconnect(未连接)";
                 btnOffer.Enabled = false;
+                Connect();
 
             };
             if (!Return)

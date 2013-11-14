@@ -138,7 +138,7 @@ namespace FactoryBoard
 
                    RefreshOrderButton();
                    RefreshOrderList();
-                   SendOrder();
+                   SendOrder(department);
                }
            };
             this.Invoke(refresh, socketor);
@@ -541,9 +541,17 @@ namespace FactoryBoard
             }
         }
 
-        private void SendOrder()
+        private void SendOrder(Department dept = null)
         {
-            var department = GetCurrentDepartment();
+            Department department;
+            if (dept == null)
+            {
+                department = GetCurrentDepartment();
+            }
+            else
+            {
+                department = dept;
+            }
             if (department != null)
             {
                 var content = Mode.SendOrder.ToString();
@@ -553,7 +561,6 @@ namespace FactoryBoard
                 _server.CustomSend(department.Socketor, content);
             }
         }
-
 
         private void RefreshOrderList()
         {

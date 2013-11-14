@@ -113,11 +113,12 @@
             // btnConnect
             // 
             this.btnConnect.AutoSize = true;
+            this.btnConnect.Enabled = false;
             this.btnConnect.Location = new System.Drawing.Point(627, 68);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(93, 23);
+            this.btnConnect.Size = new System.Drawing.Size(123, 23);
             this.btnConnect.TabIndex = 17;
-            this.btnConnect.Text = "Connect(连接)";
+            this.btnConnect.Text = "Disconnect(未连接)";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 

@@ -71,7 +71,18 @@ namespace LANTalk.Core
                 _socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 0);
                 _socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 0);
                 _socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, 1);
-                _socket.Connect(new IPEndPoint(_ip, _port));
+                while (!_socket.Connected)
+                {
+                    try
+                    {
+                        _socket.Connect(new IPEndPoint(_ip, _port));
+                    }
+                    catch
+                    {
+                        Thread.Sleep(300);
+                    }
+                }
+
 
                 IPEndPoint clientipe = (IPEndPoint)_socket.LocalEndPoint;
                 ClientIP = clientipe.Address;

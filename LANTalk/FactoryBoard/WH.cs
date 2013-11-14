@@ -177,9 +177,9 @@ namespace FactoryBoard
         {
             RefreshDelegate refresh = () =>
             {
-                btnConnect.Text = "Connect(连接)";
-                btnConnect.Enabled = true;
+                btnConnect.Text = "Disconnect(未连接)";
                 btnOffer.Enabled = false;
+                Connect();
             };
             if (!Return)
             {
@@ -192,7 +192,6 @@ namespace FactoryBoard
             RefreshDelegate refresh = () =>
             {
                 btnConnect.Text = "Connected(已连接)";
-                btnConnect.Enabled = false;
                 btnOffer.Enabled = true;
             };
             this.Invoke(refresh);
@@ -251,6 +250,7 @@ namespace FactoryBoard
             {
                 Global.PlaySound();
                 dglOffer.DataSource = GetOfferTable();
+                this.Activate();
             };
             this.Invoke(refresh);
         }
