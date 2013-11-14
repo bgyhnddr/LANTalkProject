@@ -21,7 +21,7 @@ namespace DLLFullPrint
         {
             DataCom = Dset;//获取DataSet对象
             Frm_PrintSet FrmPring = new Frm_PrintSet();//实例化打印窗体
-            FrmPring.Show();//显示打印窗体
+            FrmPring.ShowDialog();//显示打印窗体
         }
 
         /// <summary>

@@ -383,6 +383,7 @@ namespace FactoryBoard
                                     break;
                             }
                             change = true;
+                            SendOrder(department);
                         }
                     }
 
@@ -582,9 +583,17 @@ namespace FactoryBoard
             }
         }
 
-        private void SendOrder()
+        private void SendOrder(Department dept = null)
         {
-            var department = GetCurrentDepartment();
+            Department department;
+            if (dept == null)
+            {
+                department = GetCurrentDepartment();
+            }
+            else
+            {
+                department = dept;
+            }
             if (department != null)
             {
                 var content = Mode.SendOrder.ToString();

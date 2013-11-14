@@ -107,7 +107,7 @@
             this.tagMain.Location = new System.Drawing.Point(4, 4);
             this.tagMain.Name = "tagMain";
             this.tagMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tagMain.Size = new System.Drawing.Size(941, 431);
+            this.tagMain.Size = new System.Drawing.Size(941, 430);
             this.tagMain.TabIndex = 0;
             this.tagMain.Text = "Info(信息)";
             this.tagMain.UseVisualStyleBackColor = true;
@@ -143,7 +143,7 @@
             this.lbTime.Name = "lbTime";
             this.lbTime.Size = new System.Drawing.Size(179, 12);
             this.lbTime.TabIndex = 10;
-            this.lbTime.Text = "Date:yyyy-MM-dd Time:hh:mm:ss";
+            this.lbTime.Text = "Date:yyyy-MM-dd Time:HH:mm:ss";
             // 
             // pictureBox1
             // 
@@ -241,9 +241,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
             this.dglMain.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dglMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dglMain.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dglMain.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -302,7 +302,7 @@
             this.tagOrder.Location = new System.Drawing.Point(4, 4);
             this.tagOrder.Name = "tagOrder";
             this.tagOrder.Padding = new System.Windows.Forms.Padding(3);
-            this.tagOrder.Size = new System.Drawing.Size(941, 431);
+            this.tagOrder.Size = new System.Drawing.Size(941, 430);
             this.tagOrder.TabIndex = 1;
             this.tagOrder.Text = "Order(要料)";
             this.tagOrder.UseVisualStyleBackColor = true;
@@ -315,7 +315,7 @@
             this.lbTime2.Name = "lbTime2";
             this.lbTime2.Size = new System.Drawing.Size(179, 12);
             this.lbTime2.TabIndex = 16;
-            this.lbTime2.Text = "Date:yyyy-MM-dd Time:hh:mm:ss";
+            this.lbTime2.Text = "Date:yyyy-MM-dd Time:HH:mm:ss";
             // 
             // btnConfirm
             // 
@@ -384,9 +384,9 @@
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
             this.dglOrder.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            this.dglOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dglOrder.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dglOrder.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;

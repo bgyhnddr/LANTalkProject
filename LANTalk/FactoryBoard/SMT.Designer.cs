@@ -125,7 +125,7 @@
             this.lbTime.Name = "lbTime";
             this.lbTime.Size = new System.Drawing.Size(179, 12);
             this.lbTime.TabIndex = 10;
-            this.lbTime.Text = "Date:yyyy-MM-dd Time:hh:mm:ss";
+            this.lbTime.Text = "Date:yyyy-MM-dd Time:HH:mm:ss";
             // 
             // btnOpenFile
             // 
@@ -157,7 +157,7 @@
             this.lbTime2.Name = "lbTime2";
             this.lbTime2.Size = new System.Drawing.Size(179, 12);
             this.lbTime2.TabIndex = 20;
-            this.lbTime2.Text = "Date:yyyy-MM-dd Time:hh:mm:ss";
+            this.lbTime2.Text = "Date:yyyy-MM-dd Time:HH:mm:ss";
             // 
             // pictureBox1
             // 

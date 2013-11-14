@@ -60,7 +60,7 @@
             this.lbTime.Name = "lbTime";
             this.lbTime.Size = new System.Drawing.Size(179, 12);
             this.lbTime.TabIndex = 19;
-            this.lbTime.Text = "Date:yyyy-MM-dd Time:hh:mm:ss";
+            this.lbTime.Text = "Date:yyyy-MM-dd Time:HH:mm:ss";
             // 
             // btnOffer
             // 
