@@ -33,7 +33,7 @@ namespace FactoryBoard
             tbMould.Text = row["Mould"].ToString();
             tbMaterial.Text = row["Material"].ToString();
             tbIPN.Text = row["IPN"].ToString();
-            tbMOA.Text = row["MOA"].ToString();
+            tbMO.Text = row["MO"].ToString();
             tbPN.Text = row["P/N"].ToString();
             tbOrder_Qty.Text = row["Order_Qty"].ToString();
             dtpStart_Time.Text = row["Start_Time"].ToString();
@@ -80,7 +80,7 @@ namespace FactoryBoard
                 row["Mould"] = tbMould.Text;
                 row["Material"] = tbMaterial.Text;
                 row["IPN"] = tbIPN.Text;
-                row["MOA"] = tbMOA.Text;
+                row["MO"] = tbMO.Text;
                 row["P/N"] = tbPN.Text;
                 row["Order_Qty"] = tbOrder_Qty.Text;
                 row["Start_Time"] = dtpStart_Time.Text;
@@ -100,7 +100,7 @@ namespace FactoryBoard
                 row["Mould"] = tbMould.Text;
                 row["Material"] = tbMaterial.Text;
                 row["IPN"] = tbIPN.Text;
-                row["MOA"] = tbMOA.Text;
+                row["MO"] = tbMO.Text;
                 row["P/N"] = tbPN.Text;
                 row["Order_Qty"] = tbOrder_Qty.Text;
                 row["Start_Time"] = dtpStart_Time.Text;

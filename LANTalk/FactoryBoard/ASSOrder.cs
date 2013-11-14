@@ -32,7 +32,7 @@ namespace FactoryBoard
                 row["Line"] = tbLine.Text;
                 row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
-                row["MOA"] = tbMOA.Text;
+                row["MO"] = tbMO.Text;
                 row["P/N"] = tbPN.Text;
                 row["Requset_Qtr"] = tbRequset_Qtr.Text;
                 row["Request_Time"] = dtpRequest_Time.Text;

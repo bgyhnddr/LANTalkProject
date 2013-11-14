@@ -49,7 +49,7 @@ namespace FactoryBoard
         public const string UnKnown = "Unknown";
         public const string Receive = "Receive";
         public const string Wait = "Wait";
-        public const string Revoke = "Revoke";
+        public const string Undo = "Undo";
         public const string Sending = "Sending";
 
         public static string ErrorMessage;

@@ -30,7 +30,7 @@
         {
             this.lbActual_Output = new System.Windows.Forms.Label();
             this.lbStart_Time = new System.Windows.Forms.Label();
-            this.lbMOA = new System.Windows.Forms.Label();
+            this.lbMO = new System.Windows.Forms.Label();
             this.lbMould = new System.Windows.Forms.Label();
             this.lbDaily_Plan = new System.Windows.Forms.Label();
             this.lbOrder_Qty = new System.Windows.Forms.Label();
@@ -40,7 +40,7 @@
             this.btnMaterial_Status = new System.Windows.Forms.Button();
             this.btnMachine_Status = new System.Windows.Forms.Button();
             this.btnMan_Status = new System.Windows.Forms.Button();
-            this.tbMOA = new System.Windows.Forms.TextBox();
+            this.tbMO = new System.Windows.Forms.TextBox();
             this.tbMould = new System.Windows.Forms.TextBox();
             this.tbActual_Output = new System.Windows.Forms.TextBox();
             this.tbDaily_Plan = new System.Windows.Forms.TextBox();
@@ -74,14 +74,14 @@
             this.lbStart_Time.TabIndex = 45;
             this.lbStart_Time.Text = "Start_Time";
             // 
-            // lbMOA
+            // lbMO
             // 
-            this.lbMOA.AutoSize = true;
-            this.lbMOA.Location = new System.Drawing.Point(200, 63);
-            this.lbMOA.Name = "lbMOA";
-            this.lbMOA.Size = new System.Drawing.Size(23, 12);
-            this.lbMOA.TabIndex = 44;
-            this.lbMOA.Text = "MOA";
+            this.lbMO.AutoSize = true;
+            this.lbMO.Location = new System.Drawing.Point(200, 63);
+            this.lbMO.Name = "lbMO";
+            this.lbMO.Size = new System.Drawing.Size(23, 12);
+            this.lbMO.TabIndex = 44;
+            this.lbMO.Text = "MO";
             // 
             // lbMould
             // 
@@ -176,12 +176,12 @@
             this.btnMan_Status.UseVisualStyleBackColor = true;
             this.btnMan_Status.Click += new System.EventHandler(this.btnMan_Click);
             // 
-            // tbMOA
+            // tbMO
             // 
-            this.tbMOA.Location = new System.Drawing.Point(286, 60);
-            this.tbMOA.Name = "tbMOA";
-            this.tbMOA.Size = new System.Drawing.Size(135, 21);
-            this.tbMOA.TabIndex = 34;
+            this.tbMO.Location = new System.Drawing.Point(286, 60);
+            this.tbMO.Name = "tbMO";
+            this.tbMO.Size = new System.Drawing.Size(135, 21);
+            this.tbMO.TabIndex = 34;
             // 
             // tbMould
             // 
@@ -301,7 +301,7 @@
             this.Controls.Add(this.tbMaterial);
             this.Controls.Add(this.lbActual_Output);
             this.Controls.Add(this.lbStart_Time);
-            this.Controls.Add(this.lbMOA);
+            this.Controls.Add(this.lbMO);
             this.Controls.Add(this.lbMould);
             this.Controls.Add(this.lbDaily_Plan);
             this.Controls.Add(this.lbOrder_Qty);
@@ -311,7 +311,7 @@
             this.Controls.Add(this.btnMaterial_Status);
             this.Controls.Add(this.btnMachine_Status);
             this.Controls.Add(this.btnMan_Status);
-            this.Controls.Add(this.tbMOA);
+            this.Controls.Add(this.tbMO);
             this.Controls.Add(this.tbMould);
             this.Controls.Add(this.tbActual_Output);
             this.Controls.Add(this.tbDaily_Plan);
@@ -335,7 +335,7 @@
 
         private System.Windows.Forms.Label lbActual_Output;
         private System.Windows.Forms.Label lbStart_Time;
-        private System.Windows.Forms.Label lbMOA;
+        private System.Windows.Forms.Label lbMO;
         private System.Windows.Forms.Label lbMould;
         private System.Windows.Forms.Label lbDaily_Plan;
         private System.Windows.Forms.Label lbOrder_Qty;
@@ -345,7 +345,7 @@
         private System.Windows.Forms.Button btnMaterial_Status;
         private System.Windows.Forms.Button btnMachine_Status;
         private System.Windows.Forms.Button btnMan_Status;
-        private System.Windows.Forms.TextBox tbMOA;
+        private System.Windows.Forms.TextBox tbMO;
         private System.Windows.Forms.TextBox tbMould;
         private System.Windows.Forms.TextBox tbActual_Output;
         private System.Windows.Forms.TextBox tbDaily_Plan;

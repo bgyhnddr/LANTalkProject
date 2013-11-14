@@ -36,7 +36,7 @@
             this.tbDaily_Plan = new System.Windows.Forms.TextBox();
             this.tbActual_Output = new System.Windows.Forms.TextBox();
             this.tbModel = new System.Windows.Forms.TextBox();
-            this.tbMOA = new System.Windows.Forms.TextBox();
+            this.tbMO = new System.Windows.Forms.TextBox();
             this.btnMan_Status = new System.Windows.Forms.Button();
             this.btnMachine_Status = new System.Windows.Forms.Button();
             this.btnMaterial_Status = new System.Windows.Forms.Button();
@@ -46,7 +46,7 @@
             this.lbOrder_Qty = new System.Windows.Forms.Label();
             this.lbDaily_Plan = new System.Windows.Forms.Label();
             this.lbModel = new System.Windows.Forms.Label();
-            this.lbMOA = new System.Windows.Forms.Label();
+            this.lbMO = new System.Windows.Forms.Label();
             this.lbStart_Time = new System.Windows.Forms.Label();
             this.lbActual_Output = new System.Windows.Forms.Label();
             this.dtpStart_Time = new System.Windows.Forms.DateTimePicker();
@@ -118,12 +118,12 @@
             this.tbModel.Size = new System.Drawing.Size(135, 21);
             this.tbModel.TabIndex = 11;
             // 
-            // tbMOA
+            // tbMO
             // 
-            this.tbMOA.Location = new System.Drawing.Point(286, 33);
-            this.tbMOA.Name = "tbMOA";
-            this.tbMOA.Size = new System.Drawing.Size(135, 21);
-            this.tbMOA.TabIndex = 12;
+            this.tbMO.Location = new System.Drawing.Point(286, 33);
+            this.tbMO.Name = "tbMO";
+            this.tbMO.Size = new System.Drawing.Size(135, 21);
+            this.tbMO.TabIndex = 12;
             // 
             // btnMan_Status
             // 
@@ -218,14 +218,14 @@
             this.lbModel.TabIndex = 21;
             this.lbModel.Text = "Model";
             // 
-            // lbMOA
+            // lbMO
             // 
-            this.lbMOA.AutoSize = true;
-            this.lbMOA.Location = new System.Drawing.Point(200, 36);
-            this.lbMOA.Name = "lbMOA";
-            this.lbMOA.Size = new System.Drawing.Size(23, 12);
-            this.lbMOA.TabIndex = 22;
-            this.lbMOA.Text = "MOA";
+            this.lbMO.AutoSize = true;
+            this.lbMO.Location = new System.Drawing.Point(200, 36);
+            this.lbMO.Name = "lbMO";
+            this.lbMO.Size = new System.Drawing.Size(23, 12);
+            this.lbMO.TabIndex = 22;
+            this.lbMO.Text = "MO";
             // 
             // lbStart_Time
             // 
@@ -281,7 +281,7 @@
             this.Controls.Add(this.dtpStart_Time);
             this.Controls.Add(this.lbActual_Output);
             this.Controls.Add(this.lbStart_Time);
-            this.Controls.Add(this.lbMOA);
+            this.Controls.Add(this.lbMO);
             this.Controls.Add(this.lbModel);
             this.Controls.Add(this.lbDaily_Plan);
             this.Controls.Add(this.lbOrder_Qty);
@@ -291,7 +291,7 @@
             this.Controls.Add(this.btnMaterial_Status);
             this.Controls.Add(this.btnMachine_Status);
             this.Controls.Add(this.btnMan_Status);
-            this.Controls.Add(this.tbMOA);
+            this.Controls.Add(this.tbMO);
             this.Controls.Add(this.tbModel);
             this.Controls.Add(this.tbActual_Output);
             this.Controls.Add(this.tbDaily_Plan);
@@ -321,7 +321,7 @@
         private System.Windows.Forms.TextBox tbDaily_Plan;
         private System.Windows.Forms.TextBox tbActual_Output;
         private System.Windows.Forms.TextBox tbModel;
-        private System.Windows.Forms.TextBox tbMOA;
+        private System.Windows.Forms.TextBox tbMO;
         private System.Windows.Forms.Button btnMan_Status;
         private System.Windows.Forms.Button btnMachine_Status;
         private System.Windows.Forms.Button btnMaterial_Status;
@@ -331,7 +331,7 @@
         private System.Windows.Forms.Label lbOrder_Qty;
         private System.Windows.Forms.Label lbDaily_Plan;
         private System.Windows.Forms.Label lbModel;
-        private System.Windows.Forms.Label lbMOA;
+        private System.Windows.Forms.Label lbMO;
         private System.Windows.Forms.Label lbStart_Time;
         private System.Windows.Forms.Label lbActual_Output;
         private System.Windows.Forms.DateTimePicker dtpStart_Time;

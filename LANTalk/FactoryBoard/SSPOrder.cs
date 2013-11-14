@@ -31,7 +31,7 @@ namespace FactoryBoard
                 var row = department.OrderList.NewRow();
                 row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
-                row["MOA"] = tbMOA.Text;
+                row["MO"] = tbMO.Text;
                 row["P/N"] = tbPN.Text;
                 row["Requset_Qtr"] = tbRequset_Qtr.Text;
                 row["Request_Time"] = dtpRequest_Time.Text;

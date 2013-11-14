@@ -11,6 +11,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using DLLFullPrint;
+using System.Threading;
 
 namespace FactoryBoard
 {
@@ -212,6 +213,16 @@ namespace FactoryBoard
         {
             LoadCurrentFile();
             dglMain.DataSource = MainTable.Copy();
+            Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
+            {
+                RefreshDelegate refresh = () =>
+                {
+                    LoadCurrentFile();
+                    dglMain.DataSource = MainTable.Copy();
+                };
+                this.Invoke(refresh);
+            }));
+            thread.Start();
         }
 
         private void LoadCurrentFile()
@@ -228,7 +239,7 @@ namespace FactoryBoard
                 MainTable.Columns.Add("Line", typeof(string));
                 MainTable.Columns.Add("Model", typeof(string));
                 MainTable.Columns.Add("IPN", typeof(string));
-                MainTable.Columns.Add("MOA", typeof(string));
+                MainTable.Columns.Add("MO", typeof(string));
                 MainTable.Columns.Add("P/N", typeof(string));
                 MainTable.Columns.Add("Order_Qty", typeof(string));
                 MainTable.Columns.Add("Start_Time", typeof(string));
@@ -249,7 +260,7 @@ namespace FactoryBoard
             table.Columns.Add("Line", typeof(string));
             table.Columns.Add("Model", typeof(string));
             table.Columns.Add("IPN", typeof(string));
-            table.Columns.Add("MOA", typeof(string));
+            table.Columns.Add("MO", typeof(string));
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qtr", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
@@ -267,7 +278,7 @@ namespace FactoryBoard
             table.Columns.Add("Line", typeof(string));
             table.Columns.Add("Model", typeof(string));
             table.Columns.Add("IPN", typeof(string));
-            table.Columns.Add("MOA", typeof(string));
+            table.Columns.Add("MO", typeof(string));
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qtr", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
@@ -284,7 +295,7 @@ namespace FactoryBoard
                     newRow["Line"] = row["Line"];
                     newRow["Model"] = row["Model"];
                     newRow["IPN"] = row["IPN"];
-                    newRow["MOA"] = row["MOA"];
+                    newRow["MO"] = row["MO"];
                     newRow["P/N"] = row["P/N"];
                     newRow["Requset_Qtr"] = row["Requset_Qtr"];
                     newRow["Request_Time"] = row["Request_Time"];
@@ -436,21 +447,23 @@ namespace FactoryBoard
                         }
                     }
                 }
+                var width = (this.dglMain.Width - dglMain.RowHeadersWidth) / cell;
                 for (int i = 0; i < this.dglMain.Columns.Count; i++)
                 {
                     this.dglMain.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    this.dglMain.Columns[i].Width = width;
                 }
             }
             dglMain.Columns["Line"].HeaderText = "Line\r\n线别";
             dglMain.Columns["Model"].HeaderText = "Model\r\n产品型号";
-            dglMain.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
-            dglMain.Columns["MOA"].HeaderText = "MOA\r\n工单号";
+            dglMain.Columns["IPN"].HeaderText = "IPN\r\n订单数";
+            dglMain.Columns["MO"].HeaderText = "MO\r\n工单号";
             dglMain.Columns["P/N"].HeaderText = "P/N\r\n品号";
             dglMain.Columns["Order_Qty"].HeaderText = "Order Qty\r\n订单数量";
             dglMain.Columns["Start_Time"].HeaderText = "Start Time\r\n开始时间";
             dglMain.Columns["Daily_Plan"].HeaderText = "Daily Plan\r\n标准产能";
             dglMain.Columns["Actual_Output"].HeaderText = "Actual Output\r\n实际产能";
-            dglMain.Columns["Man_Status"].HeaderText = "Man\r\n人数";
+            dglMain.Columns["Man_Status"].HeaderText = "Man\r\n人员";
             dglMain.Columns["Machine_Status"].HeaderText = "Machine\r\n机器";
             dglMain.Columns["Material_Status"].HeaderText = "Material\r\n物料";
             dglMain.Columns["Method_Status"].HeaderText = "Method\r\n方法";
@@ -475,7 +488,7 @@ namespace FactoryBoard
                                     this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.White;
                                     this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
                                 }
-                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Revoke)
+                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Undo)
                                 {
                                     this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Gray;
                                     this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
@@ -498,16 +511,18 @@ namespace FactoryBoard
                             }
                         }
                     }
+                    var width = (this.dglOffer.Width - dglOffer.RowHeadersWidth) / cell;
                     for (int i = 0; i < this.dglOffer.Columns.Count; i++)
                     {
                         this.dglOffer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                        this.dglOffer.Columns[i].Width = width;
                     }
                 }
 
                 dglOffer.Columns["Line"].HeaderText = "Line\r\n线别";
                 dglOffer.Columns["Model"].HeaderText = "Model\r\n产品型号";
-                dglOffer.Columns["IPN"].HeaderText = "IPN\r\n订单号码";
-                dglOffer.Columns["MOA"].HeaderText = "MOA\r\n工单号";
+                dglOffer.Columns["IPN"].HeaderText = "IPN\r\n订单数";
+                dglOffer.Columns["MO"].HeaderText = "MO\r\n工单号";
                 dglOffer.Columns["P/N"].HeaderText = "P/N\r\n品号";
                 dglOffer.Columns["Requset_Qtr"].HeaderText = "Requset Qtr\r\n需求数量";
                 dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";

@@ -34,7 +34,7 @@ namespace FactoryBoard
             tbLine.Text = row["Line"].ToString();
             tbModel.Text = row["Model"].ToString();
             tbIPN.Text = row["IPN"].ToString();
-            tbMOA.Text = row["MOA"].ToString();
+            tbMO.Text = row["MO"].ToString();
             tbOrder_Qty.Text = row["Order_Qty"].ToString();
             dtpStart_Time.Text = row["Start_Time"].ToString();
             tbDaily_Plan.Text = row["Daily_Plan"].ToString();
@@ -80,7 +80,7 @@ namespace FactoryBoard
                 row["Line"] = tbLine.Text;
                 row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
-                row["MOA"] = tbMOA.Text;
+                row["MO"] = tbMO.Text;
                 row["Order_Qty"] = tbOrder_Qty.Text;
                 row["Start_Time"] = dtpStart_Time.Text;
                 row["Daily_Plan"] = tbDaily_Plan.Text;
@@ -98,7 +98,7 @@ namespace FactoryBoard
                 row["Line"] = tbLine.Text;
                 row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
-                row["MOA"] = tbMOA.Text;
+                row["MO"] = tbMO.Text;
                 row["Order_Qty"] = tbOrder_Qty.Text;
                 row["Start_Time"] = dtpStart_Time.Text;
                 row["Daily_Plan"] = tbDaily_Plan.Text;
