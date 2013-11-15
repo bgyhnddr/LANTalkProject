@@ -103,7 +103,7 @@
             this.lbMO.AutoSize = true;
             this.lbMO.Location = new System.Drawing.Point(200, 36);
             this.lbMO.Name = "lbMO";
-            this.lbMO.Size = new System.Drawing.Size(23, 12);
+            this.lbMO.Size = new System.Drawing.Size(17, 12);
             this.lbMO.TabIndex = 72;
             this.lbMO.Text = "MO";
             // 
@@ -227,6 +227,7 @@
             this.tbDaily_Plan.Name = "tbDaily_Plan";
             this.tbDaily_Plan.Size = new System.Drawing.Size(107, 21);
             this.tbDaily_Plan.TabIndex = 59;
+            this.tbDaily_Plan.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbDaily_Plan_KeyPress);
             // 
             // tbOrder_Qty
             // 

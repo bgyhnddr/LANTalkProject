@@ -116,5 +116,14 @@ namespace FactoryBoard
         {
             this.Close();
         }
+
+        private void tbDaily_Plan_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //如果输入的不是数字键，也不是回车键、Backspace键，则取消该输入
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)13 && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            } 
+        }
     }
 }

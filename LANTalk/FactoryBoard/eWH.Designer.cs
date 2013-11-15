@@ -69,6 +69,7 @@
             this.btnSetting.TabIndex = 29;
             this.btnSetting.Text = "配置";
             this.btnSetting.UseVisualStyleBackColor = true;
+            this.btnSetting.Visible = false;
             this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
             // 
             // tTime
@@ -145,9 +146,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
             this.dglOffer.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dglOffer.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
