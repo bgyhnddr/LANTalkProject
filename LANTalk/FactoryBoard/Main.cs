@@ -147,7 +147,7 @@ namespace FactoryBoard
         {
             this.Hide();
             SaveConfig(Global.WH);
-            new SMT(this).Show(); 
+            new WH(this).Show(); 
         }
 
         private void btneWH_Click(object sender, EventArgs e)

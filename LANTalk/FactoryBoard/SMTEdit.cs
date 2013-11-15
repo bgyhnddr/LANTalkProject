@@ -116,25 +116,5 @@ namespace FactoryBoard
         {
             this.Close();
         }
-
-        private void btnMan_Status_Click_1(object sender, EventArgs e)
-        {
-            btnMan_Status.BackColor = btnMan_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
-        }
-
-        private void btnMachine_Status_Click_1(object sender, EventArgs e)
-        {
-            btnMachine_Status.BackColor = btnMachine_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
-        }
-
-        private void btnMaterial_Status_Click_1(object sender, EventArgs e)
-        {
-            btnMaterial_Status.BackColor = btnMaterial_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
-        }
-
-        private void btnMethod_Status_Click_1(object sender, EventArgs e)
-        {
-            btnMethod_Status.BackColor = btnMethod_Status.BackColor == Color.GreenYellow ? Color.Red : Color.GreenYellow;
-        }
     }
 }
