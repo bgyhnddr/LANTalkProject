@@ -12,7 +12,7 @@ namespace FactoryBoard
     public partial class SSPEdit : Form
     {
         private bool ADD = true;
-
+        private int RowIndex = -1;
         public SSPEdit(int rowIndex)
         {
             InitializeComponent();
@@ -23,6 +23,7 @@ namespace FactoryBoard
             if (rowIndex >= 0)
             {
                 ADD = false;
+                RowIndex = rowIndex;
                 tbLine.ReadOnly = true;
                 LoadData(SSP.MainTable.Rows[rowIndex]);
             }
@@ -71,11 +72,6 @@ namespace FactoryBoard
         {
             if (ADD)
             {
-                if (SSP.MainTable.Select("Line = '" + tbLine.Text + "'").Length > 0)
-                {
-                    MessageBox.Show("该生产线已存在，无法新增。");
-                    return;
-                }
                 var row = SSP.MainTable.NewRow();
                 row["Line"] = tbLine.Text;
                 row["Model"] = tbModel.Text;
@@ -95,7 +91,7 @@ namespace FactoryBoard
             }
             else
             {
-                var row = SSP.MainTable.Select("Line = '" + tbLine.Text + "'").First();
+                var row = SSP.MainTable.Rows[RowIndex];
                 row["Line"] = tbLine.Text;
                 row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
@@ -110,8 +106,24 @@ namespace FactoryBoard
                 row["Material_Status"] = btnMaterial_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
                 row["Method_Status"] = btnMethod_Status.BackColor == Color.Red ? Global.UnNormal : Global.Normal;
             }
-
-            this.Close();
+            try
+            {
+                Global.SaveFile(SSP.MainTable, Global.SSP_STRING);
+                MessageBox.Show("Saved");
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fail：" + ex.Message);
+                if (ADD)
+                {
+                    SSP.MainTable.Rows.RemoveAt(SSP.MainTable.Rows.Count - 1);
+                }
+                else
+                {
+                    SSP.MainTable.Rows.RemoveAt(RowIndex);
+                }
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

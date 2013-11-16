@@ -60,8 +60,6 @@
             this.lbTime = new System.Windows.Forms.Label();
             this.btnOpenFile = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.btnRevert = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
@@ -241,8 +239,6 @@
             this.tagMain.Controls.Add(this.pictureBox1);
             this.tagMain.Controls.Add(this.btnOpenFile);
             this.tagMain.Controls.Add(this.btnDelete);
-            this.tagMain.Controls.Add(this.btnRevert);
-            this.tagMain.Controls.Add(this.btnSave);
             this.tagMain.Controls.Add(this.btnEdit);
             this.tagMain.Controls.Add(this.btnAdd);
             this.tagMain.Controls.Add(this.btnPrint);
@@ -260,7 +256,7 @@
             // 
             this.btnConnect.AutoSize = true;
             this.btnConnect.Enabled = false;
-            this.btnConnect.Location = new System.Drawing.Point(627, 66);
+            this.btnConnect.Location = new System.Drawing.Point(441, 66);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(123, 23);
             this.btnConnect.TabIndex = 20;
@@ -316,7 +312,7 @@
             // btnDelete
             // 
             this.btnDelete.AutoSize = true;
-            this.btnDelete.Location = new System.Drawing.Point(534, 66);
+            this.btnDelete.Location = new System.Drawing.Point(348, 66);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(87, 23);
             this.btnDelete.TabIndex = 6;
@@ -324,32 +320,10 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // btnRevert
-            // 
-            this.btnRevert.AutoSize = true;
-            this.btnRevert.Location = new System.Drawing.Point(180, 66);
-            this.btnRevert.Name = "btnRevert";
-            this.btnRevert.Size = new System.Drawing.Size(99, 23);
-            this.btnRevert.TabIndex = 5;
-            this.btnRevert.Text = "Undo(撤销更改)";
-            this.btnRevert.UseVisualStyleBackColor = true;
-            this.btnRevert.Click += new System.EventHandler(this.btnRevert_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.AutoSize = true;
-            this.btnSave.Location = new System.Drawing.Point(99, 66);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 4;
-            this.btnSave.Text = "Save(保存)";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
             // btnEdit
             // 
             this.btnEdit.AutoSize = true;
-            this.btnEdit.Location = new System.Drawing.Point(453, 66);
+            this.btnEdit.Location = new System.Drawing.Point(267, 66);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(75, 23);
             this.btnEdit.TabIndex = 3;
@@ -360,7 +334,7 @@
             // btnAdd
             // 
             this.btnAdd.AutoSize = true;
-            this.btnAdd.Location = new System.Drawing.Point(372, 66);
+            this.btnAdd.Location = new System.Drawing.Point(186, 66);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 2;
@@ -371,7 +345,7 @@
             // btnPrint
             // 
             this.btnPrint.AutoSize = true;
-            this.btnPrint.Location = new System.Drawing.Point(285, 66);
+            this.btnPrint.Location = new System.Drawing.Point(99, 66);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(81, 23);
             this.btnPrint.TabIndex = 1;
@@ -624,6 +598,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 441);
             this.Controls.Add(this.tabMain);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "SSP";
             this.Text = "SSP";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SSP_FormClosed);
@@ -663,8 +638,6 @@
         private System.Windows.Forms.Label lbTime;
         private System.Windows.Forms.Button btnOpenFile;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnRevert;
-        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnPrint;

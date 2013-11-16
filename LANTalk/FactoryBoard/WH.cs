@@ -21,6 +21,31 @@ namespace FactoryBoard
         private LANTalk.Core.Client _client;
         private delegate void RefreshDelegate();//定义委托
 
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_SYSCOMMAND = 0x112;
+            const int SC_MAXISIZE = 0xf030;//最小化  
+            const int SC_NORMAL = 0xf120;//还原  
+            const int SC_DOUBLECLICK = 0xf122;//双击窗体标题栏  
+            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_MAXISIZE))//最大化  
+            {
+                return;
+            }
+            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_NORMAL))//还原  
+            {
+                return;
+            }
+            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_DOUBLECLICK))///双击窗体标题栏  
+            {
+                return;
+            }
+            //if (m.Msg == WM_SYSCOMMAND)//用来获取用户触发事件的16进制参数，通过科学计算器转换  
+            //{  
+            //    int test = (int)m.WParam;  
+            //}  
+            base.WndProc(ref m);
+        }
+
         public WH(Main mainpage)
         {
             MainPage = mainpage;
@@ -30,8 +55,8 @@ namespace FactoryBoard
 
         private void WH_Load(object sender, EventArgs e)
         {
-            this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
+            this.MaximizeBox = false;
             Init();
         }
 

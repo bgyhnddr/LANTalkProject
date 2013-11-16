@@ -199,6 +199,7 @@
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.dglOffer);
             this.Controls.Add(this.lbOffer);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "WH";
             this.Text = "WH";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WH_FormClosed);

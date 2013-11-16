@@ -144,7 +144,7 @@ namespace FactoryBoard
                 Directory.CreateDirectory(path);
             }
             var current = path + "\\current.csv";
-            path += "\\" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".csv";
+            path += "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".csv";
             File.WriteAllText(path, CSVHelper.MakeCSV(table), Encoding.GetEncoding("GB2312"));
             File.WriteAllText(current, CSVHelper.MakeCSV(table), Encoding.GetEncoding("GB2312"));
         }

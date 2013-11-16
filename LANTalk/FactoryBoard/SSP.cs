@@ -28,6 +28,31 @@ namespace FactoryBoard
         private delegate void RefreshDelegateString(string context);//定义委托
         private delegate void ShowMessageBox(Exception ex);//定义委托
 
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_SYSCOMMAND = 0x112;
+            const int SC_MAXISIZE = 0xf030;//最小化  
+            const int SC_NORMAL = 0xf120;//还原  
+            const int SC_DOUBLECLICK = 0xf122;//双击窗体标题栏  
+            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_MAXISIZE))//最大化  
+            {
+                return;
+            }
+            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_NORMAL))//还原  
+            {
+                return;
+            }
+            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_DOUBLECLICK))///双击窗体标题栏  
+            {
+                return;
+            }
+            //if (m.Msg == WM_SYSCOMMAND)//用来获取用户触发事件的16进制参数，通过科学计算器转换  
+            //{  
+            //    int test = (int)m.WParam;  
+            //}  
+            base.WndProc(ref m);
+        }
+
         public SSP(Main mainpage)
         {
             MainPage = mainpage;
@@ -38,8 +63,8 @@ namespace FactoryBoard
 
         private void SSP_Load(object sender, EventArgs e)
         {
-            this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
+            this.MaximizeBox = false;
             Init();
         }
 
@@ -126,7 +151,7 @@ namespace FactoryBoard
             DepartmentList.Add(new Department(config.Rows[0][Global.IJ_STRING].ToString(), Global.IJ, false, table.Clone()));
             DepartmentList.Add(new Department(config.Rows[0][Global.WH_STRING].ToString(), Global.WH, false, table.Clone()));
 
-
+            InitOrderList();
         }
 
         private void RefreshOfferTable()
@@ -253,8 +278,23 @@ namespace FactoryBoard
                     {
                         Directory.CreateDirectory(currentpath);
                     }
-                    currentpath += "\\" + DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ".csv";
+                    currentpath += "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".csv";
                     File.WriteAllText(currentpath, CSVHelper.MakeCSV(department.OrderList), Encoding.GetEncoding("GB2312"));
+                }
+            }
+        }
+
+        private void InitOrderList()
+        {
+            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            foreach (var department in DepartmentList)
+            {
+                var currentpath = path + "\\LANTalk\\OrderList";
+                currentpath += "\\" + department.Name;
+                currentpath += "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".csv";
+                if (File.Exists(currentpath))
+                {
+                    department.OrderList = CSVHelper.ReadCSVToTable(currentpath);
                 }
             }
         }
@@ -485,25 +525,6 @@ namespace FactoryBoard
                 MainTable = CSVHelper.ReadCSVToTable(ofdOpenFile.FileName);
                 dglMain.DataSource = MainTable.Copy();
             }
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Global.SaveFile(SSP.MainTable, Global.SSP_STRING);
-                MessageBox.Show("Saved");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Fail：" + ex.Message);
-            }
-        }
-
-        private void btnRevert_Click(object sender, EventArgs e)
-        {
-            LoadCurrentFile();
-            dglMain.DataSource = MainTable.Copy();
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
