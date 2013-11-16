@@ -24,6 +24,16 @@ namespace FactoryBoard
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
+            if (tbModel.Text.Trim() == string.Empty ||
+                tbIPN.Text.Trim() == string.Empty ||
+                tbMO.Text.Trim() == string.Empty ||
+                tbPN.Text.Trim() == string.Empty ||
+                tbRequset_Qtr.Text.Trim() == string.Empty ||
+                dtpRequest_Time.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show("所有项均要填写");
+                return;
+            }
 
             var department = SSP.GetCurrentDepartment();
             if (department!=null)

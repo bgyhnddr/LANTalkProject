@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.lbASS = new System.Windows.Forms.Label();
             this.lbIJ = new System.Windows.Forms.Label();
             this.lbSMT = new System.Windows.Forms.Label();
@@ -41,7 +42,6 @@
             this.tbSSPIP = new System.Windows.Forms.TextBox();
             this.tbWHIP = new System.Windows.Forms.TextBox();
             this.tbeWHIP = new System.Windows.Forms.TextBox();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnASS = new System.Windows.Forms.Button();
             this.btneWH = new System.Windows.Forms.Button();
             this.btnIJ = new System.Windows.Forms.Button();
@@ -51,6 +51,7 @@
             this.gIPSet = new System.Windows.Forms.GroupBox();
             this.lbPort = new System.Windows.Forms.Label();
             this.tbPort = new System.Windows.Forms.TextBox();
+            this.NotifyMain = new System.Windows.Forms.NotifyIcon(this.components);
             this.gIPSet.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,18 +96,18 @@
             this.lbWH.AutoSize = true;
             this.lbWH.Location = new System.Drawing.Point(20, 142);
             this.lbWH.Name = "lbWH";
-            this.lbWH.Size = new System.Drawing.Size(23, 12);
+            this.lbWH.Size = new System.Drawing.Size(17, 12);
             this.lbWH.TabIndex = 5;
-            this.lbWH.Text = "W/H";
+            this.lbWH.Text = "WH";
             // 
             // lbeWH
             // 
             this.lbeWH.AutoSize = true;
             this.lbeWH.Location = new System.Drawing.Point(20, 169);
             this.lbeWH.Name = "lbeWH";
-            this.lbeWH.Size = new System.Drawing.Size(35, 12);
+            this.lbeWH.Size = new System.Drawing.Size(29, 12);
             this.lbeWH.TabIndex = 6;
-            this.lbeWH.Text = "e-W/H";
+            this.lbeWH.Text = "e-WH";
             // 
             // tbASSIP
             // 
@@ -150,12 +151,6 @@
             this.tbeWHIP.Size = new System.Drawing.Size(114, 21);
             this.tbeWHIP.TabIndex = 12;
             // 
-            // imageList1
-            // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
             // btnASS
             // 
             this.btnASS.Location = new System.Drawing.Point(12, 259);
@@ -172,7 +167,7 @@
             this.btneWH.Name = "btneWH";
             this.btneWH.Size = new System.Drawing.Size(75, 23);
             this.btneWH.TabIndex = 14;
-            this.btneWH.Text = "e-W/H";
+            this.btneWH.Text = "e-WH";
             this.btneWH.UseVisualStyleBackColor = true;
             this.btneWH.Click += new System.EventHandler(this.btneWH_Click);
             // 
@@ -202,7 +197,7 @@
             this.btnWH.Name = "btnWH";
             this.btnWH.Size = new System.Drawing.Size(75, 23);
             this.btnWH.TabIndex = 17;
-            this.btnWH.Text = "W/H";
+            this.btnWH.Text = "WH";
             this.btnWH.UseVisualStyleBackColor = true;
             this.btnWH.Click += new System.EventHandler(this.btnWH_Click);
             // 
@@ -256,6 +251,12 @@
             this.tbPort.TabIndex = 14;
             this.tbPort.Text = "8123";
             // 
+            // NotifyMain
+            // 
+            this.NotifyMain.Icon = ((System.Drawing.Icon)(resources.GetObject("NotifyMain.Icon")));
+            this.NotifyMain.Text = "要料提醒";
+            this.NotifyMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NotifyMain_MouseDoubleClick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -296,7 +297,6 @@
         private System.Windows.Forms.TextBox tbSSPIP;
         private System.Windows.Forms.TextBox tbWHIP;
         private System.Windows.Forms.TextBox tbeWHIP;
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button btnASS;
         private System.Windows.Forms.Button btneWH;
         private System.Windows.Forms.Button btnIJ;
@@ -306,6 +306,7 @@
         private System.Windows.Forms.GroupBox gIPSet;
         private System.Windows.Forms.Label lbPort;
         private System.Windows.Forms.TextBox tbPort;
+        public System.Windows.Forms.NotifyIcon NotifyMain;
     }
 }
 

@@ -70,6 +70,20 @@ namespace FactoryBoard
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
+            if (tbLine.Text.Trim() == string.Empty ||
+                tbModel.Text.Trim() == string.Empty ||
+                tbIPN.Text.Trim() == string.Empty ||
+                tbMO.Text.Trim() == string.Empty ||
+                tbPN.Text.Trim() == string.Empty ||
+                tbOrder_Qty.Text.Trim() == string.Empty ||
+                dtpStart_Time.Text.Trim() == string.Empty ||
+                tbDaily_Plan.Text.Trim() == string.Empty ||
+                tbActual_Output.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show("所有项均要填写");
+                return;
+            }
+
             if (ADD)
             {
                 var row = SSP.MainTable.NewRow();

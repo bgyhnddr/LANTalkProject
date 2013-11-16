@@ -55,7 +55,6 @@
             this.btnIJ = new System.Windows.Forms.Button();
             this.tagMain = new System.Windows.Forms.TabPage();
             this.btnConnect = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
             this.btnSetting = new System.Windows.Forms.Button();
             this.lbTime = new System.Windows.Forms.Label();
             this.btnOpenFile = new System.Windows.Forms.Button();
@@ -233,7 +232,6 @@
             // tagMain
             // 
             this.tagMain.Controls.Add(this.btnConnect);
-            this.tagMain.Controls.Add(this.btnExit);
             this.tagMain.Controls.Add(this.btnSetting);
             this.tagMain.Controls.Add(this.lbTime);
             this.tagMain.Controls.Add(this.pictureBox1);
@@ -263,18 +261,6 @@
             this.btnConnect.Text = "Disconnect(未连接)";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
-            // 
-            // btnExit
-            // 
-            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.AutoSize = true;
-            this.btnExit.Location = new System.Drawing.Point(895, 6);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(39, 23);
-            this.btnExit.TabIndex = 12;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // btnSetting
             // 
@@ -439,7 +425,7 @@
             this.btnWH.Name = "btnWH";
             this.btnWH.Size = new System.Drawing.Size(45, 23);
             this.btnWH.TabIndex = 1;
-            this.btnWH.Text = "W/H";
+            this.btnWH.Text = "WH";
             this.btnWH.UseVisualStyleBackColor = false;
             this.btnWH.Click += new System.EventHandler(this.btnWH_Click);
             // 
@@ -633,7 +619,6 @@
         private System.Windows.Forms.DataGridView dglOrder;
         private System.Windows.Forms.Button btnIJ;
         private System.Windows.Forms.TabPage tagMain;
-        private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnSetting;
         private System.Windows.Forms.Label lbTime;
         private System.Windows.Forms.Button btnOpenFile;

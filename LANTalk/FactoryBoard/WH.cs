@@ -24,17 +24,7 @@ namespace FactoryBoard
         protected override void WndProc(ref Message m)
         {
             const int WM_SYSCOMMAND = 0x112;
-            const int SC_MAXISIZE = 0xf030;//最小化  
-            const int SC_NORMAL = 0xf120;//还原  
             const int SC_DOUBLECLICK = 0xf122;//双击窗体标题栏  
-            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_MAXISIZE))//最大化  
-            {
-                return;
-            }
-            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_NORMAL))//还原  
-            {
-                return;
-            }
             if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_DOUBLECLICK))///双击窗体标题栏  
             {
                 return;
@@ -275,7 +265,13 @@ namespace FactoryBoard
             {
                 Global.PlaySound();
                 dglOffer.DataSource = GetOfferTable();
-                this.Activate();
+                if (this.WindowState == FormWindowState.Minimized)
+                {
+                    MainPage.NotifyMain.Visible = true;
+                    MainPage.NotifyMain.BalloonTipTitle = "提醒";
+                    MainPage.NotifyMain.BalloonTipText = "有消息送达";
+                    MainPage.NotifyMain.ShowBalloonTip(600000);//消失时间
+                }
             };
             this.Invoke(refresh);
         }
@@ -322,9 +318,9 @@ namespace FactoryBoard
                     }
                     else
                     {
+                        index = index - DepartmentList[0].OrderList.Rows.Count;
                         if (DepartmentList[1].OrderList.Rows[index]["Remarks"].ToString() == Global.Wait)
                         {
-                            index = index - DepartmentList[0].OrderList.Rows.Count;
                             DepartmentList[1].OrderList.Rows[index]["Remarks"] = Global.Sending;
                         }
                     }
@@ -392,7 +388,7 @@ namespace FactoryBoard
                             }
                         }
                     }
-                    var width = (this.dglOffer.Width - dglOffer.RowHeadersWidth) / cell;
+                    var width = (Screen.PrimaryScreen.WorkingArea.Width - 50) / cell;
                     for (int i = 0; i < this.dglOffer.Columns.Count; i++)
                     {
                         this.dglOffer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;

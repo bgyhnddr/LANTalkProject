@@ -266,7 +266,7 @@
             // 
             // dtpStart_Time
             // 
-            this.dtpStart_Time.CustomFormat = "yyyy/MM/dd hh:mm";
+            this.dtpStart_Time.CustomFormat = "yyyy/MM/dd HH:mm";
             this.dtpStart_Time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpStart_Time.Location = new System.Drawing.Point(286, 87);
             this.dtpStart_Time.Name = "dtpStart_Time";

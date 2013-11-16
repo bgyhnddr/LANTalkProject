@@ -24,9 +24,20 @@ namespace FactoryBoard
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
+            if (tbLine.Text.Trim() == string.Empty ||
+                tbModel.Text.Trim() == string.Empty ||
+                tbIPN.Text.Trim() == string.Empty ||
+                tbMO.Text.Trim() == string.Empty ||
+                tbPN.Text.Trim() == string.Empty ||
+                tbRequset_Qtr.Text.Trim() == string.Empty ||
+                dtpRequest_Time.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show("所有项均要填写");
+                return;
+            }
 
             var department = ASS.GetCurrentDepartment();
-            if (department!=null)
+            if (department != null)
             {
                 var row = department.OrderList.NewRow();
                 row["Line"] = tbLine.Text;

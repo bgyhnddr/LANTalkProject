@@ -12,6 +12,7 @@ namespace FactoryBoard
     public partial class Main : Form
     {
         public static List<Department> _department;
+        private static DataTable Config;
 
         public Main()
         {
@@ -67,21 +68,21 @@ namespace FactoryBoard
             {
                 return;
             }
-            DataTable config = Global.LoadConfig();
-            if (config != null)
+            Config = Global.LoadConfig();
+            if (Config != null)
             {
                 try
                 {
-                    tbASSIP.Text = config.Rows[0][Global.ASS_STRING].ToString();
-                    tbWHIP.Text = config.Rows[0][Global.WH_STRING].ToString();
-                    tbeWHIP.Text = config.Rows[0][Global.eWH_STRING].ToString();
-                    tbIJIP.Text = config.Rows[0][Global.IJ_STRING].ToString();
-                    tbSMTIP.Text = config.Rows[0][Global.SMT_STRING].ToString();
-                    tbSSPIP.Text = config.Rows[0][Global.SSP_STRING].ToString();
-                    tbPort.Text = config.Rows[0][Global.PORT_STRING].ToString();
+                    tbASSIP.Text = Config.Rows[0][Global.ASS_STRING].ToString();
+                    tbWHIP.Text = Config.Rows[0][Global.WH_STRING].ToString();
+                    tbeWHIP.Text = Config.Rows[0][Global.eWH_STRING].ToString();
+                    tbIJIP.Text = Config.Rows[0][Global.IJ_STRING].ToString();
+                    tbSMTIP.Text = Config.Rows[0][Global.SMT_STRING].ToString();
+                    tbSSPIP.Text = Config.Rows[0][Global.SSP_STRING].ToString();
+                    tbPort.Text = Config.Rows[0][Global.PORT_STRING].ToString();
 
 
-                    switch (config.Rows[0][Global.DEPARTMENT_STRING].ToString())
+                    switch (Config.Rows[0][Global.DEPARTMENT_STRING].ToString())
                     {
                         case Global.ASS:
                             new ASS(this).Show();
@@ -156,6 +157,15 @@ namespace FactoryBoard
             SaveConfig(Global.eWH);
             new eWH(this).Show(); 
 
+        }
+
+        private void NotifyMain_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (Application.OpenForms.Count > 1)
+            {
+                Application.OpenForms[1].WindowState = FormWindowState.Maximized;
+                NotifyMain.Visible = false;
+            }
         }
     }
 }

@@ -18,6 +18,7 @@ namespace FactoryBoard
     public partial class ASS : Form
     {
         public static DataTable MainTable;
+        public static DataTable BlankTable;
         public static List<Department> DepartmentList;
         public static string CurrentOrder;
         public Main MainPage;
@@ -31,17 +32,7 @@ namespace FactoryBoard
         protected override void WndProc(ref Message m)
         {
             const int WM_SYSCOMMAND = 0x112;
-            const int SC_MAXISIZE = 0xf030;//最小化  
-            const int SC_NORMAL = 0xf120;//还原  
             const int SC_DOUBLECLICK = 0xf122;//双击窗体标题栏  
-            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_MAXISIZE))//最大化  
-            {
-                return;
-            }
-            if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_NORMAL))//还原  
-            {
-                return;
-            }
             if ((m.Msg == WM_SYSCOMMAND) && ((int)m.WParam == SC_DOUBLECLICK))///双击窗体标题栏  
             {
                 return;
@@ -194,8 +185,6 @@ namespace FactoryBoard
                             {
                                 CurrentOrder = string.Empty;
                             }
-                            RefreshOrderButton();
-                            RefreshOrderList();
                             break;
                         case Global.SSP:
                             btnSSP.Enabled = false;
@@ -203,10 +192,32 @@ namespace FactoryBoard
                             {
                                 CurrentOrder = string.Empty;
                             }
-                            RefreshOrderButton();
-                            RefreshOrderList();
+                            break;
+                        case Global.eWH:
+                            btneWH.Enabled = false;
+                            if (CurrentOrder == Global.eWH)
+                            {
+                                CurrentOrder = string.Empty;
+                            }
+                            break;
+                        case Global.SMT:
+                            btnSMT.Enabled = false;
+                            if (CurrentOrder == Global.SMT)
+                            {
+                                CurrentOrder = string.Empty;
+                            }
+                            break;
+                        case Global.WH:
+                            btnWH.Enabled = false;
+                            if (CurrentOrder == Global.WH)
+                            {
+                                CurrentOrder = string.Empty;
+                            }
                             break;
                     }
+
+                    RefreshOrderButton();
+                    RefreshOrderList();
                 }
             };
             this.Invoke(refresh, socketor);
@@ -325,6 +336,8 @@ namespace FactoryBoard
             table.Columns.Add("Requset_Qtr", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
             table.Columns.Add("Remarks", typeof(string));
+            BlankTable = table;
+            dglOrder.DataSource = table;
 
             var config = Global.LoadConfig();
 
@@ -589,7 +602,7 @@ namespace FactoryBoard
                 var department = GetCurrentDepartment();
                 if (department == null)
                 {
-                    dglOrder.Hide();
+                    dglOrder.DataSource = BlankTable;
                     return;
                 }
                 dglOrder.DataSource = department.OrderList.Copy();
@@ -696,7 +709,8 @@ namespace FactoryBoard
                         }
                     }
                 }
-                var width = (this.dglMain.Width - dglMain.RowHeadersWidth) / cell;
+
+                var width = (Screen.PrimaryScreen.WorkingArea.Width - 50) / cell;
                 for (int i = 0; i < this.dglMain.Columns.Count; i++)
                 {
                     this.dglMain.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -759,7 +773,7 @@ namespace FactoryBoard
                         }
                     }
                 }
-                var width = (this.dglOrder.Width - dglOrder.RowHeadersWidth) / cell;
+                var width = (Screen.PrimaryScreen.WorkingArea.Width - 50) / cell;
                 for (int i = 0; i < this.dglOrder.Columns.Count; i++)
                 {
                     this.dglOrder.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;

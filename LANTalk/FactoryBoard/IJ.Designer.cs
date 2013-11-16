@@ -42,7 +42,6 @@
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tagMain = new System.Windows.Forms.TabPage();
             this.btnConnect = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
             this.btnSetting = new System.Windows.Forms.Button();
             this.lbTime = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -87,7 +86,6 @@
             // tagMain
             // 
             this.tagMain.Controls.Add(this.btnConnect);
-            this.tagMain.Controls.Add(this.btnExit);
             this.tagMain.Controls.Add(this.btnSetting);
             this.tagMain.Controls.Add(this.lbTime);
             this.tagMain.Controls.Add(this.pictureBox1);
@@ -117,18 +115,6 @@
             this.btnConnect.Text = "Disconnect(未连接)";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
-            // 
-            // btnExit
-            // 
-            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.AutoSize = true;
-            this.btnExit.Location = new System.Drawing.Point(895, 3);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(39, 23);
-            this.btnExit.TabIndex = 16;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // btnSetting
             // 
@@ -442,7 +428,6 @@
         private System.Windows.Forms.OpenFileDialog ofdOpenFile;
         private System.Windows.Forms.Timer tTime;
         private System.Windows.Forms.Label lbTime2;
-        private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnConnect;
     }
 }

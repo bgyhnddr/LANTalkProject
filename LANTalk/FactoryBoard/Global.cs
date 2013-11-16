@@ -40,8 +40,8 @@ namespace FactoryBoard
 
         public const string ASS = "ASS";
         public const string IJ = "IJ";
-        public const string WH = "W/H";
-        public const string eWH = "e-W/H";
+        public const string WH = "WH";
+        public const string eWH = "e-WH";
         public const string SMT = "SMT";
         public const string SSP = "SSP";
         public const string Normal = "Normal";
@@ -64,6 +64,7 @@ namespace FactoryBoard
         public const string SMT_STRING = "SMT";
         public const string SSP_STRING = "SSP";
         public const string PORT_STRING = "Port";
+
 
         Global()
         {

@@ -450,7 +450,7 @@
             this.btneWH.Name = "btneWH";
             this.btneWH.Size = new System.Drawing.Size(45, 23);
             this.btneWH.TabIndex = 2;
-            this.btneWH.Text = "e-W/H";
+            this.btneWH.Text = "e-WH";
             this.btneWH.UseVisualStyleBackColor = false;
             this.btneWH.Click += new System.EventHandler(this.btneWH_Click);
             // 
@@ -464,7 +464,7 @@
             this.btnWH.Name = "btnWH";
             this.btnWH.Size = new System.Drawing.Size(45, 23);
             this.btnWH.TabIndex = 1;
-            this.btnWH.Text = "W/H";
+            this.btnWH.Text = "WH";
             this.btnWH.UseVisualStyleBackColor = false;
             this.btnWH.Click += new System.EventHandler(this.btnWH_Click);
             // 
