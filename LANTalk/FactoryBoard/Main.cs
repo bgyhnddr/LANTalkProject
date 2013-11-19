@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FactoryBoard.Properties;
 
 namespace FactoryBoard
 {
@@ -13,6 +14,7 @@ namespace FactoryBoard
     {
         public static List<Department> _department;
         private static DataTable Config;
+        private static bool blankicon = false;
 
         public Main()
         {
@@ -164,7 +166,23 @@ namespace FactoryBoard
             if (Application.OpenForms.Count > 1)
             {
                 Application.OpenForms[1].WindowState = FormWindowState.Maximized;
-                NotifyMain.Visible = false;
+                Application.OpenForms[1].Activate();
+                this.TimerIcon.Stop();
+                this.NotifyMain.Icon = Resources.LANTalkicon;
+            }
+        }
+
+        private void timerIcon_Tick(object sender, EventArgs e)
+        {
+            if (blankicon)
+            {
+                NotifyMain.Icon = Resources.LANTalkicon;
+                blankicon = false;
+            }
+            else
+            {
+                NotifyMain.Icon = Resources.BLANK;
+                blankicon = true;
             }
         }
     }

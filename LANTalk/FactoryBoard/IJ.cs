@@ -12,6 +12,7 @@ using DLLFullPrint;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using FactoryBoard.Properties;
 
 namespace FactoryBoard
 {
@@ -194,12 +195,9 @@ namespace FactoryBoard
                 Global.PlaySound();
                 dglOffer.DataSource = GetOfferTable();
                 tabMain.SelectedTab = tagOffer;
-                if (this.WindowState == FormWindowState.Minimized)
+                if (!this.TopMost)
                 {
-                    MainPage.NotifyMain.Visible = true;
-                    MainPage.NotifyMain.BalloonTipTitle = "提醒";
-                    MainPage.NotifyMain.BalloonTipText = "有消息送达";
-                    MainPage.NotifyMain.ShowBalloonTip(600000);//消失时间
+                    MainPage.TimerIcon.Start();
                 }
             };
             this.Invoke(refresh);
@@ -582,6 +580,12 @@ namespace FactoryBoard
                 dglMain.Columns["Material_Status"].HeaderText = "Material\r\n物料";
                 dglMain.Columns["Method_Status"].HeaderText = "Method\r\n方法";
             }
+        }
+
+        private void IJ_Activated(object sender, EventArgs e)
+        {
+            MainPage.TimerIcon.Stop();
+            MainPage.NotifyMain.Icon = Resources.LANTalkicon;
         }
 
     }

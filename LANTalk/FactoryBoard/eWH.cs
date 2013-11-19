@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using LANTalk.Core;
 using System.Net;
+using FactoryBoard.Properties;
 
 namespace FactoryBoard
 {
@@ -245,12 +246,9 @@ namespace FactoryBoard
             {
                 Global.PlaySound();
                 dglOffer.DataSource = GetOfferTable();
-                if (this.WindowState == FormWindowState.Minimized)
+                if (!this.TopMost)
                 {
-                    MainPage.NotifyMain.Visible = true;
-                    MainPage.NotifyMain.BalloonTipTitle = "提醒";
-                    MainPage.NotifyMain.BalloonTipText = "有消息送达";
-                    MainPage.NotifyMain.ShowBalloonTip(600000);//消失时间
+                    MainPage.TimerIcon.Start();
                 }
             };
             this.Invoke(refresh);
@@ -368,6 +366,12 @@ namespace FactoryBoard
                 dglOffer.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
                 dglOffer.Refresh();
             }
+        }
+
+        private void eWH_Activated(object sender, EventArgs e)
+        {
+            MainPage.TimerIcon.Stop();
+            MainPage.NotifyMain.Icon = Resources.LANTalkicon;
         }
     }
 }

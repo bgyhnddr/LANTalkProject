@@ -12,6 +12,7 @@ using System.Net;
 using DLLFullPrint;
 using System.Threading.Tasks;
 using System.Threading;
+using FactoryBoard.Properties;
 
 namespace FactoryBoard
 {
@@ -151,12 +152,9 @@ namespace FactoryBoard
                 Global.PlaySound();
                 tabMain.SelectedTab = tagOffer;
                 dglOffer.DataSource = GetOfferTable();
-                if (this.WindowState == FormWindowState.Minimized)
+                if (!this.TopMost)
                 {
-                    MainPage.NotifyMain.Visible = true;
-                    MainPage.NotifyMain.BalloonTipTitle = "提醒";
-                    MainPage.NotifyMain.BalloonTipText = "有消息送达";
-                    MainPage.NotifyMain.ShowBalloonTip(600000);//消失时间
+                    MainPage.TimerIcon.Start();
                 }
             };
             this.Invoke(refresh);
@@ -865,6 +863,12 @@ namespace FactoryBoard
             RefreshOrderButton();
             RefreshOrderList();
             dglOrder.Show();
+        }
+
+        private void SSP_Activated(object sender, EventArgs e)
+        {
+            MainPage.TimerIcon.Stop();
+            MainPage.NotifyMain.Icon = Resources.LANTalkicon;
         }
     }
 }

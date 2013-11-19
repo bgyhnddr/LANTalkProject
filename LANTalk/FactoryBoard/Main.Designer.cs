@@ -52,6 +52,7 @@
             this.lbPort = new System.Windows.Forms.Label();
             this.tbPort = new System.Windows.Forms.TextBox();
             this.NotifyMain = new System.Windows.Forms.NotifyIcon(this.components);
+            this.TimerIcon = new System.Windows.Forms.Timer(this.components);
             this.gIPSet.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -255,7 +256,13 @@
             // 
             this.NotifyMain.Icon = ((System.Drawing.Icon)(resources.GetObject("NotifyMain.Icon")));
             this.NotifyMain.Text = "要料提醒";
+            this.NotifyMain.Visible = true;
             this.NotifyMain.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NotifyMain_MouseDoubleClick);
+            // 
+            // TimerIcon
+            // 
+            this.TimerIcon.Interval = 500;
+            this.TimerIcon.Tick += new System.EventHandler(this.timerIcon_Tick);
             // 
             // Main
             // 
@@ -307,6 +314,7 @@
         private System.Windows.Forms.Label lbPort;
         private System.Windows.Forms.TextBox tbPort;
         public System.Windows.Forms.NotifyIcon NotifyMain;
+        public System.Windows.Forms.Timer TimerIcon;
     }
 }
 

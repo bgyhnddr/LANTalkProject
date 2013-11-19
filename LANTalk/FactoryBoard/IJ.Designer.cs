@@ -99,7 +99,7 @@
             this.tagMain.Location = new System.Drawing.Point(4, 4);
             this.tagMain.Name = "tagMain";
             this.tagMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tagMain.Size = new System.Drawing.Size(940, 416);
+            this.tagMain.Size = new System.Drawing.Size(940, 415);
             this.tagMain.TabIndex = 0;
             this.tagMain.Text = "Info(信息)";
             this.tagMain.UseVisualStyleBackColor = true;
@@ -212,9 +212,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
             this.dglMain.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dglMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dglMain.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
@@ -274,7 +274,7 @@
             this.tagOffer.Location = new System.Drawing.Point(4, 4);
             this.tagOffer.Name = "tagOffer";
             this.tagOffer.Padding = new System.Windows.Forms.Padding(3);
-            this.tagOffer.Size = new System.Drawing.Size(940, 416);
+            this.tagOffer.Size = new System.Drawing.Size(940, 415);
             this.tagOffer.TabIndex = 1;
             this.tagOffer.Text = "Offer(供料)";
             this.tagOffer.UseVisualStyleBackColor = true;
@@ -320,9 +320,9 @@
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
             this.dglOffer.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dglOffer.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
@@ -390,6 +390,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "IJ";
             this.Text = "IJ";
+            this.Activated += new System.EventHandler(this.IJ_Activated);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.IJ_FormClosed);
             this.Load += new System.EventHandler(this.IJ_Load);
             this.Shown += new System.EventHandler(this.IJ_Shown);
