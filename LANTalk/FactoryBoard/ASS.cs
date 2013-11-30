@@ -86,8 +86,24 @@ namespace FactoryBoard
             }
         }
 
-        private string SendBefore(IPAddress ip)
+        private string SendBefore(Socket socketor)
         {
+
+
+            //如果因为某些特殊原因导致部门在却显示不在线，在线程中重新让离线的部门从新在线
+            IPEndPoint clientipe = (IPEndPoint)socketor.RemoteEndPoint;
+            var temp = from row in DepartmentList
+                       where row.IP == clientipe.Address.ToString()
+                      select row;
+            if (temp.Count() > 0)
+            {
+                var department = temp.First();
+                if (department.Online == false)
+                {
+                    DepartmentOnline(socketor);
+                }
+            }
+
             Thread.Sleep(1000);
             return Mode.OnlineList.ToString() + " 0.0.0.0 0.0.0.0 " + GetOnlineList();
         }

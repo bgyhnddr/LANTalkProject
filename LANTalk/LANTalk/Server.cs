@@ -112,14 +112,15 @@ namespace LANTalk
 
         
         
-        private string SendBefore(IPAddress ip)
+        private string SendBefore(Socket socketor)
         {
             var returnString = string.Empty;
             lock (Global.OnLineUserList)
             {
                 if (Global.OnLineUserList.Count > 0)
                 {
-                    var user = Global.OnLineUserList.Where(o => o.IP == ip.ToString()).First();
+                    IPEndPoint clientipe = (IPEndPoint)socketor.RemoteEndPoint;
+                    var user = Global.OnLineUserList.Where(o => o.IP == clientipe.Address.ToString()).First();
                     returnString = user.GetFirstSendContent();
                 }
             }

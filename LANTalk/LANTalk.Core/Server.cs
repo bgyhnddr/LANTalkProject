@@ -16,7 +16,7 @@ namespace LANTalk.Core
         
         public delegate void SocketAcceptCallback(Socket socketor);
         public delegate void ReceiveCallback(IPAddress ip, string content);
-        public delegate string SendBefore(IPAddress ip);
+        public delegate string SendBefore(Socket socketor);
         public delegate void SocketLostCallback(Socket socketor);
         public delegate void ListenCallback();
         public delegate void ListenErrorCallback(Exception ex);
@@ -170,10 +170,9 @@ namespace LANTalk.Core
                     {
                         break;
                     }
-                    IPEndPoint clientipe = (IPEndPoint)newSocket.RemoteEndPoint;
                     if (_sendBefore != null)
                     {
-                        var sendString = _sendBefore(clientipe.Address);
+                        var sendString = _sendBefore(newSocket);
                         if (sendString.Length > 0)
                         {
                             var sendContent = Encoding.UTF8.GetBytes(sendString);
