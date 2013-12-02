@@ -75,7 +75,7 @@ namespace FactoryBoard
             table.Columns.Add("IPN", typeof(string));
             table.Columns.Add("MO", typeof(string));
             table.Columns.Add("P/N", typeof(string));
-            table.Columns.Add("Requset_Qtr", typeof(string));
+            table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
             table.Columns.Add("Remarks", typeof(string));
             lock (DepartmentList)
@@ -93,7 +93,7 @@ namespace FactoryBoard
                     newRow["IPN"] = row["IPN"];
                     newRow["MO"] = row["MO"];
                     newRow["P/N"] = row["P/N"];
-                    newRow["Requset_Qtr"] = row["Requset_Qtr"];
+                    newRow["Requset_Qty"] = row["Requset_Qty"];
                     newRow["Request_Time"] = row["Request_Time"];
                     newRow["Remarks"] = row["Remarks"];
                     table.Rows.Add(newRow);
@@ -113,7 +113,7 @@ namespace FactoryBoard
                     newRow["IPN"] = row["IPN"];
                     newRow["MO"] = row["MO"];
                     newRow["P/N"] = row["P/N"];
-                    newRow["Requset_Qtr"] = row["Requset_Qtr"];
+                    newRow["Requset_Qty"] = row["Requset_Qty"];
                     newRow["Request_Time"] = row["Request_Time"];
                     newRow["Remarks"] = row["Remarks"];
                     table.Rows.Add(newRow);
@@ -133,7 +133,7 @@ namespace FactoryBoard
             table.Columns.Add("IPN", typeof(string));
             table.Columns.Add("MO", typeof(string));
             table.Columns.Add("P/N", typeof(string));
-            table.Columns.Add("Requset_Qtr", typeof(string));
+            table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
             table.Columns.Add("Remarks", typeof(string));
 
@@ -396,10 +396,10 @@ namespace FactoryBoard
                 dglOffer.Columns["Department"].HeaderText = "Department\r\n部门";
                 dglOffer.Columns["Line"].HeaderText = "Line\r\n线别";
                 dglOffer.Columns["Model"].HeaderText = "Model\r\n产品型号";
-                dglOffer.Columns["IPN"].HeaderText = "IPN\r\n订单数";
+                dglOffer.Columns["IPN"].HeaderText = "IPN\r\n订单号";
                 dglOffer.Columns["MO"].HeaderText = "MO\r\n工单号";
                 dglOffer.Columns["P/N"].HeaderText = "P/N\r\n品号";
-                dglOffer.Columns["Requset_Qtr"].HeaderText = "Requset Qtr\r\n需求数量";
+                dglOffer.Columns["Requset_Qty"].HeaderText = "Requset Qty\r\n需求数量";
                 dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
                 dglOffer.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
                 dglOffer.Refresh();

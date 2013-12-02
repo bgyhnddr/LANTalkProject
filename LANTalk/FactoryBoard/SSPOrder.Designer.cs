@@ -31,10 +31,10 @@
             this.lbRequest_Time = new System.Windows.Forms.Label();
             this.lbMO = new System.Windows.Forms.Label();
             this.lbModel = new System.Windows.Forms.Label();
-            this.lbRequset_Qtr = new System.Windows.Forms.Label();
+            this.lbRequset_Qty = new System.Windows.Forms.Label();
             this.lbPN = new System.Windows.Forms.Label();
             this.lbIPN = new System.Windows.Forms.Label();
-            this.tbRequset_Qtr = new System.Windows.Forms.TextBox();
+            this.tbRequset_Qty = new System.Windows.Forms.TextBox();
             this.tbPN = new System.Windows.Forms.TextBox();
             this.tbMO = new System.Windows.Forms.TextBox();
             this.tbIPN = new System.Windows.Forms.TextBox();
@@ -71,14 +71,14 @@
             this.lbModel.TabIndex = 37;
             this.lbModel.Text = "Model";
             // 
-            // lbRequset_Qtr
+            // lbRequset_Qty
             // 
-            this.lbRequset_Qtr.AutoSize = true;
-            this.lbRequset_Qtr.Location = new System.Drawing.Point(12, 117);
-            this.lbRequset_Qtr.Name = "lbRequset_Qtr";
-            this.lbRequset_Qtr.Size = new System.Drawing.Size(71, 12);
-            this.lbRequset_Qtr.TabIndex = 36;
-            this.lbRequset_Qtr.Text = "Requset_Qtr";
+            this.lbRequset_Qty.AutoSize = true;
+            this.lbRequset_Qty.Location = new System.Drawing.Point(12, 117);
+            this.lbRequset_Qty.Name = "lbRequset_Qty";
+            this.lbRequset_Qty.Size = new System.Drawing.Size(71, 12);
+            this.lbRequset_Qty.TabIndex = 36;
+            this.lbRequset_Qty.Text = "Requset_Qty";
             // 
             // lbPN
             // 
@@ -98,12 +98,12 @@
             this.lbIPN.TabIndex = 34;
             this.lbIPN.Text = "IPN";
             // 
-            // tbRequset_Qtr
+            // tbRequset_Qty
             // 
-            this.tbRequset_Qtr.Location = new System.Drawing.Point(98, 114);
-            this.tbRequset_Qtr.Name = "tbRequset_Qtr";
-            this.tbRequset_Qtr.Size = new System.Drawing.Size(135, 21);
-            this.tbRequset_Qtr.TabIndex = 32;
+            this.tbRequset_Qty.Location = new System.Drawing.Point(98, 114);
+            this.tbRequset_Qty.Name = "tbRequset_Qty";
+            this.tbRequset_Qty.Size = new System.Drawing.Size(135, 21);
+            this.tbRequset_Qty.TabIndex = 32;
             // 
             // tbPN
             // 
@@ -176,10 +176,10 @@
             this.Controls.Add(this.lbRequest_Time);
             this.Controls.Add(this.lbMO);
             this.Controls.Add(this.lbModel);
-            this.Controls.Add(this.lbRequset_Qtr);
+            this.Controls.Add(this.lbRequset_Qty);
             this.Controls.Add(this.lbPN);
             this.Controls.Add(this.lbIPN);
-            this.Controls.Add(this.tbRequset_Qtr);
+            this.Controls.Add(this.tbRequset_Qty);
             this.Controls.Add(this.tbPN);
             this.Controls.Add(this.tbMO);
             this.Controls.Add(this.tbIPN);
@@ -198,10 +198,10 @@
         private System.Windows.Forms.Label lbRequest_Time;
         private System.Windows.Forms.Label lbMO;
         private System.Windows.Forms.Label lbModel;
-        private System.Windows.Forms.Label lbRequset_Qtr;
+        private System.Windows.Forms.Label lbRequset_Qty;
         private System.Windows.Forms.Label lbPN;
         private System.Windows.Forms.Label lbIPN;
-        private System.Windows.Forms.TextBox tbRequset_Qtr;
+        private System.Windows.Forms.TextBox tbRequset_Qty;
         private System.Windows.Forms.TextBox tbPN;
         private System.Windows.Forms.TextBox tbMO;
         private System.Windows.Forms.TextBox tbIPN;
