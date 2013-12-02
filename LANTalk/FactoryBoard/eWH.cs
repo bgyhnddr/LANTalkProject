@@ -90,7 +90,7 @@ namespace FactoryBoard
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
-            table.Columns.Add("Remarks", typeof(string));
+            table.Columns.Add("Status", typeof(string));
 
             var config = Global.LoadConfig();
 
@@ -107,15 +107,15 @@ namespace FactoryBoard
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
-            table.Columns.Add("Remarks", typeof(string));
+            table.Columns.Add("Status", typeof(string));
             lock (DepartmentList)
             {
                 foreach (DataRow row in DepartmentList[0].OrderList.Rows)
                 {
                     var newRow = table.NewRow();
-                    if (row["Remarks"].ToString() == Global.UnKnown)
+                    if (row["Status"].ToString() == Global.UnKnown)
                     {
-                        row["Remarks"] = Global.Wait;
+                        row["Status"] = Global.Wait;
                     }
                     newRow["Line"] = row["Line"];
                     newRow["Model"] = row["Model"];
@@ -124,7 +124,7 @@ namespace FactoryBoard
                     newRow["P/N"] = row["P/N"];
                     newRow["Requset_Qty"] = row["Requset_Qty"];
                     newRow["Request_Time"] = row["Request_Time"];
-                    newRow["Remarks"] = row["Remarks"];
+                    newRow["Status"] = row["Status"];
                     table.Rows.Add(newRow);
                 }
                 return table;
@@ -286,9 +286,9 @@ namespace FactoryBoard
                 var index = dglOffer.CurrentCell.RowIndex;
                 if (dglOffer.CurrentCell.RowIndex >= 0)
                 {
-                    if (DepartmentList[0].OrderList.Rows[index]["Remarks"].ToString() == Global.Wait)
+                    if (DepartmentList[0].OrderList.Rows[index]["Status"].ToString() == Global.Wait)
                     {
-                        DepartmentList[0].OrderList.Rows[index]["Remarks"] = Global.Sending;
+                        DepartmentList[0].OrderList.Rows[index]["Status"] = Global.Sending;
                     }
                     RefreshOfferTable();
                     SendOfferTable();
@@ -363,7 +363,7 @@ namespace FactoryBoard
                 dglOffer.Columns["P/N"].HeaderText = "P/N\r\n品号";
                 dglOffer.Columns["Requset_Qty"].HeaderText = "Requset Qty\r\n需求数量";
                 dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
-                dglOffer.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
+                dglOffer.Columns["Status"].HeaderText = "Status\r\n状态";
                 dglOffer.Refresh();
             }
         }

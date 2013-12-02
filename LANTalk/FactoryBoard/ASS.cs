@@ -301,7 +301,7 @@ namespace FactoryBoard
                             var offertable = CSVHelper.ReadTable(message);
                             for (var i = 0; i < offertable.Rows.Count; i++)
                             {
-                                department.OrderList.Rows[i]["Remarks"] = offertable.Rows[i]["Remarks"];
+                                department.OrderList.Rows[i]["Status"] = offertable.Rows[i]["Status"];
                             }
 
                             RefreshOrderList();
@@ -352,7 +352,7 @@ namespace FactoryBoard
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
-            table.Columns.Add("Remarks", typeof(string));
+            table.Columns.Add("Status", typeof(string));
             BlankTable = table;
             dglOrder.DataSource = table;
 
@@ -649,12 +649,12 @@ namespace FactoryBoard
             }
             if (dglOrder.CurrentCell.RowIndex >= 0)
             {
-                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() != Global.Receive &&
-                    department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() != Global.UnKnown)
+                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"].ToString() != Global.Receive &&
+                    department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"].ToString() != Global.UnKnown)
                 {
                     if (MessageBox.Show("confirm?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"] = Global.Undo;
+                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Undo;
                     }
                     RefreshOrderList();
                     SendOrder();
@@ -676,11 +676,11 @@ namespace FactoryBoard
             }
             if (dglOrder.CurrentCell.RowIndex >= 0)
             {
-                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"].ToString() == Global.Sending)
+                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"].ToString() == Global.Sending)
                 {
                     if (MessageBox.Show("confirm?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Remarks"] = Global.Receive;
+                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Receive;
                     }
                     RefreshOrderList();
                     SendOrder();
@@ -805,7 +805,7 @@ namespace FactoryBoard
             dglOrder.Columns["P/N"].HeaderText = "P/N\r\n品号";
             dglOrder.Columns["Requset_Qty"].HeaderText = "Requset Qty\r\n需求数量";
             dglOrder.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
-            dglOrder.Columns["Remarks"].HeaderText = "Remarks\r\n状态";
+            dglOrder.Columns["Status"].HeaderText = "Status\r\n状态";
         }
 
         private void btnSMT_Click(object sender, EventArgs e)

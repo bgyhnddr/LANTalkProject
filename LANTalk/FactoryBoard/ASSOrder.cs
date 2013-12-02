@@ -47,7 +47,7 @@ namespace FactoryBoard
                 row["P/N"] = tbPN.Text;
                 row["Requset_Qty"] = tbRequset_Qty.Text;
                 row["Request_Time"] = dtpRequest_Time.Text;
-                row["Remarks"] = Global.UnKnown;
+                row["Status"] = Global.UnKnown;
                 department.OrderList.Rows.InsertAt(row, 0);
             }
 
