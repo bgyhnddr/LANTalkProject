@@ -352,6 +352,7 @@ namespace FactoryBoard
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
+            table.Columns.Add("Send_Time", typeof(string));
             table.Columns.Add("Status", typeof(string));
             BlankTable = table;
             dglOrder.DataSource = table;
@@ -601,13 +602,28 @@ namespace FactoryBoard
             {
                 department = dept;
             }
+
+
+
             if (department != null)
             {
-                var content = Mode.SendOrder.ToString();
-                content += " " + _server._ip.ToString();
-                content += " " + department.IP;
-                content += " " + CSVHelper.MakeCSV(department.OrderList);
-                _server.CustomSend(department.Socketor, content);
+                lock (department)
+                {
+                    foreach (DataRow row in department.OrderList.Rows)
+                    {
+                        if (row["Status"].ToString() == Global.UnKnown)
+                        {
+                            row["Send_Time"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+                        }
+                    }
+
+
+                    var content = Mode.SendOrder.ToString();
+                    content += " " + _server._ip.ToString();
+                    content += " " + department.IP;
+                    content += " " + CSVHelper.MakeCSV(department.OrderList);
+                    _server.CustomSend(department.Socketor, content);
+                }
             }
         }
 
@@ -758,7 +774,7 @@ namespace FactoryBoard
                 int cell = dglOrder.Rows[0].Cells.Count;//得到总列数    
                 for (int i = 0; i < row; i++)//得到总行数并在之内循环    
                 {
-                    for (int j = 7; j < cell; j++)//得到总列数并在之内循环    
+                    for (int j = 8; j < cell; j++)//得到总列数并在之内循环    
                     {
                         if (dglOrder.Rows[i].Cells[j].Value != null)
                         {
@@ -805,6 +821,7 @@ namespace FactoryBoard
             dglOrder.Columns["P/N"].HeaderText = "P/N\r\n品号";
             dglOrder.Columns["Requset_Qty"].HeaderText = "Requset Qty\r\n需求数量";
             dglOrder.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
+            dglOrder.Columns["Send_Time"].HeaderText = "Send_Time\r\n发送时间";
             dglOrder.Columns["Status"].HeaderText = "Status\r\n状态";
         }
 

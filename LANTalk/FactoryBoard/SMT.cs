@@ -283,6 +283,7 @@ namespace FactoryBoard
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
+            table.Columns.Add("Send_Time", typeof(string));
             table.Columns.Add("Status", typeof(string));
 
             var config = Global.LoadConfig();
@@ -301,6 +302,7 @@ namespace FactoryBoard
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
+            table.Columns.Add("Send_Time", typeof(string));
             table.Columns.Add("Status", typeof(string));
             lock (DepartmentList)
             {
@@ -318,6 +320,7 @@ namespace FactoryBoard
                     newRow["P/N"] = row["P/N"];
                     newRow["Requset_Qty"] = row["Requset_Qty"];
                     newRow["Request_Time"] = row["Request_Time"];
+                    newRow["Send_Time"] = row["Send_Time"];
                     newRow["Status"] = row["Status"];
                     table.Rows.Add(newRow);
                 }
@@ -479,7 +482,7 @@ namespace FactoryBoard
                     int cell = dglOffer.Rows[0].Cells.Count;//得到总列数    
                     for (int i = 0; i < row; i++)//得到总行数并在之内循环    
                     {
-                        for (int j = 7; j < cell; j++)//得到总列数并在之内循环    
+                        for (int j = 8; j < cell; j++)//得到总列数并在之内循环    
                         {
                             if (dglOffer.Rows[i].Cells[j].Value != null)
                             {
@@ -526,6 +529,7 @@ namespace FactoryBoard
                 dglOffer.Columns["P/N"].HeaderText = "P/N\r\n品号";
                 dglOffer.Columns["Requset_Qty"].HeaderText = "Requset Qty\r\n需求数量";
                 dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
+                dglOffer.Columns["Send_Time"].HeaderText = "Send_Time\r\n发送时间";
                 dglOffer.Columns["Status"].HeaderText = "Status\r\n状态";
                 dglOffer.Refresh();
             }
