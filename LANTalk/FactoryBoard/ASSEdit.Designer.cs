@@ -260,6 +260,7 @@
             // 
             // ASSEdit
             // 
+            this.AcceptButton = this.btnConfirm;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(563, 208);
@@ -291,6 +292,7 @@
             this.Name = "ASSEdit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ASSEdit";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ASSEdit_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

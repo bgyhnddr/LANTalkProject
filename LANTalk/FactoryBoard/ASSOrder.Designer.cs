@@ -185,6 +185,7 @@
             // 
             // ASSOrder
             // 
+            this.AcceptButton = this.btnConfirm;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(312, 254);
@@ -208,6 +209,7 @@
             this.Name = "ASSOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ASSOrder";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ASSOrder_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

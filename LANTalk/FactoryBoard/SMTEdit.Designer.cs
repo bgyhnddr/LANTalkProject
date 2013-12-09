@@ -278,6 +278,7 @@
             // 
             // SMTEdit
             // 
+            this.AcceptButton = this.btnConfirm;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(555, 240);
@@ -311,6 +312,7 @@
             this.Name = "SMTEdit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SMTEdit";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SMTEdit_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

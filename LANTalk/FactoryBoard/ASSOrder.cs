@@ -54,5 +54,13 @@ namespace FactoryBoard
 
             this.Close();
         }
+
+        private void ASSOrder_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)//如果输入的是回车键
+            {
+                this.btnConfirm_Click(sender, e);//触发button事件
+            }
+        }
     }
 }
