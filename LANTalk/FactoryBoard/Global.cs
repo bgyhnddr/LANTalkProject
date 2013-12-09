@@ -46,11 +46,11 @@ namespace FactoryBoard
         public const string SSP = "SSP";
         public const string Normal = "Normal";
         public const string UnNormal = "Unnormal";
-        public const string UnKnown = "Unknown";
-        public const string Receive = "Receive";
-        public const string Wait = "Wait";
-        public const string Undo = "Undo";
-        public const string Sending = "Sending";
+        public const string UnKnown = "0-Unknown";
+        public const string Receive = "3-Receive";
+        public const string Wait = "1-Wait";
+        public const string Undo = "4-Undo";
+        public const string Sending = "2-Sending";
 
         public static string ErrorMessage;
 

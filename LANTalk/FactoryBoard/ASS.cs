@@ -638,6 +638,11 @@ namespace FactoryBoard
                     dglOrder.DataSource = BlankTable;
                     return;
                 }
+
+                DataView DV = department.OrderList.DefaultView;
+                DV.Sort = "Status ASC";
+                department.OrderList = DV.ToTable();
+
                 dglOrder.DataSource = department.OrderList.Copy();
             };
 
