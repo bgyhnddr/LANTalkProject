@@ -433,22 +433,20 @@ namespace FactoryBoard
                 int cell = dglMain.Rows[0].Cells.Count;//得到总列数    
                 for (int i = 0; i < row; i++)//得到总行数并在之内循环    
                 {
-                    for (int j = 9; j < cell; j++)//得到总列数并在之内循环    
+                    if (dglMain.Rows[i].Cells[cell - 1].Value != null)
                     {
-                        if (dglMain.Rows[i].Cells[j].Value != null)
+                        if (this.dglMain.Rows[i].Cells[cell - 1].Value.ToString() == Global.UnNormal)
                         {
-                            if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.UnNormal)
-                            {
-                                this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.Red;
-                                this.dglMain.Rows[i].Cells[j].Value = string.Empty;
-                            }
-                            else if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.Normal)
-                            {
-                                this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
-                                this.dglMain.Rows[i].Cells[j].Value = string.Empty;
-                            }
+                            this.dglMain.Rows[i].Cells[cell - 1].Style.BackColor = Color.Red;
+                            this.dglMain.Rows[i].Cells[cell - 1].Value = string.Empty;
+                        }
+                        else if (this.dglMain.Rows[i].Cells[cell - 1].Value.ToString() == Global.Normal)
+                        {
+                            this.dglMain.Rows[i].Cells[cell - 1].Style.BackColor = Color.GreenYellow;
+                            this.dglMain.Rows[i].Cells[cell - 1].Value = string.Empty;
                         }
                     }
+                    
                 }
                 var width = (Screen.PrimaryScreen.WorkingArea.Width - 50) / cell;
                 for (int i = 0; i < this.dglMain.Columns.Count; i++)
@@ -482,37 +480,35 @@ namespace FactoryBoard
                     int cell = dglOffer.Rows[0].Cells.Count;//得到总列数    
                     for (int i = 0; i < row; i++)//得到总行数并在之内循环    
                     {
-                        for (int j = 8; j < cell; j++)//得到总列数并在之内循环    
+                        if (dglOffer.Rows[i].Cells[cell - 1].Value != null)
                         {
-                            if (dglOffer.Rows[i].Cells[j].Value != null)
+                            if (this.dglOffer.Rows[i].Cells[cell - 1].Value.ToString() == Global.UnKnown)
                             {
-                                if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.UnKnown)
-                                {
-                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.White;
-                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Undo)
-                                {
-                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Gray;
-                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Wait)
-                                {
-                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Red;
-                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Sending)
-                                {
-                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.Yellow;
-                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
-                                }
-                                else if (this.dglOffer.Rows[i].Cells[j].Value.ToString() == Global.Receive)
-                                {
-                                    this.dglOffer.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
-                                    this.dglOffer.Rows[i].Cells[j].Value = string.Empty;
-                                }
+                                this.dglOffer.Rows[i].Cells[cell - 1].Style.BackColor = Color.White;
+                                this.dglOffer.Rows[i].Cells[cell - 1].Value = string.Empty;
+                            }
+                            else if (this.dglOffer.Rows[i].Cells[cell - 1].Value.ToString() == Global.Undo)
+                            {
+                                this.dglOffer.Rows[i].Cells[cell - 1].Style.BackColor = Color.Gray;
+                                this.dglOffer.Rows[i].Cells[cell - 1].Value = string.Empty;
+                            }
+                            else if (this.dglOffer.Rows[i].Cells[cell - 1].Value.ToString() == Global.Wait)
+                            {
+                                this.dglOffer.Rows[i].Cells[cell - 1].Style.BackColor = Color.Red;
+                                this.dglOffer.Rows[i].Cells[cell - 1].Value = string.Empty;
+                            }
+                            else if (this.dglOffer.Rows[i].Cells[cell - 1].Value.ToString() == Global.Sending)
+                            {
+                                this.dglOffer.Rows[i].Cells[cell - 1].Style.BackColor = Color.Yellow;
+                                this.dglOffer.Rows[i].Cells[cell - 1].Value = string.Empty;
+                            }
+                            else if (this.dglOffer.Rows[i].Cells[cell - 1].Value.ToString() == Global.Receive)
+                            {
+                                this.dglOffer.Rows[i].Cells[cell - 1].Style.BackColor = Color.GreenYellow;
+                                this.dglOffer.Rows[i].Cells[cell - 1].Value = string.Empty;
                             }
                         }
+                        
                     }
                     var width = (Screen.PrimaryScreen.WorkingArea.Width - 50) / cell;
                     for (int i = 0; i < this.dglOffer.Columns.Count; i++)

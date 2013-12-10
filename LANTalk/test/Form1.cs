@@ -63,8 +63,8 @@ namespace test
                     {
                         if (this.dataGridView1.Rows[i].Cells[j].Value.ToString() == "0")
                         {
-                            this.dataGridView1.Rows[i].Cells[j].Style.BackColor = Color.Red;
-                            this.dataGridView1.Rows[i].Cells[j].Value = string.Empty;
+                            this.dataGridView1.Rows[i].Cells[cell - 1].Style.BackColor = Color.Red;
+                            this.dataGridView1.Rows[i].Cells[cell - 1].Value = string.Empty;
                         }
                     }
                 }
