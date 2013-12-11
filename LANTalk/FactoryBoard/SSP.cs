@@ -69,13 +69,7 @@ namespace FactoryBoard
             RefreshOrderButton();
             var time = DateTime.Now;
             lbTime.Text = lbTime2.Text = lbTime3.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
-            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            path += "\\LANTalk\\SaveFile\\SSP";
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            ofdOpenFile.InitialDirectory = path;
+            
         }
 
         private void InitMainTable()
@@ -280,8 +274,14 @@ namespace FactoryBoard
                     {
                         Directory.CreateDirectory(currentpath);
                     }
-                    currentpath += "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".csv";
-                    File.WriteAllText(currentpath, CSVHelper.MakeCSV(department.OrderList), Encoding.GetEncoding("GB2312"));
+
+                    var now = DateTime.Now;
+
+                    File.WriteAllText(currentpath + "\\" + now.ToString("yyyy-MM-dd") + ".csv", CSVHelper.MakeCSV(department.OrderList), Encoding.GetEncoding("GB2312"));
+
+                    var DV = department.OrderList.DefaultView;
+                    DV.RowFilter = string.Format("Status='{0}' OR Status='{1}'", Global.Wait, Global.Sending);
+                    File.WriteAllText(currentpath + "\\" + now.AddDays(1).ToString("yyyy-MM-dd") + ".csv", CSVHelper.MakeCSV(DV.ToTable()), Encoding.GetEncoding("GB2312"));
                 }
             }
         }
@@ -522,6 +522,13 @@ namespace FactoryBoard
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
             ofdOpenFile.ShowDialog();
+            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            path += "\\LANTalk\\SaveFile\\SSP";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            ofdOpenFile.InitialDirectory = path;
             if (!string.IsNullOrWhiteSpace(ofdOpenFile.FileName))
             {
                 MainTable = CSVHelper.ReadCSVToTable(ofdOpenFile.FileName);
@@ -878,6 +885,32 @@ namespace FactoryBoard
         {
             MainPage.TimerIcon.Stop();
             MainPage.NotifyMain.Icon = Resources.LANTalkicon;
+        }
+
+        private void btnImportOrder_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+
+            if (department != null)
+            {
+                var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                path += "\\LANTalk\\OrderList\\" + department.Name;
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                ofdOpenFile.InitialDirectory = path;
+
+                ofdOpenFile.ShowDialog();
+                if (!string.IsNullOrWhiteSpace(ofdOpenFile.FileName))
+                {
+                    department.OrderList = CSVHelper.ReadCSVToTable(ofdOpenFile.FileName);
+                    DataView DV = department.OrderList.DefaultView;
+                    DV.Sort = "Status ASC";
+                    department.OrderList = DV.ToTable();
+                    dglOrder.DataSource = department.OrderList.Copy();
+                }
+            }
         }
     }
 }
