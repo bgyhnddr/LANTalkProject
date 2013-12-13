@@ -499,7 +499,7 @@ namespace FactoryBoard
         private void LoadCurrentFile()
         {
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            path += "\\LANTalk\\SaveFile\\ASS\\current.csv";
+            path += "\\LANTalk\\SaveFile\\ASS\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".csv";
             if (File.Exists(path))
             {
                 MainTable = CSVHelper.ReadCSVToTable(path);
