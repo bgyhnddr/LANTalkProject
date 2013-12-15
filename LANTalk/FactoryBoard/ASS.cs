@@ -343,6 +343,7 @@ namespace FactoryBoard
             table.Columns.Add("Model", typeof(string));
             table.Columns.Add("IPN", typeof(string));
             table.Columns.Add("MO", typeof(string));
+            table.Columns.Add("Process", typeof(string));
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
@@ -825,6 +826,7 @@ namespace FactoryBoard
             dglOrder.Columns["Model"].HeaderText = "Model\r\n产品型号";
             dglOrder.Columns["IPN"].HeaderText = "IPN\r\n订单号";
             dglOrder.Columns["MO"].HeaderText = "MO\r\n工单号";
+            dglOrder.Columns["Process"].HeaderText = "Process\r\n工艺";
             dglOrder.Columns["P/N"].HeaderText = "P/N\r\n品号";
             dglOrder.Columns["Requset_Qty"].HeaderText = "Requset Qty\r\n需求数量";
             dglOrder.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";

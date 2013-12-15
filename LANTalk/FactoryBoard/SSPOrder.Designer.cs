@@ -42,12 +42,14 @@
             this.btnConfirm = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.dtpRequest_Time = new System.Windows.Forms.DateTimePicker();
+            this.lbProcess = new System.Windows.Forms.Label();
+            this.tbProcess = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lbRequest_Time
             // 
             this.lbRequest_Time.AutoSize = true;
-            this.lbRequest_Time.Location = new System.Drawing.Point(12, 144);
+            this.lbRequest_Time.Location = new System.Drawing.Point(12, 171);
             this.lbRequest_Time.Name = "lbRequest_Time";
             this.lbRequest_Time.Size = new System.Drawing.Size(137, 12);
             this.lbRequest_Time.TabIndex = 39;
@@ -74,7 +76,7 @@
             // lbRequset_Qty
             // 
             this.lbRequset_Qty.AutoSize = true;
-            this.lbRequset_Qty.Location = new System.Drawing.Point(12, 117);
+            this.lbRequset_Qty.Location = new System.Drawing.Point(12, 144);
             this.lbRequset_Qty.Name = "lbRequset_Qty";
             this.lbRequset_Qty.Size = new System.Drawing.Size(131, 12);
             this.lbRequset_Qty.TabIndex = 36;
@@ -83,7 +85,7 @@
             // lbPN
             // 
             this.lbPN.AutoSize = true;
-            this.lbPN.Location = new System.Drawing.Point(12, 90);
+            this.lbPN.Location = new System.Drawing.Point(12, 117);
             this.lbPN.Name = "lbPN";
             this.lbPN.Size = new System.Drawing.Size(59, 12);
             this.lbPN.TabIndex = 35;
@@ -100,14 +102,14 @@
             // 
             // tbRequset_Qty
             // 
-            this.tbRequset_Qty.Location = new System.Drawing.Point(155, 114);
+            this.tbRequset_Qty.Location = new System.Drawing.Point(155, 141);
             this.tbRequset_Qty.Name = "tbRequset_Qty";
             this.tbRequset_Qty.Size = new System.Drawing.Size(135, 21);
             this.tbRequset_Qty.TabIndex = 32;
             // 
             // tbPN
             // 
-            this.tbPN.Location = new System.Drawing.Point(155, 87);
+            this.tbPN.Location = new System.Drawing.Point(155, 114);
             this.tbPN.Name = "tbPN";
             this.tbPN.Size = new System.Drawing.Size(135, 21);
             this.tbPN.TabIndex = 31;
@@ -136,7 +138,7 @@
             // btnConfirm
             // 
             this.btnConfirm.AutoSize = true;
-            this.btnConfirm.Location = new System.Drawing.Point(12, 178);
+            this.btnConfirm.Location = new System.Drawing.Point(12, 205);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(93, 23);
             this.btnConfirm.TabIndex = 40;
@@ -147,7 +149,7 @@
             // btnCancel
             // 
             this.btnCancel.AutoSize = true;
-            this.btnCancel.Location = new System.Drawing.Point(111, 178);
+            this.btnCancel.Location = new System.Drawing.Point(111, 205);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(87, 23);
             this.btnCancel.TabIndex = 41;
@@ -159,18 +161,36 @@
             // 
             this.dtpRequest_Time.CustomFormat = "yyyy/MM/dd HH:mm";
             this.dtpRequest_Time.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpRequest_Time.Location = new System.Drawing.Point(155, 140);
+            this.dtpRequest_Time.Location = new System.Drawing.Point(155, 167);
             this.dtpRequest_Time.Name = "dtpRequest_Time";
             this.dtpRequest_Time.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.dtpRequest_Time.Size = new System.Drawing.Size(135, 21);
             this.dtpRequest_Time.TabIndex = 50;
+            // 
+            // lbProcess
+            // 
+            this.lbProcess.AutoSize = true;
+            this.lbProcess.Location = new System.Drawing.Point(12, 90);
+            this.lbProcess.Name = "lbProcess";
+            this.lbProcess.Size = new System.Drawing.Size(83, 12);
+            this.lbProcess.TabIndex = 54;
+            this.lbProcess.Text = "Process(工艺)";
+            // 
+            // tbProcess
+            // 
+            this.tbProcess.Location = new System.Drawing.Point(155, 87);
+            this.tbProcess.Name = "tbProcess";
+            this.tbProcess.Size = new System.Drawing.Size(135, 21);
+            this.tbProcess.TabIndex = 53;
             // 
             // SSPOrder
             // 
             this.AcceptButton = this.btnConfirm;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(310, 221);
+            this.ClientSize = new System.Drawing.Size(310, 239);
+            this.Controls.Add(this.lbProcess);
+            this.Controls.Add(this.tbProcess);
             this.Controls.Add(this.dtpRequest_Time);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
@@ -211,5 +231,7 @@
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.DateTimePicker dtpRequest_Time;
+        private System.Windows.Forms.Label lbProcess;
+        private System.Windows.Forms.TextBox tbProcess;
     }
 }

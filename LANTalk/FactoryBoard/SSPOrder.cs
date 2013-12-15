@@ -42,6 +42,7 @@ namespace FactoryBoard
                 row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;
                 row["MO"] = tbMO.Text;
+                row["Process"] = tbProcess.Text;
                 row["P/N"] = tbPN.Text;
                 row["Requset_Qty"] = tbRequset_Qty.Text;
                 row["Request_Time"] = dtpRequest_Time.Text;

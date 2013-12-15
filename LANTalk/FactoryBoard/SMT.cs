@@ -280,6 +280,7 @@ namespace FactoryBoard
             table.Columns.Add("Model", typeof(string));
             table.Columns.Add("IPN", typeof(string));
             table.Columns.Add("MO", typeof(string));
+            table.Columns.Add("Process", typeof(string));
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
@@ -299,6 +300,7 @@ namespace FactoryBoard
             table.Columns.Add("Model", typeof(string));
             table.Columns.Add("IPN", typeof(string));
             table.Columns.Add("MO", typeof(string));
+            table.Columns.Add("Process", typeof(string));
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
@@ -317,6 +319,7 @@ namespace FactoryBoard
                     newRow["Model"] = row["Model"];
                     newRow["IPN"] = row["IPN"];
                     newRow["MO"] = row["MO"];
+                    newRow["Process"] = row["Process"];
                     newRow["P/N"] = row["P/N"];
                     newRow["Requset_Qty"] = row["Requset_Qty"];
                     newRow["Request_Time"] = row["Request_Time"];
@@ -522,6 +525,7 @@ namespace FactoryBoard
                 dglOffer.Columns["Model"].HeaderText = "Model\r\n产品型号";
                 dglOffer.Columns["IPN"].HeaderText = "IPN\r\n订单号";
                 dglOffer.Columns["MO"].HeaderText = "MO\r\n工单号";
+                dglOffer.Columns["Process"].HeaderText = "Process\r\n工艺";
                 dglOffer.Columns["P/N"].HeaderText = "P/N\r\n品号";
                 dglOffer.Columns["Requset_Qty"].HeaderText = "Requset Qty\r\n需求数量";
                 dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
