@@ -171,7 +171,7 @@ namespace FactoryBoard
 
                    RefreshOrderButton();
                    RefreshOrderList();
-                   SendOrder(department);
+                   SendOrder(-2, department);
                }
            };
             this.Invoke(refresh, socketor);
@@ -299,9 +299,13 @@ namespace FactoryBoard
                         if (toip == ((IPEndPoint)department.Socketor.LocalEndPoint).Address.ToString())
                         {
                             var offertable = CSVHelper.ReadTable(message);
-                            for (var i = 0; i < offertable.Rows.Count; i++)
+                            foreach (DataRow row in offertable.Rows)
                             {
-                                department.OrderList.Rows[i]["Status"] = offertable.Rows[i]["Status"];
+                                var rows = department.OrderList.Select("Guid='" + row["Guid"].ToString() + "'");
+                                if (rows.Length > 0)
+                                {
+                                    rows[0]["Status"] = row["Status"];
+                                }
                             }
 
                             RefreshOrderList();
@@ -339,6 +343,7 @@ namespace FactoryBoard
             DepartmentList = new List<Department>();
 
             var table = new DataTable();
+            table.Columns.Add("Guid", typeof(string));
             table.Columns.Add("Line", typeof(string));
             table.Columns.Add("Model", typeof(string));
             table.Columns.Add("IPN", typeof(string));
@@ -349,8 +354,9 @@ namespace FactoryBoard
             table.Columns.Add("Request_Time", typeof(string));
             table.Columns.Add("Send_Time", typeof(string));
             table.Columns.Add("Status", typeof(string));
-            BlankTable = table;
-            dglOrder.DataSource = table;
+            BlankTable = table.Clone();
+            BlankTable.Columns.Remove("Guid");
+            dglOrder.DataSource = BlankTable;
 
             var config = Global.LoadConfig();
 
@@ -593,14 +599,14 @@ namespace FactoryBoard
         {
             try
             {
-                SendOrder();
+                SendOrder(-1, null);
             }
             catch (Exception ex)
             {
             }
         }
 
-        private void SendOrder(Department dept = null)
+        private void SendOrder(int index = -1, Department dept = null)
         {
             Department department;
             if (dept == null)
@@ -618,19 +624,33 @@ namespace FactoryBoard
             {
                 lock (department)
                 {
-                    foreach (DataRow row in department.OrderList.Rows)
+                    var sendTable = department.OrderList.Clone();
+
+
+                    if (index == -1)
                     {
-                        if (row["Status"].ToString() == Global.UnKnown)
+                        foreach (DataRow row in department.OrderList.Rows)
                         {
-                            row["Send_Time"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+                            if (row["Status"].ToString() == Global.UnKnown)
+                            {
+                                row["Send_Time"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+                                sendTable.Rows.Add(row.ItemArray);
+                            }
                         }
                     }
-
+                    else if (index == -2)
+                    {
+                        sendTable = department.OrderList;
+                    }
+                    else if (index >= 0)
+                    {
+                        sendTable.Rows.Add(department.OrderList.Rows[index].ItemArray);
+                    }
 
                     var content = Mode.SendOrder.ToString();
                     content += " " + _server._ip.ToString();
                     content += " " + department.IP;
-                    content += " " + CSVHelper.MakeCSV(department.OrderList);
+                    content += " " + CSVHelper.MakeCSV(sendTable);
                     _server.CustomSend(department.Socketor, content);
                 }
             }
@@ -652,7 +672,9 @@ namespace FactoryBoard
                 DV.Sort = "Status ASC";
                 department.OrderList = DV.ToTable();
 
-                dglOrder.DataSource = department.OrderList.Copy();
+                var table = department.OrderList.Copy();
+                table.Columns.Remove("Guid");
+                dglOrder.DataSource = table;
             };
 
             this.Invoke(refresh);
@@ -687,7 +709,7 @@ namespace FactoryBoard
                         department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Undo;
                     }
                     RefreshOrderList();
-                    SendOrder();
+                    SendOrder(dglOrder.CurrentCell.RowIndex, null);
                 }
             }
         }
@@ -713,7 +735,7 @@ namespace FactoryBoard
                         department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Receive;
                     }
                     RefreshOrderList();
-                    SendOrder();
+                    SendOrder(dglOrder.CurrentCell.RowIndex, null);
                 }
             }
         }
@@ -731,7 +753,51 @@ namespace FactoryBoard
             dglOrder.Show();
         }
 
-        private void dglMain_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void btnSMT_Click(object sender, EventArgs e)
+        {
+            CurrentOrder = Global.SMT;
+            RefreshOrderButton();
+            RefreshOrderList();
+            dglOrder.Show();
+        }
+
+        private void btneWH_Click(object sender, EventArgs e)
+        {
+            CurrentOrder = Global.eWH;
+            RefreshOrderButton();
+            RefreshOrderList();
+            dglOrder.Show();
+        }
+
+        private void btnImportOrder_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+
+            if (department != null)
+            {
+                var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                path += "\\LANTalk\\OrderList\\" + department.Name;
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                ofdOpenFile.InitialDirectory = path;
+
+                ofdOpenFile.ShowDialog();
+                if (!string.IsNullOrWhiteSpace(ofdOpenFile.FileName))
+                {
+                    department.OrderList = CSVHelper.ReadCSVToTable(ofdOpenFile.FileName);
+                    DataView DV = department.OrderList.DefaultView;
+                    DV.Sort = "Status ASC";
+                    department.OrderList = DV.ToTable();
+                    var table = department.OrderList.Copy();
+                    table.Columns.Remove("Guid");
+                    dglOrder.DataSource = table;
+                }
+            }
+        }
+
+        private void dglMain_DataSourceChanged(object sender, EventArgs e)
         {
             if (dglMain.Rows.Count > 0)
             {
@@ -776,11 +842,9 @@ namespace FactoryBoard
             dglMain.Columns["Machine_Status"].HeaderText = "Machine\r\n机器";
             dglMain.Columns["Material_Status"].HeaderText = "Material\r\n物料";
             dglMain.Columns["Method_Status"].HeaderText = "Method\r\n方法";
-
-
         }
 
-        private void dglOrder_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dglOrder_DataSourceChanged(object sender, EventArgs e)
         {
             if (dglOrder.Rows.Count > 0)
             {
@@ -835,48 +899,6 @@ namespace FactoryBoard
             dglOrder.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
             dglOrder.Columns["Send_Time"].HeaderText = "Send_Time\r\n发送时间";
             dglOrder.Columns["Status"].HeaderText = "Status\r\n状态";
-        }
-
-        private void btnSMT_Click(object sender, EventArgs e)
-        {
-            CurrentOrder = Global.SMT;
-            RefreshOrderButton();
-            RefreshOrderList();
-            dglOrder.Show();
-        }
-
-        private void btneWH_Click(object sender, EventArgs e)
-        {
-            CurrentOrder = Global.eWH;
-            RefreshOrderButton();
-            RefreshOrderList();
-            dglOrder.Show();
-        }
-
-        private void btnImportOrder_Click(object sender, EventArgs e)
-        {
-            var department = GetCurrentDepartment();
-
-            if (department != null)
-            {
-                var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                path += "\\LANTalk\\OrderList\\" + department.Name;
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                ofdOpenFile.InitialDirectory = path;
-
-                ofdOpenFile.ShowDialog();
-                if (!string.IsNullOrWhiteSpace(ofdOpenFile.FileName))
-                {
-                    department.OrderList = CSVHelper.ReadCSVToTable(ofdOpenFile.FileName);
-                    DataView DV = department.OrderList.DefaultView;
-                    DV.Sort = "Status ASC";
-                    department.OrderList = DV.ToTable();
-                    dglOrder.DataSource = department.OrderList.Copy();
-                }
-            }
         }
     }
 }

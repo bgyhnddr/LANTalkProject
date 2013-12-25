@@ -40,6 +40,7 @@ namespace FactoryBoard
             if (department != null)
             {
                 var row = department.OrderList.NewRow();
+                row["Guid"] = Guid.NewGuid().ToString();
                 row["Line"] = tbLine.Text;
                 row["Model"] = tbModel.Text;
                 row["IPN"] = tbIPN.Text;

@@ -83,6 +83,7 @@ namespace FactoryBoard
             DepartmentList = new List<Department>();
 
             var table = new DataTable();
+            table.Columns.Add("Guid", typeof(string));
             table.Columns.Add("Line", typeof(string));
             table.Columns.Add("Model", typeof(string));
             table.Columns.Add("IPN", typeof(string));
@@ -114,13 +115,14 @@ namespace FactoryBoard
             table.Columns.Add("Status", typeof(string));
             lock (DepartmentList)
             {
+                DataView DV = DepartmentList[0].OrderList.DefaultView;
+                DV.Sort = "Status ASC";
+                DepartmentList[0].OrderList = DV.ToTable();
+
+
                 foreach (DataRow row in DepartmentList[0].OrderList.Rows)
                 {
                     var newRow = table.NewRow();
-                    if (row["Status"].ToString() == Global.UnKnown)
-                    {
-                        row["Status"] = Global.Wait;
-                    }
                     newRow["Line"] = row["Line"];
                     newRow["Model"] = row["Model"];
                     newRow["IPN"] = row["IPN"];
@@ -221,9 +223,22 @@ namespace FactoryBoard
                         var department = GetDepartment(fromip);
                         if (department != null)
                         {
-                            department.OrderList = CSVHelper.ReadTable(message);
+                            var receiveTable = CSVHelper.ReadTable(message);
+
+                            foreach (DataRow row in receiveTable.Rows)
+                            {
+                                var rows = department.OrderList.Select("Guid='" + row["Guid"].ToString() + "'");
+                                if (rows.Length > 0)
+                                {
+                                    rows[0]["Status"] = row["Status"];
+                                }
+                                else
+                                {
+                                    department.OrderList.Rows.Add(row.ItemArray);
+                                }
+                            }
+                            SendOfferTable(-1);
                             RefreshOfferTable();
-                            SendOfferTable();
                         }
                         break;
                 }
@@ -260,16 +275,33 @@ namespace FactoryBoard
             this.Invoke(refresh);
         }
 
-        private void SendOfferTable()
+        private void SendOfferTable(int index)
         {
             lock (DepartmentList)
             {
                 foreach (var department in DepartmentList)
                 {
+                    var sendTable = department.OrderList.Clone();
+                    if(index == -1)
+                    {
+                        foreach (DataRow row in department.OrderList.Rows)
+                        {
+                            if (row["Status"].ToString() == Global.UnKnown)
+                            {
+                                row["Status"] = Global.Wait;
+                                sendTable.Rows.Add(row.ItemArray);
+                            }
+                        }
+                    }
+                    else if (index >= 0)
+                    {
+                        sendTable.Rows.Add(department.OrderList.Rows[index].ItemArray);
+                    }
+
                     var content = Mode.SendOrder.ToString();
                     content += " " + _client.ClientIP.ToString();
                     content += " " + department.IP;
-                    content += " " + CSVHelper.MakeCSV(department.OrderList);
+                    content += " " + CSVHelper.MakeCSV(sendTable);
                     _client.SendContent(content);
                 }
             }
@@ -290,14 +322,15 @@ namespace FactoryBoard
             if (dglOffer.CurrentCell != null)
             {
                 var index = dglOffer.CurrentCell.RowIndex;
+                var sendTable = DepartmentList[0].OrderList.Clone();
                 if (dglOffer.CurrentCell.RowIndex >= 0)
                 {
                     if (DepartmentList[0].OrderList.Rows[index]["Status"].ToString() == Global.Wait)
                     {
                         DepartmentList[0].OrderList.Rows[index]["Status"] = Global.Sending;
                     }
+                    SendOfferTable(dglOffer.CurrentCell.RowIndex);
                     RefreshOfferTable();
-                    SendOfferTable();
                 }
             }
         }
@@ -312,7 +345,13 @@ namespace FactoryBoard
             Application.Exit();
         }
 
-        private void dglOffer_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void eWH_Activated(object sender, EventArgs e)
+        {
+            MainPage.TimerIcon.Stop();
+            MainPage.NotifyMain.Icon = Resources.LANTalkicon;
+        }
+
+        private void dglOffer_DataSourceChanged(object sender, EventArgs e)
         {
             lock (dglOffer)
             {
@@ -371,12 +410,6 @@ namespace FactoryBoard
                 dglOffer.Columns["Status"].HeaderText = "Status\r\n状态";
                 dglOffer.Refresh();
             }
-        }
-
-        private void eWH_Activated(object sender, EventArgs e)
-        {
-            MainPage.TimerIcon.Stop();
-            MainPage.NotifyMain.Icon = Resources.LANTalkicon;
         }
     }
 }
