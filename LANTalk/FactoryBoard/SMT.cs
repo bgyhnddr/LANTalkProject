@@ -436,20 +436,22 @@ namespace FactoryBoard
                 int cell = dglMain.Rows[0].Cells.Count;//得到总列数    
                 for (int i = 0; i < row; i++)//得到总行数并在之内循环    
                 {
-                    if (dglMain.Rows[i].Cells[cell - 1].Value != null)
+                    for (int j = cell - 4; j < cell; j++)
                     {
-                        if (this.dglMain.Rows[i].Cells[cell - 1].Value.ToString() == Global.UnNormal)
+                        if (dglMain.Rows[i].Cells[j].Value != null)
                         {
-                            this.dglMain.Rows[i].Cells[cell - 1].Style.BackColor = Color.Red;
-                            this.dglMain.Rows[i].Cells[cell - 1].Value = string.Empty;
-                        }
-                        else if (this.dglMain.Rows[i].Cells[cell - 1].Value.ToString() == Global.Normal)
-                        {
-                            this.dglMain.Rows[i].Cells[cell - 1].Style.BackColor = Color.GreenYellow;
-                            this.dglMain.Rows[i].Cells[cell - 1].Value = string.Empty;
+                            if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.UnNormal)
+                            {
+                                this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                this.dglMain.Rows[i].Cells[j].Value = string.Empty;
+                            }
+                            else if (this.dglMain.Rows[i].Cells[j].Value.ToString() == Global.Normal)
+                            {
+                                this.dglMain.Rows[i].Cells[j].Style.BackColor = Color.GreenYellow;
+                                this.dglMain.Rows[i].Cells[j].Value = string.Empty;
+                            }
                         }
                     }
-                    
                 }
                 var width = (Screen.PrimaryScreen.WorkingArea.Width - 50) / cell;
                 for (int i = 0; i < this.dglMain.Columns.Count; i++)
