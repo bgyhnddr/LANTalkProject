@@ -237,7 +237,7 @@ namespace FactoryBoard
                                     department.OrderList.Rows.Add(row.ItemArray);
                                 }
                             }
-                            SendOfferTable(-1);
+                            SendOfferTable(-1, department.Name);
                             RefreshOfferTable();
                         }
                         break;
@@ -275,34 +275,37 @@ namespace FactoryBoard
             this.Invoke(refresh);
         }
 
-        private void SendOfferTable(int index)
+        private void SendOfferTable(int index, string departmentname = null)
         {
             lock (DepartmentList)
             {
                 foreach (var department in DepartmentList)
                 {
-                    var sendTable = department.OrderList.Clone();
-                    if(index == -1)
+                    if (department.Name == departmentname)
                     {
-                        foreach (DataRow row in department.OrderList.Rows)
+                        var sendTable = department.OrderList.Clone();
+                        if (index == -1)
                         {
-                            if (row["Status"].ToString() == Global.UnKnown)
+                            foreach (DataRow row in department.OrderList.Rows)
                             {
-                                row["Status"] = Global.Wait;
-                                sendTable.Rows.Add(row.ItemArray);
+                                if (row["Status"].ToString() == Global.UnKnown)
+                                {
+                                    row["Status"] = Global.Wait;
+                                    sendTable.Rows.Add(row.ItemArray);
+                                }
                             }
                         }
-                    }
-                    else if (index >= 0)
-                    {
-                        sendTable.Rows.Add(department.OrderList.Rows[index].ItemArray);
-                    }
+                        else if (index >= 0)
+                        {
+                            sendTable.Rows.Add(department.OrderList.Rows[index].ItemArray);
+                        }
 
-                    var content = Mode.SendOrder.ToString();
-                    content += " " + _client.ClientIP.ToString();
-                    content += " " + department.IP;
-                    content += " " + CSVHelper.MakeCSV(sendTable);
-                    _client.SendContent(content);
+                        var content = Mode.SendOrder.ToString();
+                        content += " " + _client.ClientIP.ToString();
+                        content += " " + department.IP;
+                        content += " " + CSVHelper.MakeCSV(sendTable);
+                        _client.SendContent(content);
+                    }
                 }
             }
         }
@@ -329,7 +332,7 @@ namespace FactoryBoard
                     {
                         DepartmentList[0].OrderList.Rows[index]["Status"] = Global.Sending;
                     }
-                    SendOfferTable(dglOffer.CurrentCell.RowIndex);
+                    SendOfferTable(dglOffer.CurrentCell.RowIndex, DepartmentList[0].Name);
                     RefreshOfferTable();
                 }
             }

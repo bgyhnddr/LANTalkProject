@@ -120,6 +120,7 @@ namespace FactoryBoard
             DepartmentList = new List<Department>();
 
             var table = new DataTable();
+            table.Columns.Add("Guid", typeof(string));
             table.Columns.Add("Line", typeof(string));
             table.Columns.Add("Model", typeof(string));
             table.Columns.Add("IPN", typeof(string));
@@ -130,7 +131,8 @@ namespace FactoryBoard
             table.Columns.Add("Request_Time", typeof(string));
             table.Columns.Add("Send_Time", typeof(string));
             table.Columns.Add("Status", typeof(string));
-            BlankTable = table;
+            BlankTable = table.Clone();
+            BlankTable.Columns.Remove("Guid");
             var config = Global.LoadConfig();
 
             DepartmentList.Add(new Department(config.Rows[0][Global.ASS_STRING].ToString(), Global.ASS, false, table.Clone()));
@@ -171,13 +173,14 @@ namespace FactoryBoard
             table.Columns.Add("Status", typeof(string));
             lock (DepartmentList)
             {
+                DataView DV = DepartmentList[0].OrderList.DefaultView;
+                DV.Sort = "Status ASC";
+                DepartmentList[0].OrderList = DV.ToTable();
+
+
                 foreach (DataRow row in DepartmentList[0].OrderList.Rows)
                 {
                     var newRow = table.NewRow();
-                    if (row["Status"].ToString() == Global.UnKnown)
-                    {
-                        row["Status"] = Global.Wait;
-                    }
                     newRow["Line"] = row["Line"];
                     newRow["Model"] = row["Model"];
                     newRow["IPN"] = row["IPN"];
@@ -209,8 +212,9 @@ namespace FactoryBoard
                 DataView DV = department.OrderList.DefaultView;
                 DV.Sort = "Status ASC";
                 department.OrderList = DV.ToTable();
-
-                dglOrder.DataSource = department.OrderList.Copy();
+                var table = department.OrderList.Copy();
+                table.Columns.Remove("Guid");
+                dglOrder.DataSource = table;
             };
 
             this.Invoke(refresh);
@@ -382,24 +386,47 @@ namespace FactoryBoard
 
                         if (department != null)
                         {
-                            department.OrderList = CSVHelper.ReadTable(message);
                             switch (department.Name)
                             {
                                 case Global.ASS:
+                                    var receiveTable = CSVHelper.ReadTable(message);
+
+                                    foreach (DataRow row in receiveTable.Rows)
+                                    {
+                                        var rows = department.OrderList.Select("Guid='" + row["Guid"].ToString() + "'");
+                                        if (rows.Length > 0)
+                                        {
+                                            rows[0]["Status"] = row["Status"];
+                                        }
+                                        else
+                                        {
+                                            var newRow = department.OrderList.NewRow();
+                                            foreach (DataColumn col in receiveTable.Columns)
+                                            {
+                                                newRow[col.ColumnName] = row[col.ColumnName];
+                                            }
+                                            department.OrderList.Rows.Add(newRow);
+                                        }
+                                    }
+
+                                    SendOfferTable(-1, department.Name);
                                     RefreshOfferTable();
-                                    SendOfferTable();
                                     break;
                                 case Global.IJ:
                                 case Global.WH:
                                     var offertable = CSVHelper.ReadTable(message);
-                                    for (var i = 0; i < offertable.Rows.Count; i++)
+                                    foreach (DataRow row in offertable.Rows)
                                     {
-                                        department.OrderList.Rows[i]["Status"] = offertable.Rows[i]["Status"];
+                                        var rows = department.OrderList.Select("Guid='" + row["Guid"].ToString() + "'");
+                                        if (rows.Length > 0)
+                                        {
+                                            rows[0]["Status"] = row["Status"];
+                                        }
                                     }
                                     RefreshOrderList();
                                     break;
                             }
-                            
+
                         }
                         break;
                     case Mode.OnlineList:
@@ -437,7 +464,7 @@ namespace FactoryBoard
                                     break;
                             }
                             change = true;
-                            SendOrder(department);
+                            SendOrder(-2, department);
                         }
                     }
 
@@ -493,16 +520,38 @@ namespace FactoryBoard
             return null;
         }
 
-        private void SendOfferTable()
+        private void SendOfferTable(int index, string departmentname)
         {
             lock (DepartmentList)
             {
-                var department = DepartmentList[0];
-                var content = Mode.SendOrder.ToString();
-                content += " " + _client.ClientIP.ToString();
-                content += " " + department.IP;
-                content += " " + CSVHelper.MakeCSV(department.OrderList);
-                _client.SendContent(content);
+                foreach (var department in DepartmentList)
+                {
+                    if (department.Name == departmentname)
+                    {
+                        var sendTable = department.OrderList.Clone();
+                        if (index == -1)
+                        {
+                            foreach (DataRow row in department.OrderList.Rows)
+                            {
+                                if (row["Status"].ToString() == Global.UnKnown)
+                                {
+                                    row["Status"] = Global.Wait;
+                                    sendTable.Rows.Add(row.ItemArray);
+                                }
+                            }
+                        }
+                        else if (index >= 0)
+                        {
+                            sendTable.Rows.Add(department.OrderList.Rows[index].ItemArray);
+                        }
+
+                        var content = Mode.SendOrder.ToString();
+                        content += " " + _client.ClientIP.ToString();
+                        content += " " + department.IP;
+                        content += " " + CSVHelper.MakeCSV(sendTable);
+                        _client.SendContent(content);
+                    }
+                }
             }
         }
 
@@ -619,13 +668,13 @@ namespace FactoryBoard
                     {
                         department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Undo;
                     }
+                    SendOrder(dglOrder.CurrentCell.RowIndex);
                     RefreshOrderList();
-                    SendOrder();
                 }
             }
         }
 
-        private void SendOrder(Department dept = null)
+        private void SendOrder(int index = -1, Department dept = null)
         {
             Department department;
             if (dept == null)
@@ -638,18 +687,33 @@ namespace FactoryBoard
             }
             if (department != null)
             {
-                foreach (DataRow row in department.OrderList.Rows)
+                var sendTable = department.OrderList.Clone();
+
+
+                if (index == -1)
                 {
-                    if (row["Status"].ToString() == Global.UnKnown)
+                    foreach (DataRow row in department.OrderList.Rows)
                     {
-                        row["Send_Time"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+                        if (row["Status"].ToString() == Global.UnKnown)
+                        {
+                            row["Send_Time"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+                            sendTable.Rows.Add(row.ItemArray);
+                        }
                     }
+                }
+                else if (index == -2)
+                {
+                    sendTable = department.OrderList;
+                }
+                else if (index >= 0)
+                {
+                    sendTable.Rows.Add(department.OrderList.Rows[index].ItemArray);
                 }
 
                 var content = Mode.SendOrder.ToString();
                 content += " " + _client.ClientIP.ToString();
                 content += " " + department.IP;
-                content += " " + CSVHelper.MakeCSV(department.OrderList);
+                content += " " + CSVHelper.MakeCSV(sendTable);
                 _client.SendContent(content);
             }
         }
@@ -681,8 +745,8 @@ namespace FactoryBoard
                     {
                         DepartmentList[0].OrderList.Rows[index]["Status"] = Global.Sending;
                     }
+                    SendOfferTable(dglOffer.CurrentCell.RowIndex, DepartmentList[0].Name);
                     RefreshOfferTable();
-                    SendOfferTable();
                 }
             }
         }
@@ -698,7 +762,70 @@ namespace FactoryBoard
             Connect();
         }
 
-        private void dglMain_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void btnConfirm_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+            if (department == null)
+            {
+                return;
+            }
+            if (dglOrder.CurrentCell.RowIndex >= 0)
+            {
+                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"].ToString() == Global.Sending)
+                {
+                    if (MessageBox.Show("confirm?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Receive;
+                    }
+                    SendOrder(dglOrder.CurrentCell.RowIndex);
+                    RefreshOrderList();
+                }
+            }
+        }
+
+        private void btnWH_Click(object sender, EventArgs e)
+        {
+            CurrentOrder = Global.WH;
+            RefreshOrderButton();
+            RefreshOrderList();
+            dglOrder.Show();
+        }
+
+        private void SSP_Activated(object sender, EventArgs e)
+        {
+            MainPage.TimerIcon.Stop();
+            MainPage.NotifyMain.Icon = Resources.LANTalkicon;
+        }
+
+        private void btnImportOrder_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+
+            if (department != null)
+            {
+                var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                path += "\\LANTalk\\OrderList\\" + department.Name;
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                ofdOpenFile.InitialDirectory = path;
+
+                ofdOpenFile.ShowDialog();
+                if (!string.IsNullOrWhiteSpace(ofdOpenFile.FileName))
+                {
+                    department.OrderList = CSVHelper.ReadCSVToTable(ofdOpenFile.FileName);
+                    DataView DV = department.OrderList.DefaultView;
+                    DV.Sort = "Status ASC";
+                    department.OrderList = DV.ToTable();
+                    var table = department.OrderList.Copy();
+                    table.Columns.Remove("Guid");
+                    dglOrder.DataSource = table;
+                }
+            }
+        }
+
+        private void dglMain_DataSourceChanged(object sender, EventArgs e)
         {
             if (dglMain.Rows.Count > 0)
             {
@@ -745,7 +872,7 @@ namespace FactoryBoard
             dglMain.Columns["Method_Status"].HeaderText = "Method\r\n方法";
         }
 
-        private void dglOrder_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dglOrder_DataSourceChanged(object sender, EventArgs e)
         {
             if (dglOrder.Rows.Count > 0)
             {
@@ -801,7 +928,7 @@ namespace FactoryBoard
             dglOrder.Columns["Status"].HeaderText = "Status\r\n状态";
         }
 
-        private void dglOffer_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void dglOffer_DataSourceChanged(object sender, EventArgs e)
         {
             lock (dglOffer)
             {
@@ -857,67 +984,6 @@ namespace FactoryBoard
                 dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
                 dglOffer.Columns["Send_Time"].HeaderText = "Send_Time\r\n发送时间";
                 dglOffer.Columns["Status"].HeaderText = "Status\r\n状态";
-            }
-        }
-
-        private void btnConfirm_Click(object sender, EventArgs e)
-        {
-            var department = GetCurrentDepartment();
-            if (department == null)
-            {
-                return;
-            }
-            if (dglOrder.CurrentCell.RowIndex >= 0)
-            {
-                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"].ToString() == Global.Sending)
-                {
-                    if (MessageBox.Show("confirm?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Receive;
-                    }
-                    RefreshOrderList();
-                    SendOrder();
-                }
-            }
-        }
-
-        private void btnWH_Click(object sender, EventArgs e)
-        {
-            CurrentOrder = Global.WH;
-            RefreshOrderButton();
-            RefreshOrderList();
-            dglOrder.Show();
-        }
-
-        private void SSP_Activated(object sender, EventArgs e)
-        {
-            MainPage.TimerIcon.Stop();
-            MainPage.NotifyMain.Icon = Resources.LANTalkicon;
-        }
-
-        private void btnImportOrder_Click(object sender, EventArgs e)
-        {
-            var department = GetCurrentDepartment();
-
-            if (department != null)
-            {
-                var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                path += "\\LANTalk\\OrderList\\" + department.Name;
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                ofdOpenFile.InitialDirectory = path;
-
-                ofdOpenFile.ShowDialog();
-                if (!string.IsNullOrWhiteSpace(ofdOpenFile.FileName))
-                {
-                    department.OrderList = CSVHelper.ReadCSVToTable(ofdOpenFile.FileName);
-                    DataView DV = department.OrderList.DefaultView;
-                    DV.Sort = "Status ASC";
-                    department.OrderList = DV.ToTable();
-                    dglOrder.DataSource = department.OrderList.Copy();
-                }
             }
         }
     }

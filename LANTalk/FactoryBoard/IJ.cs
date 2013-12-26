@@ -153,9 +153,27 @@ namespace FactoryBoard
                         var department = GetDepartment(fromip);
                         if (department != null)
                         {
-                            department.OrderList = CSVHelper.ReadTable(message);
+                            var receiveTable = CSVHelper.ReadTable(message);
+
+                            foreach (DataRow row in receiveTable.Rows)
+                            {
+                                var rows = department.OrderList.Select("Guid='" + row["Guid"].ToString() + "'");
+                                if (rows.Length > 0)
+                                {
+                                    rows[0]["Status"] = row["Status"];
+                                }
+                                else
+                                {
+                                    var newRow = department.OrderList.NewRow();
+                                    foreach (DataColumn col in receiveTable.Columns)
+                                    {
+                                        newRow[col.ColumnName] = row[col.ColumnName];
+                                    }
+                                    department.OrderList.Rows.Add(newRow);
+                                }
+                            }
+                            SendOfferTable(-1, department.Name);
                             RefreshOfferTable();
-                            SendOfferTable();
                         }
                         break;
                 }
@@ -203,17 +221,37 @@ namespace FactoryBoard
             this.Invoke(refresh);
         }
 
-        private void SendOfferTable()
+        private void SendOfferTable(int index, string departmentname = null)
         {
             lock (DepartmentList)
             {
                 foreach (var department in DepartmentList)
                 {
-                    var content = Mode.SendOrder.ToString();
-                    content += " " + _client.ClientIP.ToString();
-                    content += " " + department.IP;
-                    content += " " + CSVHelper.MakeCSV(department.OrderList);
-                    _client.SendContent(content);
+                    if (department.Name == departmentname)
+                    {
+                        var sendTable = department.OrderList.Clone();
+                        if (index == -1)
+                        {
+                            foreach (DataRow row in department.OrderList.Rows)
+                            {
+                                if (row["Status"].ToString() == Global.UnKnown)
+                                {
+                                    row["Status"] = Global.Wait;
+                                    sendTable.Rows.Add(row.ItemArray);
+                                }
+                            }
+                        }
+                        else if (index >= 0)
+                        {
+                            sendTable.Rows.Add(department.OrderList.Rows[index].ItemArray);
+                        }
+
+                        var content = Mode.SendOrder.ToString();
+                        content += " " + _client.ClientIP.ToString();
+                        content += " " + department.IP;
+                        content += " " + CSVHelper.MakeCSV(sendTable);
+                        _client.SendContent(content);
+                    }
                 }
             }
         }
@@ -234,13 +272,12 @@ namespace FactoryBoard
             table.Columns.Add("Status", typeof(string));
             lock (DepartmentList)
             {
+                DataView DV = DepartmentList[0].OrderList.DefaultView;
+                DV.Sort = "Status ASC";
+                DepartmentList[0].OrderList = DV.ToTable();
                 foreach (DataRow row in DepartmentList[0].OrderList.Rows)
                 {
                     var newRow = table.NewRow();
-                    if (row["Status"].ToString() == Global.UnKnown)
-                    {
-                        row["Status"] = Global.Wait;
-                    }
                     newRow["Department"] = DepartmentList[0].Name;
                     newRow["Line"] = row["Line"];
                     newRow["Model"] = row["Model"];
@@ -255,7 +292,9 @@ namespace FactoryBoard
                     table.Rows.Add(newRow);
                 }
 
-
+                DV = DepartmentList[1].OrderList.DefaultView;
+                DV.Sort = "Status ASC";
+                DepartmentList[1].OrderList = DV.ToTable();
                 foreach (DataRow row in DepartmentList[1].OrderList.Rows)
                 {
                     var newRow = table.NewRow();
@@ -285,6 +324,7 @@ namespace FactoryBoard
             DepartmentList = new List<Department>();
 
             var table = new DataTable();
+            table.Columns.Add("Guid", typeof(string));
             table.Columns.Add("Department", typeof(string));
             table.Columns.Add("Line", typeof(string));
             table.Columns.Add("Model", typeof(string));
@@ -436,9 +476,11 @@ namespace FactoryBoard
             {
                 if (dglOffer.CurrentCell.RowIndex >= 0)
                 {
+                    DataTable sendTable;
                     var index = dglOffer.CurrentCell.RowIndex;
                     if (dglOffer.CurrentCell.RowIndex < DepartmentList[0].OrderList.Rows.Count)
                     {
+                        sendTable = DepartmentList[0].OrderList.Clone();
                         if (DepartmentList[0].OrderList.Rows.Count > 0)
                         {
                             if (DepartmentList[0].OrderList.Rows[index]["Status"].ToString() == Global.Wait)
@@ -446,17 +488,20 @@ namespace FactoryBoard
                                 DepartmentList[0].OrderList.Rows[index]["Status"] = Global.Sending;
                             }
                         }
+                        SendOfferTable(index, DepartmentList[0].Name);
+                        RefreshOfferTable();
                     }
                     else
                     {
                         index = index - DepartmentList[0].OrderList.Rows.Count;
+                        sendTable = DepartmentList[1].OrderList.Clone();
                         if (DepartmentList[1].OrderList.Rows[index]["Status"].ToString() == Global.Wait)
                         {
                             DepartmentList[1].OrderList.Rows[index]["Status"] = Global.Sending;
                         }
+                        SendOfferTable(index, DepartmentList[1].Name);
+                        RefreshOfferTable();
                     }
-                    RefreshOfferTable();
-                    SendOfferTable();
                 }
             }
         }

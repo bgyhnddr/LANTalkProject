@@ -599,7 +599,7 @@ namespace FactoryBoard
         {
             try
             {
-                SendOrder(-1, null);
+                SendOrder();
             }
             catch (Exception ex)
             {
@@ -708,8 +708,8 @@ namespace FactoryBoard
                     {
                         department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Undo;
                     }
+                    SendOrder(dglOrder.CurrentCell.RowIndex);
                     RefreshOrderList();
-                    SendOrder(dglOrder.CurrentCell.RowIndex, null);
                 }
             }
         }
@@ -734,8 +734,8 @@ namespace FactoryBoard
                     {
                         department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Receive;
                     }
+                    SendOrder(dglOrder.CurrentCell.RowIndex);
                     RefreshOrderList();
-                    SendOrder(dglOrder.CurrentCell.RowIndex, null);
                 }
             }
         }

@@ -244,7 +244,7 @@
             this.dglOffer.RowTemplate.Height = 23;
             this.dglOffer.Size = new System.Drawing.Size(941, 322);
             this.dglOffer.TabIndex = 15;
-            this.dglOffer.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dglOffer_DataBindingComplete);
+            this.dglOffer.DataSourceChanged += new System.EventHandler(this.dglOffer_DataSourceChanged);
             // 
             // tabMain
             // 
@@ -361,8 +361,8 @@
             this.dglMain.RowTemplate.Height = 23;
             this.dglMain.Size = new System.Drawing.Size(940, 322);
             this.dglMain.TabIndex = 0;
+            this.dglMain.DataSourceChanged += new System.EventHandler(this.dglMain_DataSourceChanged);
             this.dglMain.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dglMain_CellMouseDoubleClick);
-            this.dglMain.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dglMain_DataBindingComplete);
             // 
             // lbSMTTitle
             // 
