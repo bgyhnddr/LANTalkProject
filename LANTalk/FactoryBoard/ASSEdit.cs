@@ -71,13 +71,13 @@ namespace FactoryBoard
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-            if (tbLine.Text.Trim() == string.Empty||
-                tbModel.Text.Trim() == string.Empty||
-                tbIPN.Text.Trim() == string.Empty||
-                tbMO.Text.Trim() == string.Empty||
-                tbOrder_Qty.Text.Trim() == string.Empty||
-                dtpStart_Time.Text.Trim() == string.Empty||
-                tbDaily_Plan.Text.Trim() == string.Empty||
+            if (tbLine.Text.Trim() == string.Empty ||
+                tbModel.Text.Trim() == string.Empty ||
+                tbIPN.Text.Trim() == string.Empty ||
+                tbMO.Text.Trim() == string.Empty ||
+                tbOrder_Qty.Text.Trim() == string.Empty ||
+                dtpStart_Time.Text.Trim() == string.Empty ||
+                tbDaily_Plan.Text.Trim() == string.Empty ||
                 tbActual_Output.Text.Trim() == string.Empty)
             {
                 MessageBox.Show("所有项均要填写");
@@ -120,10 +120,8 @@ namespace FactoryBoard
             }
             try
             {
-
-                
                 Dictionary<int, SortOrder> sortColumns =
-                   new Dictionary<int, SortOrder>();
+                    new Dictionary<int, SortOrder>();
                 //sortColumns.Add(2, SortOrder.Ascending);
                 sortColumns.Add(0, SortOrder.Ascending);
                 RowComparer comp = new RowComparer();
@@ -131,7 +129,7 @@ namespace FactoryBoard
                 var query3 = ASS.MainTable.AsEnumerable().OrderBy(q => q, comp);
                 DataView dv3 = query3.AsDataView();
                 ASS.MainTable = dv3.ToTable();
-
+                
                 Global.SaveFile(ASS.MainTable, Global.ASS_STRING);
                 MessageBox.Show("Saved");
                 this.Close();
@@ -148,7 +146,7 @@ namespace FactoryBoard
                     ASS.MainTable.Rows.RemoveAt(RowIndex);
                 }
             }
-            
+
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

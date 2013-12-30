@@ -648,7 +648,7 @@ namespace FactoryBoard
             {
                 return;
             }
-            var form = new SSPOrder();
+            var form = new SSPOrder(-1);
             form.ShowDialog();
             RefreshOrderList();
         }
@@ -950,6 +950,22 @@ namespace FactoryBoard
                 dglOffer.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
                 dglOffer.Columns["Send_Time"].HeaderText = "Send_Time\r\n发送时间";
                 dglOffer.Columns["Status"].HeaderText = "Status\r\n状态";
+            }
+        }
+
+        private void btnClone_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+            if (department == null)
+            {
+                return;
+            }
+
+            if (dglOrder.CurrentRow.Index >= 0)
+            {
+                var form = new SSPOrder(dglOrder.CurrentRow.Index);
+                form.ShowDialog();
+                RefreshOrderList();
             }
         }
     }

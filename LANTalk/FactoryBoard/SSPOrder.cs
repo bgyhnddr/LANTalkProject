@@ -11,10 +11,27 @@ namespace FactoryBoard
 {
     public partial class SSPOrder : Form
     {
+        private int RowIndex = -1;
 
-        public SSPOrder()
+        public SSPOrder(int rowIndex)
         {
             InitializeComponent();
+            if (rowIndex >= 0)
+            {
+                RowIndex = rowIndex;
+                LoadData(SSP.GetCurrentDepartment().OrderList.Rows[rowIndex]);
+            }
+        }
+
+        private void LoadData(DataRow row)
+        {
+            tbModel.Text = row["Model"].ToString();
+            tbIPN.Text = row["IPN"].ToString();
+            tbMO.Text = row["MO"].ToString();
+            tbProcess.Text = row["Process"].ToString();
+            tbPN.Text = row["P/N"].ToString();
+            tbRequset_Qty.Text = row["Requset_Qty"].ToString();
+            dtpRequest_Time.Text = row["Request_Time"].ToString();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

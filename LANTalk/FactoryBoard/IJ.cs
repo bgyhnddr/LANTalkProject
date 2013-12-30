@@ -558,10 +558,6 @@ namespace FactoryBoard
                     }
                 }
                 dglMain.Columns["Start_Time"].FillWeight = 180;
-                dglMain.Columns["Man_Status"].FillWeight = 90;
-                dglMain.Columns["Machine_Status"].FillWeight = 90;
-                dglMain.Columns["Material_Status"].FillWeight = 90;
-                dglMain.Columns["Method_Status"].FillWeight = 90;
 
                 dglMain.Columns["Machine"].HeaderText = "Machine\r\n设备";
                 dglMain.Columns["Mould"].HeaderText = "Mould\r\n模具";

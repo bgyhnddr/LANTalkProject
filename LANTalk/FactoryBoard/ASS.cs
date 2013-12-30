@@ -689,7 +689,7 @@ namespace FactoryBoard
             {
                 return;
             }
-            var form = new ASSOrder();
+            var form = new ASSOrder(-1);
             form.ShowDialog();
             RefreshOrderList();
         }
@@ -800,10 +800,6 @@ namespace FactoryBoard
 
 
             dglMain.Columns["Start_Time"].FillWeight = 180;
-            dglMain.Columns["Man_Status"].FillWeight = 90;
-            dglMain.Columns["Machine_Status"].FillWeight = 90;
-            dglMain.Columns["Material_Status"].FillWeight = 90;
-            dglMain.Columns["Method_Status"].FillWeight = 90;
 
             dglMain.Columns["Line"].HeaderText = "Line\r\n线别";
             dglMain.Columns["Model"].HeaderText = "Model\r\n产品型号";
@@ -870,6 +866,21 @@ namespace FactoryBoard
             dglOrder.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
             dglOrder.Columns["Send_Time"].HeaderText = "Send_Time\r\n发送时间";
             dglOrder.Columns["Status"].HeaderText = "Status\r\n状态";
+        }
+
+        private void btnClone_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+            if (department == null)
+            {
+                return;
+            }
+            if (dglOrder.CurrentRow.Index >= 0)
+            {
+                var form = new ASSOrder(dglOrder.CurrentRow.Index);
+                form.ShowDialog();
+                RefreshOrderList();
+            }
         }
     }
 }

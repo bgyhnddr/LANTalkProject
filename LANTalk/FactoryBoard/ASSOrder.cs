@@ -11,10 +11,29 @@ namespace FactoryBoard
 {
     public partial class ASSOrder : Form
     {
+        private int RowIndex = -1;
 
-        public ASSOrder()
+        public ASSOrder(int rowIndex)
         {
             InitializeComponent();
+
+            if (rowIndex >= 0)
+            {
+                RowIndex = rowIndex;
+                LoadData(ASS.GetCurrentDepartment().OrderList.Rows[rowIndex]);
+            }
+        }
+
+        private void LoadData(DataRow row)
+        {
+            tbLine.Text = row["Line"].ToString();
+            tbModel.Text = row["Model"].ToString();
+            tbIPN.Text = row["IPN"].ToString();
+            tbMO.Text = row["MO"].ToString();
+            tbProcess.Text = row["Process"].ToString();
+            tbPN.Text = row["P/N"].ToString();
+            tbRequset_Qty.Text = row["Requset_Qty"].ToString();
+            dtpRequest_Time.Text = row["Request_Time"].ToString();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
