@@ -52,7 +52,6 @@
             this.dglMain = new System.Windows.Forms.DataGridView();
             this.lbASSTitle = new System.Windows.Forms.Label();
             this.tagOrder = new System.Windows.Forms.TabPage();
-            this.btnImportOrder = new System.Windows.Forms.Button();
             this.lbTime2 = new System.Windows.Forms.Label();
             this.btnConfirm = new System.Windows.Forms.Button();
             this.btnDeleteOrder = new System.Windows.Forms.Button();
@@ -260,7 +259,6 @@
             // 
             // tagOrder
             // 
-            this.tagOrder.Controls.Add(this.btnImportOrder);
             this.tagOrder.Controls.Add(this.lbTime2);
             this.tagOrder.Controls.Add(this.btnConfirm);
             this.tagOrder.Controls.Add(this.btnDeleteOrder);
@@ -281,18 +279,6 @@
             this.tagOrder.TabIndex = 1;
             this.tagOrder.Text = "Order(要料)";
             this.tagOrder.UseVisualStyleBackColor = true;
-            // 
-            // btnImportOrder
-            // 
-            this.btnImportOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImportOrder.AutoSize = true;
-            this.btnImportOrder.Location = new System.Drawing.Point(381, 68);
-            this.btnImportOrder.Name = "btnImportOrder";
-            this.btnImportOrder.Size = new System.Drawing.Size(111, 23);
-            this.btnImportOrder.TabIndex = 17;
-            this.btnImportOrder.Text = "Import(导入模板)";
-            this.btnImportOrder.UseVisualStyleBackColor = true;
-            this.btnImportOrder.Click += new System.EventHandler(this.btnImportOrder_Click);
             // 
             // lbTime2
             // 
@@ -556,6 +542,5 @@
         private System.Windows.Forms.Button btnAddOrder;
         private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Label lbTime2;
-        private System.Windows.Forms.Button btnImportOrder;
     }
 }

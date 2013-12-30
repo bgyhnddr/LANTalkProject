@@ -796,35 +796,7 @@ namespace FactoryBoard
             MainPage.TimerIcon.Stop();
             MainPage.NotifyMain.Icon = Resources.LANTalkicon;
         }
-
-        private void btnImportOrder_Click(object sender, EventArgs e)
-        {
-            var department = GetCurrentDepartment();
-
-            if (department != null)
-            {
-                var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                path += "\\LANTalk\\OrderList\\" + department.Name;
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                ofdOpenFile.InitialDirectory = path;
-
-                ofdOpenFile.ShowDialog();
-                if (!string.IsNullOrWhiteSpace(ofdOpenFile.FileName))
-                {
-                    department.OrderList = CSVHelper.ReadCSVToTable(ofdOpenFile.FileName);
-                    DataView DV = department.OrderList.DefaultView;
-                    DV.Sort = "Status ASC";
-                    department.OrderList = DV.ToTable();
-                    var table = department.OrderList.Copy();
-                    table.Columns.Remove("Guid");
-                    dglOrder.DataSource = table;
-                }
-            }
-        }
-
+        
         private void dglMain_DataSourceChanged(object sender, EventArgs e)
         {
             if (dglMain.Rows.Count > 0)
