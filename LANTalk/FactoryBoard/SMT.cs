@@ -310,6 +310,7 @@ namespace FactoryBoard
 
             var table = new DataTable();
             table.Columns.Add("Guid", typeof(string));
+            table.Columns.Add("Send_Time", typeof(string));
             table.Columns.Add("Line", typeof(string));
             table.Columns.Add("Model", typeof(string));
             table.Columns.Add("IPN", typeof(string));
@@ -318,7 +319,6 @@ namespace FactoryBoard
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
-            table.Columns.Add("Send_Time", typeof(string));
             table.Columns.Add("Status", typeof(string));
 
             var config = Global.LoadConfig();
@@ -330,6 +330,7 @@ namespace FactoryBoard
         private DataTable GetOfferTable()
         {
             var table = new DataTable();
+            table.Columns.Add("Send_Time", typeof(string));
             table.Columns.Add("Line", typeof(string));
             table.Columns.Add("Model", typeof(string));
             table.Columns.Add("IPN", typeof(string));
@@ -338,7 +339,6 @@ namespace FactoryBoard
             table.Columns.Add("P/N", typeof(string));
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
-            table.Columns.Add("Send_Time", typeof(string));
             table.Columns.Add("Status", typeof(string));
             lock (DepartmentList)
             {
