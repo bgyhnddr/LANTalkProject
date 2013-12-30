@@ -555,13 +555,13 @@ namespace FactoryBoard
                             }
                         }
                     }
-                    var width = (Screen.PrimaryScreen.WorkingArea.Width - 50) / cell;
-                    for (int i = 0; i < this.dglMain.Columns.Count; i++)
-                    {
-                        this.dglMain.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                        this.dglMain.Columns[i].Width = width;
-                    }
                 }
+                dglMain.Columns["Start_Time"].FillWeight = 180;
+                dglMain.Columns["Man_Status"].FillWeight = 90;
+                dglMain.Columns["Machine_Status"].FillWeight = 90;
+                dglMain.Columns["Material_Status"].FillWeight = 90;
+                dglMain.Columns["Method_Status"].FillWeight = 90;
+
                 dglMain.Columns["Machine"].HeaderText = "Machine\r\n设备";
                 dglMain.Columns["Mould"].HeaderText = "Mould\r\n模具";
                 dglMain.Columns["Material"].HeaderText = "Material\r\n物料";
@@ -618,13 +618,10 @@ namespace FactoryBoard
                             }
                         }
                     }
-                    var width = (Screen.PrimaryScreen.WorkingArea.Width - 50) / cell;
-                    for (int i = 0; i < this.dglOffer.Columns.Count; i++)
-                    {
-                        this.dglOffer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                        this.dglOffer.Columns[i].Width = width;
-                    }
                 }
+                dglOffer.Columns["Request_Time"].FillWeight = 180;
+                dglOffer.Columns["Send_Time"].FillWeight = 180;
+
                 dglOffer.Columns["Department"].HeaderText = "Department\r\n部门";
                 dglOffer.Columns["Line"].HeaderText = "Line\r\n线别";
                 dglOffer.Columns["Model"].HeaderText = "Model\r\n产品型号";

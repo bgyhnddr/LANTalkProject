@@ -493,13 +493,14 @@ namespace FactoryBoard
                         }
                     }
                 }
-                var width = (Screen.PrimaryScreen.WorkingArea.Width - 50) / cell;
-                for (int i = 0; i < this.dglMain.Columns.Count; i++)
-                {
-                    this.dglMain.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                    this.dglMain.Columns[i].Width = width;
-                }
             }
+            dglMain.Columns["Start_Time"].FillWeight = 180;
+            dglMain.Columns["Man_Status"].FillWeight = 90;
+            dglMain.Columns["Machine_Status"].FillWeight = 90;
+            dglMain.Columns["Material_Status"].FillWeight = 90;
+            dglMain.Columns["Method_Status"].FillWeight = 90;
+
+
             dglMain.Columns["Line"].HeaderText = "Line\r\n线别";
             dglMain.Columns["Model"].HeaderText = "Model\r\n产品型号";
             dglMain.Columns["IPN"].HeaderText = "IPN\r\n订单号";
@@ -562,6 +563,8 @@ namespace FactoryBoard
                         this.dglOffer.Columns[i].Width = width;
                     }
                 }
+                dglOffer.Columns["Request_Time"].FillWeight = 180;
+                dglOffer.Columns["Send_Time"].FillWeight = 180;
 
                 dglOffer.Columns["Line"].HeaderText = "Line\r\n线别";
                 dglOffer.Columns["Model"].HeaderText = "Model\r\n产品型号";

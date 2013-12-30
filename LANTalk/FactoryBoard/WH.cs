@@ -441,13 +441,11 @@ namespace FactoryBoard
                             }
                         }
                     }
-                    var width = (Screen.PrimaryScreen.WorkingArea.Width - 50) / cell;
-                    for (int i = 0; i < this.dglOffer.Columns.Count; i++)
-                    {
-                        this.dglOffer.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                        this.dglOffer.Columns[i].Width = width;
-                    }
                 }
+                dglOffer.Columns["Request_Time"].FillWeight = 180;
+                dglOffer.Columns["Send_Time"].FillWeight = 180;
+
+
                 dglOffer.Columns["Department"].HeaderText = "Department\r\n部门";
                 dglOffer.Columns["Line"].HeaderText = "Line\r\n线别";
                 dglOffer.Columns["Model"].HeaderText = "Model\r\n产品型号";
