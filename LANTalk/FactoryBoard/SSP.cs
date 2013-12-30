@@ -616,8 +616,9 @@ namespace FactoryBoard
         {
             if (MessageBox.Show("Delete?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-
                 MainTable.Rows.RemoveAt(dglMain.CurrentCell.RowIndex);
+                Global.SaveFile(SSP.MainTable, Global.SSP_STRING);
+                MessageBox.Show("Saved");
             }
             dglMain.DataSource = MainTable.Copy();
         }

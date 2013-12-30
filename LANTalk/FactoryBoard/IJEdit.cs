@@ -125,6 +125,16 @@ namespace FactoryBoard
             }
             try
             {
+                Dictionary<int, SortOrder> sortColumns =
+                  new Dictionary<int, SortOrder>();
+                //sortColumns.Add(2, SortOrder.Ascending);
+                sortColumns.Add(0, SortOrder.Ascending);
+                RowComparer comp = new RowComparer();
+                comp.SortColumns = sortColumns;
+                var query3 = IJ.MainTable.AsEnumerable().OrderBy(q => q, comp);
+                DataView dv3 = query3.AsDataView();
+                IJ.MainTable = dv3.ToTable();
+
                 Global.SaveFile(IJ.MainTable, Global.IJ_STRING);
                 MessageBox.Show("Saved");
                 this.Close();

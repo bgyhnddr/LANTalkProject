@@ -402,8 +402,9 @@ namespace FactoryBoard
         {
             if (MessageBox.Show("Delete?", "Tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-
                 MainTable.Rows.RemoveAt(dglMain.CurrentCell.RowIndex);
+                Global.SaveFile(IJ.MainTable, Global.IJ_STRING);
+                MessageBox.Show("Saved");
             }
             dglMain.DataSource = MainTable.Copy();
         }

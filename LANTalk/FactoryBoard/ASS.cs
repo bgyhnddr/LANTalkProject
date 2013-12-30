@@ -471,6 +471,8 @@ namespace FactoryBoard
             {
 
                 MainTable.Rows.RemoveAt(dglMain.CurrentCell.RowIndex);
+                Global.SaveFile(ASS.MainTable, Global.ASS_STRING);
+                MessageBox.Show("Saved");
             }
             dglMain.DataSource = MainTable.Copy();
         }
