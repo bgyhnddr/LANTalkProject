@@ -17,9 +17,10 @@ namespace FactoryBoard
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                var main = new Main();
                 Application.Run(new Main());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
             }
         }

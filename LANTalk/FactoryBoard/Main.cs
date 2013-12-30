@@ -16,6 +16,7 @@ namespace FactoryBoard
         private static DataTable Config;
         private static bool blankicon = false;
 
+
         public Main()
         {
             InitializeComponent();
