@@ -824,11 +824,17 @@ namespace FactoryBoard
                     }
                 }
             }
+            dglMain.Columns["Line"].FillWeight = 50;
+            dglMain.Columns["Order_Qty"].FillWeight = 50;
+            dglMain.Columns["Daily_Plan"].FillWeight = 50;
+            dglMain.Columns["Actual_Output"].FillWeight = 50;
+            dglMain.Columns["Man_Status"].FillWeight = 50;
+            dglMain.Columns["Machine_Status"].FillWeight = 50;
+            dglMain.Columns["Material_Status"].FillWeight = 50;
+            dglMain.Columns["Method_Status"].FillWeight = 50;
+
+
             dglMain.Columns["Start_Time"].FillWeight = 180;
-            dglMain.Columns["Man_Status"].FillWeight = 90;
-            dglMain.Columns["Machine_Status"].FillWeight = 90;
-            dglMain.Columns["Material_Status"].FillWeight = 90;
-            dglMain.Columns["Method_Status"].FillWeight = 90;
 
 
             dglMain.Columns["Line"].HeaderText = "Line\r\n线别";
@@ -884,6 +890,11 @@ namespace FactoryBoard
                     }
                 }
             }
+            dglOrder.Columns["Process"].FillWeight = 50;
+            dglOrder.Columns["P/N"].FillWeight = 50;
+            dglOrder.Columns["Requset_Qty"].FillWeight = 50;
+            dglOrder.Columns["Status"].FillWeight = 50;
+
             dglOrder.Columns["Request_Time"].FillWeight = 180;
             dglOrder.Columns["Send_Time"].FillWeight = 180;
 
@@ -938,6 +949,11 @@ namespace FactoryBoard
                         }
                     }
                 }
+                dglOffer.Columns["Process"].FillWeight = 50;
+                dglOffer.Columns["P/N"].FillWeight = 50;
+                dglOffer.Columns["Requset_Qty"].FillWeight = 50;
+                dglOffer.Columns["Status"].FillWeight = 50;
+
                 dglOffer.Columns["Request_Time"].FillWeight = 180;
                 dglOffer.Columns["Send_Time"].FillWeight = 180;
 

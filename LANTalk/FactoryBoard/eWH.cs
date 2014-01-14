@@ -394,6 +394,13 @@ namespace FactoryBoard
                         }
                     }
                 }
+                dglOffer.Columns["Line"].FillWeight = 50;
+                dglOffer.Columns["Process"].FillWeight = 50;
+                dglOffer.Columns["P/N"].FillWeight = 50;
+                dglOffer.Columns["Requset_Qty"].FillWeight = 50;
+                dglOffer.Columns["Status"].FillWeight = 50;
+
+
                 dglOffer.Columns["Request_Time"].FillWeight = 180;
                 dglOffer.Columns["Send_Time"].FillWeight = 180;
 

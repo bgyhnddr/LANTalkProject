@@ -495,6 +495,18 @@ namespace FactoryBoard
                     }
                 }
             }
+            dglMain.Columns["Line"].FillWeight = 50;
+
+
+            dglMain.Columns["Order_Qty"].FillWeight = 50;
+            dglMain.Columns["Daily_Plan"].FillWeight = 50;
+            dglMain.Columns["Actual_Output"].FillWeight = 50;
+            dglMain.Columns["Man_Status"].FillWeight = 50;
+            dglMain.Columns["Machine_Status"].FillWeight = 50;
+            dglMain.Columns["Material_Status"].FillWeight = 50;
+            dglMain.Columns["Method_Status"].FillWeight = 50;
+
+
             dglMain.Columns["Start_Time"].FillWeight = 180;
 
 
@@ -560,6 +572,12 @@ namespace FactoryBoard
                         this.dglOffer.Columns[i].Width = width;
                     }
                 }
+                dglOffer.Columns["Line"].FillWeight = 50;
+                dglOffer.Columns["Process"].FillWeight = 50;
+                dglOffer.Columns["P/N"].FillWeight = 50;
+                dglOffer.Columns["Requset_Qty"].FillWeight = 50;
+                dglOffer.Columns["Status"].FillWeight = 50;
+
                 dglOffer.Columns["Request_Time"].FillWeight = 180;
                 dglOffer.Columns["Send_Time"].FillWeight = 180;
 
