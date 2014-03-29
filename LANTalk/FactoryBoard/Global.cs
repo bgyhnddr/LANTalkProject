@@ -65,6 +65,9 @@ namespace FactoryBoard
         public const string SSP_STRING = "SSP";
         public const string PORT_STRING = "Port";
 
+        public const int WAITTIME = 15;
+
+        public static DateTime LastMoveTime;
 
         Global()
         {

@@ -57,6 +57,7 @@ namespace FactoryBoard
             this.WindowState = FormWindowState.Maximized;
             this.MaximizeBox = false;  
             Init();
+            BindMouseMove();
         }
 
         private void StartServer()
@@ -535,6 +536,13 @@ namespace FactoryBoard
         {
             var time = DateTime.Now;
             lbTime.Text = lbTime2.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
+            if (time - Global.LastMoveTime > new TimeSpan(0, Global.WAITTIME, 0))
+            {
+                if (tabMain.SelectedTab != tagMain)
+                {
+                    tabMain.SelectedTab = tagMain;
+                }
+            }
         }
 
         private void RefreshOrderButton()
@@ -899,6 +907,24 @@ namespace FactoryBoard
                 form.ShowDialog();
                 RefreshOrderList();
             }
+        }
+
+        private void BindMouseMove()
+        {
+            foreach (System.Windows.Forms.Control control in this.tagOrder.Controls)//遍历Form上的所有控件  
+            {
+                control.MouseMove += new MouseEventHandler(this.MouseMoveAll);
+            }
+
+            foreach (System.Windows.Forms.Control control in this.Controls)//遍历Form上的所有控件  
+            {
+                control.MouseMove += new MouseEventHandler(this.MouseMoveAll);
+            }
+        }
+
+        private void MouseMoveAll(object sender, EventArgs e)
+        {
+            Global.LastMoveTime = DateTime.Now;
         }
     }
 }
