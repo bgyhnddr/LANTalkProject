@@ -303,7 +303,7 @@
             this.dglMain.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dglMain.RowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.dglMain.RowTemplate.Height = 23;
+            this.dglMain.RowTemplate.Height = 46;
             this.dglMain.Size = new System.Drawing.Size(1069, 336);
             this.dglMain.TabIndex = 0;
             this.dglMain.DataSourceChanged += new System.EventHandler(this.dglMain_DataSourceChanged);
@@ -567,7 +567,7 @@
             this.dglOrder.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dglOrder.RowsDefaultCellStyle = dataGridViewCellStyle10;
-            this.dglOrder.RowTemplate.Height = 23;
+            this.dglOrder.RowTemplate.Height = 46;
             this.dglOrder.Size = new System.Drawing.Size(1069, 336);
             this.dglOrder.TabIndex = 6;
             this.dglOrder.DataSourceChanged += new System.EventHandler(this.dglOrder_DataSourceChanged);
