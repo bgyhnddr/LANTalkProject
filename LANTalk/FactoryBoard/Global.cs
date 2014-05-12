@@ -47,10 +47,10 @@ namespace FactoryBoard
         public const string Normal = "Normal";
         public const string UnNormal = "Unnormal";
         public const string UnKnown = "0-Unknown";
-        public const string Receive = "3-Receive";
+        public const string Receive = "4-Receive";
         public const string Wait = "1-Wait";
-        public const string Undo = "4-Undo";
-        public const string Sending = "2-Sending";
+        public const string Undo = "2-Undo";
+        public const string Sending = "3-Sending";
 
         public static string ErrorMessage;
 
