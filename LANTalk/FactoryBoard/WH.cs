@@ -16,11 +16,16 @@ namespace FactoryBoard
     public partial class WH : Form
     {
         public static DataTable MainTable;
+        public static DataTable BlankTable;
         public static List<Department> DepartmentList;
         public Main MainPage;
+        public static string CurrentOrder;
         private bool Return;
         private LANTalk.Core.Client _client;
+
         private delegate void RefreshDelegate();//定义委托
+        private delegate void RefreshDelegateString(string context);//定义委托
+        private delegate void ShowMessageBox(Exception ex);//定义委托
 
         protected override void WndProc(ref Message m)
         {
@@ -55,6 +60,8 @@ namespace FactoryBoard
         {
             InitDepartment();
             dglOffer.DataSource = GetOfferTable();
+            RefreshOrderList();
+            RefreshOrderButton();
             var time = DateTime.Now;
             lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -64,6 +71,38 @@ namespace FactoryBoard
                 Directory.CreateDirectory(path);
             }
             ofdOpenFile.InitialDirectory = path;
+        }
+
+        private void RefreshOrderButton()
+        {
+            RefreshDelegate refresh = () =>
+            {
+                btnIJ.BackColor = btnIJ.Enabled == true ? (btnIJ.Text == CurrentOrder ? Color.GreenYellow : Color.WhiteSmoke) : Color.Red;
+            };
+            this.Invoke(refresh);
+        }
+
+        private void RefreshOrderList()
+        {
+
+            RefreshDelegate refresh = () =>
+            {
+                var department = GetCurrentDepartment();
+                if (department == null)
+                {
+                    dglOrder.DataSource = BlankTable;
+                    return;
+                }
+
+                DataView DV = department.OrderList.DefaultView;
+                DV.Sort = "Status ASC";
+                department.OrderList = DV.ToTable();
+                var table = department.OrderList.Copy();
+                table.Columns.Remove("Guid");
+                dglOrder.DataSource = table;
+            };
+
+            this.Invoke(refresh);
         }
 
         private DataTable GetOfferTable()
@@ -144,11 +183,32 @@ namespace FactoryBoard
             table.Columns.Add("Requset_Qty", typeof(string));
             table.Columns.Add("Request_Time", typeof(string));
             table.Columns.Add("Status", typeof(string));
-
+            BlankTable = table.Clone();
+            BlankTable.Columns.Remove("Guid");
             var config = Global.LoadConfig();
 
             DepartmentList.Add(new Department(config.Rows[0][Global.ASS_STRING].ToString(), Global.ASS, false, table.Clone()));
             DepartmentList.Add(new Department(config.Rows[0][Global.SSP_STRING].ToString(), Global.SSP, false, table.Clone()));
+
+            table.Columns.Remove("Line");
+            table.Columns.Remove("Department");
+            DepartmentList.Add(new Department(config.Rows[0][Global.IJ_STRING].ToString(), Global.IJ, false, table.Clone()));
+            InitOrderList();
+        }
+
+        private void InitOrderList()
+        {
+            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            foreach (var department in DepartmentList)
+            {
+                var currentpath = path + "\\LANTalk\\OrderList";
+                currentpath += "\\" + department.Name;
+                currentpath += "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".csv";
+                if (File.Exists(currentpath))
+                {
+                    department.OrderList = CSVHelper.ReadCSVToTable(currentpath);
+                }
+            }
         }
 
         private void WH_FormClosed(object sender, FormClosedEventArgs e)
@@ -238,37 +298,117 @@ namespace FactoryBoard
                 switch ((Mode)Enum.Parse(typeof(Mode), mode))
                 {
                     case Mode.SendOrder:
+
                         var department = GetDepartment(fromip);
                         if (department != null)
                         {
-                            var receiveTable = CSVHelper.ReadTable(message);
-
-                            foreach (DataRow row in receiveTable.Rows)
+                            switch (department.Name)
                             {
-                                var rows = department.OrderList.Select("Guid='" + row["Guid"].ToString() + "'");
-                                if (rows.Length > 0)
-                                {
-                                    rows[0]["Status"] = row["Status"];
-                                }
-                                else
-                                {
-                                    var newRow = department.OrderList.NewRow();
-                                    foreach (DataColumn col in receiveTable.Columns)
+                                case Global.ASS:
+                                case Global.SSP:
+                                    var receiveTable = CSVHelper.ReadTable(message);
+
+                                    foreach (DataRow row in receiveTable.Rows)
                                     {
-                                        newRow[col.ColumnName] = row[col.ColumnName];
+                                        var rows = department.OrderList.Select("Guid='" + row["Guid"].ToString() + "'");
+                                        if (rows.Length > 0)
+                                        {
+                                            rows[0]["Status"] = row["Status"];
+                                        }
+                                        else
+                                        {
+                                            var newRow = department.OrderList.NewRow();
+                                            foreach (DataColumn col in receiveTable.Columns)
+                                            {
+                                                newRow[col.ColumnName] = row[col.ColumnName];
+                                            }
+                                            department.OrderList.Rows.Add(newRow);
+                                        }
                                     }
-                                    department.OrderList.Rows.Add(newRow);
-                                }
+                                    SendOfferTable(-1, department.Name);
+                                    RefreshOfferTable();
+                                    break;
+                                case Global.IJ:
+                                    var offertable = CSVHelper.ReadTable(message);
+                                    foreach (DataRow row in offertable.Rows)
+                                    {
+                                        var rows = department.OrderList.Select("Guid='" + row["Guid"].ToString() + "'");
+                                        if (rows.Length > 0)
+                                        {
+                                            rows[0]["Status"] = row["Status"];
+                                        }
+                                    }
+                                    RefreshOrderList();
+                                    break;
                             }
-                            SendOfferTable(-1, department.Name);
-                            RefreshOfferTable();
                         }
+                        break;
+                    case Mode.OnlineList:
+                        DepartmentOnOffLine(message);
                         break;
                 }
             }
             catch
             {
             }
+        }
+
+        private void DepartmentOnOffLine(string ips)
+        {
+            RefreshDelegateString refresh = (x) =>
+            {
+                lock (DepartmentList)
+                {
+                    var change = false;
+                    var temp = from row in DepartmentList
+                               where x.IndexOf(row.IP) >= 0 && row.IP.Length > 0
+                               select row;
+                    foreach (var department in temp)
+                    {
+                        if (department.Online == false)
+                        {
+                            department.Online = true;
+                            switch (department.Name)
+                            {
+                                case Global.IJ:
+                                    btnIJ.Enabled = true;
+                                    break;
+                            }
+                            change = true;
+                            SendOrder(-2, department);
+                        }
+                    }
+
+                    temp = from row in DepartmentList
+                           where x.IndexOf(row.IP) < 0 || row.IP.Length == 0
+                           select row;
+
+                    foreach (var department in temp)
+                    {
+                        if (department.Online == true)
+                        {
+                            department.Online = false;
+                            switch (department.Name)
+                            {
+                                case Global.IJ:
+                                    btnIJ.Enabled = false;
+                                    if (CurrentOrder == Global.IJ)
+                                    {
+                                        CurrentOrder = string.Empty;
+                                    }
+                                    break;
+                            }
+                            change = true;
+                        }
+                    }
+                    if (change)
+                    {
+                        RefreshOrderButton();
+                        RefreshOrderList();
+                    }
+                }
+            };
+            this.Invoke(refresh, ips);
         }
 
         private void SendOfferTable(int index, string departmentname = null)
@@ -324,6 +464,19 @@ namespace FactoryBoard
         {
             var temp = from row in DepartmentList
                        where row.IP == ip
+                       select row;
+            if (temp.Count() > 0)
+            {
+                var department = temp.First();
+                return department;
+            }
+            return null;
+        }
+
+        public static Department GetCurrentDepartment()
+        {
+            var temp = from row in DepartmentList
+                       where row.Name == CurrentOrder
                        select row;
             if (temp.Count() > 0)
             {
@@ -465,6 +618,197 @@ namespace FactoryBoard
                 dglOffer.Columns["Status"].HeaderText = "Status\r\n状态";
                 dglOffer.Refresh();
             }
+        }
+
+        private void btnIJ_Click(object sender, EventArgs e)
+        {
+            CurrentOrder = Global.IJ;
+            RefreshOrderButton();
+            RefreshOrderList();
+            dglOrder.Show();
+        }
+
+        private void btnClone_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+            if (department == null)
+            {
+                return;
+            }
+
+            if (dglOrder.CurrentRow.Index >= 0)
+            {
+                var form = new WHOrder(dglOrder.CurrentRow.Index);
+                form.ShowDialog();
+                RefreshOrderList();
+            }
+        }
+
+        private void btnAddOrder_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+            if (department == null)
+            {
+                return;
+            }
+            var form = new WHOrder(-1);
+            form.ShowDialog();
+            RefreshOrderList();
+        }
+
+        private void btnDeleteOrder_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+            if (department == null)
+            {
+                return;
+            }
+            if (dglOrder.CurrentCell.RowIndex >= 0)
+            {
+                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"].ToString() != Global.Receive &&
+                    department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"].ToString() != Global.UnKnown)
+                {
+                    if (MessageBox.Show("confirm?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Undo;
+                    }
+                    SendOrder(dglOrder.CurrentCell.RowIndex);
+                    RefreshOrderList();
+                }
+            }
+        }
+
+        private void SendOrder(int index = -1, Department dept = null)
+        {
+            Department department;
+            if (dept == null)
+            {
+                department = GetCurrentDepartment();
+            }
+            else
+            {
+                department = dept;
+            }
+            if (department != null)
+            {
+                var sendTable = department.OrderList.Clone();
+
+
+                if (index == -1)
+                {
+                    foreach (DataRow row in department.OrderList.Rows)
+                    {
+                        if (row["Status"].ToString() == Global.UnKnown)
+                        {
+                            row["Send_Time"] = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+                            sendTable.Rows.Add(row.ItemArray);
+                        }
+                    }
+                }
+                else if (index == -2)
+                {
+                    sendTable = department.OrderList;
+                }
+                else if (index >= 0)
+                {
+                    sendTable.Rows.Add(department.OrderList.Rows[index].ItemArray);
+                }
+
+                var content = Mode.SendOrder.ToString();
+                content += " " + _client.ClientIP.ToString();
+                content += " " + department.IP;
+                content += " " + CSVHelper.MakeCSV(sendTable);
+                _client.SendContent(content);
+            }
+        }
+
+        private void btnConfirm_Click(object sender, EventArgs e)
+        {
+            var department = GetCurrentDepartment();
+            if (department == null)
+            {
+                return;
+            }
+            if (dglOrder.CurrentCell.RowIndex >= 0)
+            {
+                if (department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"].ToString() == Global.Sending)
+                {
+                    if (MessageBox.Show("confirm?", "tips", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        department.OrderList.Rows[dglOrder.CurrentCell.RowIndex]["Status"] = Global.Receive;
+                    }
+                    SendOrder(dglOrder.CurrentCell.RowIndex);
+                    RefreshOrderList();
+                }
+            }
+        }
+
+        private void btnOrder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SendOrder();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void dglOrder_DataSourceChanged(object sender, EventArgs e)
+        {
+            if (dglOrder.Rows.Count > 0)
+            {
+                int row = dglOrder.Rows.Count;//得到总行数    
+                int cell = dglOrder.Rows[0].Cells.Count;//得到总列数    
+                for (int i = 0; i < row; i++)//得到总行数并在之内循环    
+                {
+                    if (dglOrder.Rows[i].Cells[cell - 1].Value != null)
+                    {
+                        if (this.dglOrder.Rows[i].Cells[cell - 1].Value.ToString() == Global.UnKnown)
+                        {
+                            this.dglOrder.Rows[i].Cells[cell - 1].Style.BackColor = Color.White;
+                            this.dglOrder.Rows[i].Cells[cell - 1].Value = string.Empty;
+                        }
+                        else if (this.dglOrder.Rows[i].Cells[cell - 1].Value.ToString() == Global.Undo)
+                        {
+                            this.dglOrder.Rows[i].Cells[cell - 1].Style.BackColor = Color.Gray;
+                            this.dglOrder.Rows[i].Cells[cell - 1].Value = string.Empty;
+                        }
+                        else if (this.dglOrder.Rows[i].Cells[cell - 1].Value.ToString() == Global.Wait)
+                        {
+                            this.dglOrder.Rows[i].Cells[cell - 1].Style.BackColor = Color.Red;
+                            this.dglOrder.Rows[i].Cells[cell - 1].Value = string.Empty;
+                        }
+                        else if (this.dglOrder.Rows[i].Cells[cell - 1].Value.ToString() == Global.Sending)
+                        {
+                            this.dglOrder.Rows[i].Cells[cell - 1].Style.BackColor = Color.Yellow;
+                            this.dglOrder.Rows[i].Cells[cell - 1].Value = string.Empty;
+                        }
+                        else if (this.dglOrder.Rows[i].Cells[cell - 1].Value.ToString() == Global.Receive)
+                        {
+                            this.dglOrder.Rows[i].Cells[cell - 1].Style.BackColor = Color.GreenYellow;
+                            this.dglOrder.Rows[i].Cells[cell - 1].Value = string.Empty;
+                        }
+                    }
+                }
+            }
+            dglOrder.Columns["Process"].FillWeight = 50;
+            dglOrder.Columns["P/N"].FillWeight = 50;
+            dglOrder.Columns["Requset_Qty"].FillWeight = 50;
+            dglOrder.Columns["Status"].FillWeight = 50;
+
+            dglOrder.Columns["Request_Time"].FillWeight = 180;
+            dglOrder.Columns["Send_Time"].FillWeight = 180;
+
+            dglOrder.Columns["Model"].HeaderText = "Model\r\n产品型号";
+            dglOrder.Columns["IPN"].HeaderText = "IPN\r\n订单号";
+            dglOrder.Columns["MO"].HeaderText = "MO\r\n工单号";
+            dglOrder.Columns["Process"].HeaderText = "Process\r\n工艺";
+            dglOrder.Columns["P/N"].HeaderText = "P/N\r\n品号";
+            dglOrder.Columns["Requset_Qty"].HeaderText = "Requset Qty\r\n需求数量";
+            dglOrder.Columns["Request_Time"].HeaderText = "Request Time\r\n需求时间";
+            dglOrder.Columns["Send_Time"].HeaderText = "Send_Time\r\n发送时间";
+            dglOrder.Columns["Status"].HeaderText = "Status\r\n状态";
         }
     }
 }

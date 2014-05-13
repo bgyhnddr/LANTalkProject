@@ -272,49 +272,33 @@ namespace FactoryBoard
             table.Columns.Add("Status", typeof(string));
             lock (DepartmentList)
             {
-                DataView DV = DepartmentList[0].OrderList.DefaultView;
-                DV.Sort = "Status ASC";
-                DepartmentList[0].OrderList = DV.ToTable();
-                foreach (DataRow row in DepartmentList[0].OrderList.Rows)
+                for (var i = 0; i < DepartmentList.Count; i++)
                 {
-                    var newRow = table.NewRow();
-                    newRow["Department"] = DepartmentList[0].Name;
-                    newRow["Line"] = row["Line"];
-                    newRow["Model"] = row["Model"];
-                    newRow["IPN"] = row["IPN"];
-                    newRow["MO"] = row["MO"];
-                    newRow["Process"] = row["Process"];
-                    newRow["P/N"] = row["P/N"];
-                    newRow["Requset_Qty"] = row["Requset_Qty"];
-                    newRow["Request_Time"] = row["Request_Time"];
-                    newRow["Send_Time"] = row["Send_Time"];
-                    newRow["Status"] = row["Status"];
-                    table.Rows.Add(newRow);
+                    DataView DV = DepartmentList[i].OrderList.DefaultView;
+                    DV.Sort = "Status ASC";
+                    DepartmentList[i].OrderList = DV.ToTable();
+                    foreach (DataRow row in DepartmentList[i].OrderList.Rows)
+                    {
+                        var newRow = table.NewRow();
+                        if (row["Status"].ToString() == Global.UnKnown)
+                        {
+                            row["Status"] = Global.Wait;
+                        }
+                        newRow["Department"] = DepartmentList[i].Name;
+                        newRow["Line"] = row["Line"];
+                        newRow["Model"] = row["Model"];
+                        newRow["IPN"] = row["IPN"];
+                        newRow["MO"] = row["MO"];
+                        newRow["Process"] = row["Process"];
+                        newRow["P/N"] = row["P/N"];
+                        newRow["Requset_Qty"] = row["Requset_Qty"];
+                        newRow["Request_Time"] = row["Request_Time"];
+                        newRow["Send_Time"] = row["Send_Time"];
+                        newRow["Status"] = row["Status"];
+                        table.Rows.Add(newRow);
+                    }
                 }
 
-                DV = DepartmentList[1].OrderList.DefaultView;
-                DV.Sort = "Status ASC";
-                DepartmentList[1].OrderList = DV.ToTable();
-                foreach (DataRow row in DepartmentList[1].OrderList.Rows)
-                {
-                    var newRow = table.NewRow();
-                    if (row["Status"].ToString() == Global.UnKnown)
-                    {
-                        row["Status"] = Global.Wait;
-                    }
-                    newRow["Department"] = DepartmentList[1].Name;
-                    newRow["Line"] = string.Empty;
-                    newRow["Model"] = row["Model"];
-                    newRow["IPN"] = row["IPN"];
-                    newRow["MO"] = row["MO"];
-                    newRow["Process"] = row["Process"];
-                    newRow["P/N"] = row["P/N"];
-                    newRow["Requset_Qty"] = row["Requset_Qty"];
-                    newRow["Request_Time"] = row["Request_Time"];
-                    newRow["Send_Time"] = row["Send_Time"];
-                    newRow["Status"] = row["Status"];
-                    table.Rows.Add(newRow);
-                }
                 return table;
             }
         }
@@ -341,7 +325,7 @@ namespace FactoryBoard
 
             DepartmentList.Add(new Department(config.Rows[0][Global.ASS_STRING].ToString(), Global.ASS, false, table.Clone()));
             DepartmentList.Add(new Department(config.Rows[0][Global.SSP_STRING].ToString(), Global.SSP, false, table.Clone()));
-
+            DepartmentList.Add(new Department(config.Rows[0][Global.WH_STRING].ToString(), Global.WH, false, table.Clone()));
         }
 
         public static Department GetDepartment(string ip)
@@ -490,9 +474,8 @@ namespace FactoryBoard
                             }
                         }
                         SendOfferTable(index, DepartmentList[0].Name);
-                        RefreshOfferTable();
                     }
-                    else
+                    else if (index >= DepartmentList[0].OrderList.Rows.Count && index < (DepartmentList[0].OrderList.Rows.Count + DepartmentList[1].OrderList.Rows.Count))
                     {
                         index = index - DepartmentList[0].OrderList.Rows.Count;
                         sendTable = DepartmentList[1].OrderList.Clone();
@@ -501,8 +484,20 @@ namespace FactoryBoard
                             DepartmentList[1].OrderList.Rows[index]["Status"] = Global.Sending;
                         }
                         SendOfferTable(index, DepartmentList[1].Name);
-                        RefreshOfferTable();
                     }
+                    else if (index >= (DepartmentList[0].OrderList.Rows.Count + DepartmentList[1].OrderList.Rows.Count))
+                    {
+                        index = index - DepartmentList[0].OrderList.Rows.Count - DepartmentList[1].OrderList.Rows.Count;
+                        sendTable = DepartmentList[2].OrderList.Clone();
+                        if (DepartmentList[2].OrderList.Rows[index]["Status"].ToString() == Global.Wait)
+                        {
+                            DepartmentList[2].OrderList.Rows[index]["Status"] = Global.Sending;
+                        }
+                        SendOfferTable(index, DepartmentList[2].Name);
+                    }
+
+
+                    RefreshOfferTable();
                 }
             }
         }
