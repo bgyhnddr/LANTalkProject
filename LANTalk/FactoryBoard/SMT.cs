@@ -64,6 +64,7 @@ namespace FactoryBoard
             this.WindowState = FormWindowState.Maximized;
             this.MaximizeBox = false;
             Init();
+            BindMouseMove();
         }
 
         private void SMT_Shown(object sender, EventArgs e)

@@ -106,7 +106,7 @@
             // 
             this.btnOffer.AutoSize = true;
             this.btnOffer.Enabled = false;
-            this.btnOffer.Location = new System.Drawing.Point(-642, 103);
+            this.btnOffer.Location = new System.Drawing.Point(6, 69);
             this.btnOffer.Name = "btnOffer";
             this.btnOffer.Size = new System.Drawing.Size(86, 23);
             this.btnOffer.TabIndex = 18;
@@ -133,9 +133,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
             this.dglOffer.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglOffer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dglOffer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dglOffer.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -154,7 +154,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dglOffer.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dglOffer.Location = new System.Drawing.Point(0, 93);
+            this.dglOffer.Location = new System.Drawing.Point(0, 96);
             this.dglOffer.MultiSelect = false;
             this.dglOffer.Name = "dglOffer";
             this.dglOffer.ReadOnly = true;
@@ -168,7 +168,7 @@
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dglOffer.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dglOffer.RowTemplate.Height = 46;
-            this.dglOffer.Size = new System.Drawing.Size(1020, 322);
+            this.dglOffer.Size = new System.Drawing.Size(1020, 319);
             this.dglOffer.TabIndex = 15;
             this.dglOffer.DataSourceChanged += new System.EventHandler(this.dglOffer_DataSourceChanged);
             // 
@@ -191,7 +191,7 @@
             // btnSetting
             // 
             this.btnSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSetting.Location = new System.Drawing.Point(691, 67);
+            this.btnSetting.Location = new System.Drawing.Point(704, 67);
             this.btnSetting.Name = "btnSetting";
             this.btnSetting.Size = new System.Drawing.Size(75, 23);
             this.btnSetting.TabIndex = 21;
@@ -549,9 +549,9 @@
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(129)))), ((int)(((byte)(117)))));
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
             this.dglOrder.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.dglOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dglOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dglOrder.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dglOrder.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;

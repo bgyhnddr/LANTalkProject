@@ -810,5 +810,28 @@ namespace FactoryBoard
             dglOrder.Columns["Send_Time"].HeaderText = "Send_Time\r\n发送时间";
             dglOrder.Columns["Status"].HeaderText = "Status\r\n状态";
         }
+
+        private void BindMouseMove()
+        {
+            foreach (System.Windows.Forms.Control control in this.tagOffer.Controls)//遍历Form上的所有控件  
+            {
+                control.MouseMove += new MouseEventHandler(this.MouseMoveAll);
+            }
+
+            foreach (System.Windows.Forms.Control control in this.tagOrder.Controls)//遍历Form上的所有控件  
+            {
+                control.MouseMove += new MouseEventHandler(this.MouseMoveAll);
+            }
+
+            foreach (System.Windows.Forms.Control control in this.Controls)//遍历Form上的所有控件  
+            {
+                control.MouseMove += new MouseEventHandler(this.MouseMoveAll);
+            }
+        }
+
+        private void MouseMoveAll(object sender, EventArgs e)
+        {
+            Global.LastMoveTime = DateTime.Now;
+        }
     }
 }
