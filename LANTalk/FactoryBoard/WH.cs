@@ -63,7 +63,7 @@ namespace FactoryBoard
             RefreshOrderList();
             RefreshOrderButton();
             var time = DateTime.Now;
-            lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
+            lbTime.Text = lbTime2.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
             var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             path += "\\LANTalk\\SaveFile\\WH";
             if (!Directory.Exists(path))
@@ -213,6 +213,7 @@ namespace FactoryBoard
 
         private void WH_FormClosed(object sender, FormClosedEventArgs e)
         {
+            SaveOrderList();
             if (!Return)
             {
                 Application.Exit();
@@ -220,6 +221,32 @@ namespace FactoryBoard
             else
             {
                 MainPage.Focus();
+            }
+        }
+
+        private void SaveOrderList()
+        {
+            var path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            foreach (var department in DepartmentList)
+            {
+                if (department.OrderList.Rows.Count > 0)
+                {
+                    var currentpath = path + "\\LANTalk\\OrderList";
+                    currentpath += "\\" + department.Name;
+
+                    if (!Directory.Exists(currentpath))
+                    {
+                        Directory.CreateDirectory(currentpath);
+                    }
+
+                    var now = DateTime.Now;
+
+                    File.WriteAllText(currentpath + "\\" + now.ToString("yyyy-MM-dd") + ".csv", CSVHelper.MakeCSV(department.OrderList), Encoding.GetEncoding("GB2312"));
+
+                    var DV = department.OrderList.DefaultView;
+                    DV.RowFilter = string.Format("Status='{0}' OR Status='{1}'", Global.Wait, Global.Sending);
+                    File.WriteAllText(currentpath + "\\" + now.AddDays(1).ToString("yyyy-MM-dd") + ".csv", CSVHelper.MakeCSV(DV.ToTable()), Encoding.GetEncoding("GB2312"));
+                }
             }
         }
 
@@ -545,7 +572,7 @@ namespace FactoryBoard
         private void tTime_Tick(object sender, EventArgs e)
         {
             var time = DateTime.Now;
-            lbTime.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
+            lbTime.Text = lbTime2.Text = "Date:" + time.ToString("yyyy-MM-dd") + " Time:" + time.ToString("HH:mm:ss");
         }
 
 

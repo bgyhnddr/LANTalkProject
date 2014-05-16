@@ -180,7 +180,7 @@
             // 
             this.btnConnect.AutoSize = true;
             this.btnConnect.Enabled = false;
-            this.btnConnect.Location = new System.Drawing.Point(-550, 103);
+            this.btnConnect.Location = new System.Drawing.Point(98, 69);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(123, 23);
             this.btnConnect.TabIndex = 20;
