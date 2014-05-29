@@ -52,6 +52,10 @@
             this.dtpStart_Time = new System.Windows.Forms.DateTimePicker();
             this.tbPN = new System.Windows.Forms.TextBox();
             this.lbPN = new System.Windows.Forms.Label();
+            this.btnInput = new System.Windows.Forms.Button();
+            this.numOutput = new System.Windows.Forms.NumericUpDown();
+            this.lbCurrentOutput = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.numOutput)).BeginInit();
             this.SuspendLayout();
             // 
             // btnConfirm
@@ -276,12 +280,52 @@
             this.lbPN.TabIndex = 52;
             this.lbPN.Text = "P/N(品号)";
             // 
+            // btnInput
+            // 
+            this.btnInput.AutoSize = true;
+            this.btnInput.Location = new System.Drawing.Point(451, 188);
+            this.btnInput.Name = "btnInput";
+            this.btnInput.Size = new System.Drawing.Size(93, 23);
+            this.btnInput.TabIndex = 56;
+            this.btnInput.Text = "输入（Input）";
+            this.btnInput.UseVisualStyleBackColor = true;
+            this.btnInput.Click += new System.EventHandler(this.btnInput_Click);
+            // 
+            // numOutput
+            // 
+            this.numOutput.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numOutput.Location = new System.Drawing.Point(397, 188);
+            this.numOutput.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.numOutput.Name = "numOutput";
+            this.numOutput.Size = new System.Drawing.Size(51, 21);
+            this.numOutput.TabIndex = 55;
+            // 
+            // lbCurrentOutput
+            // 
+            this.lbCurrentOutput.AutoSize = true;
+            this.lbCurrentOutput.Location = new System.Drawing.Point(395, 173);
+            this.lbCurrentOutput.Name = "lbCurrentOutput";
+            this.lbCurrentOutput.Size = new System.Drawing.Size(149, 12);
+            this.lbCurrentOutput.TabIndex = 54;
+            this.lbCurrentOutput.Text = "Current Output(当前产出)";
+            // 
             // SSPEdit
             // 
             this.AcceptButton = this.btnConfirm;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(559, 240);
+            this.Controls.Add(this.btnInput);
+            this.Controls.Add(this.numOutput);
+            this.Controls.Add(this.lbCurrentOutput);
             this.Controls.Add(this.tbPN);
             this.Controls.Add(this.lbPN);
             this.Controls.Add(this.dtpStart_Time);
@@ -313,6 +357,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SSPEdit";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SSPEdit_KeyDown);
+            ((System.ComponentModel.ISupportInitialize)(this.numOutput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -344,5 +389,8 @@
         private System.Windows.Forms.DateTimePicker dtpStart_Time;
         private System.Windows.Forms.TextBox tbPN;
         private System.Windows.Forms.Label lbPN;
+        private System.Windows.Forms.Button btnInput;
+        private System.Windows.Forms.NumericUpDown numOutput;
+        private System.Windows.Forms.Label lbCurrentOutput;
     }
 }

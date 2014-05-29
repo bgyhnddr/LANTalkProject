@@ -174,5 +174,17 @@ namespace FactoryBoard
                 this.btnConfirm_Click(sender, e);//触发button事件
             }
         }
+
+        private void btnInput_Click(object sender, EventArgs e)
+        {
+            var temp = tbActual_Output.Text;
+
+            int output = 0;
+            int.TryParse(tbActual_Output.Text, out output);
+
+            int input = (int)numOutput.Value;
+
+            tbActual_Output.Text = (output + input).ToString();
+        }
     }
 }
