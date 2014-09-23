@@ -110,7 +110,11 @@ namespace LANTalk.Core
                         var length = BitConverter.ToInt32(rclength, 0);
 
                         var rece = new byte[length];
-                        _socket.Receive(rece);
+                        int flag = 0;
+                        while (flag < rece.Length)
+                        {
+                            flag += _socket.Receive(rece, flag, rece.Length - flag, SocketFlags.None);
+                        }
 
                         if (_receivecallback != null)
                         {

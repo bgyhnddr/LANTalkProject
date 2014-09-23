@@ -134,7 +134,11 @@ namespace LANTalk.Core
 
                     var length = BitConverter.ToInt32(recByte, 0);
                     recByte = new byte[length];
-                    newSocket.Receive(recByte);
+                    int flag = 0;
+                    while (flag < recByte.Length)
+                    {
+                        flag += newSocket.Receive(recByte, flag, recByte.Length - flag, SocketFlags.None);
+                    }
 
                     var recString = Encoding.UTF8.GetString(recByte);
                     if (_receivecallback != null)
