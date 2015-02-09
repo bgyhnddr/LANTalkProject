@@ -546,7 +546,7 @@ namespace FactoryBoard
                     }
                     else
                     {
-                        index = index - DepartmentList[1].OrderList.Rows.Count;
+                        index = index - DepartmentList[0].OrderList.Rows.Count;
                         sendTable = DepartmentList[1].OrderList.Clone();
                         if (DepartmentList[1].OrderList.Rows[index]["Status"].ToString() == Global.Wait)
                         {
